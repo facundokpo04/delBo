@@ -66,16 +66,7 @@
         <!-- /.col -->
       </div>
     </form>
-
-    <div class="social-auth-links text-center">
-
-      <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Ingrese usando
-        Facebook</a>
-      <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Ingrese Usando
-        Google+</a>
-    </div>
     <!-- /.social-auth-links -->
-
     <a href="#">Olvido su password ?</a><br>
     <a href="register.html" class="text-center">Registre un Nuevo Miembro</a>
 
