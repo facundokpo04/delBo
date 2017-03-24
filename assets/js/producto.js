@@ -321,13 +321,13 @@ function guardarImagen() {
                 $('#imagen').attr('src', './assets/imagenes/producto/' + res.prod_Imagen);
             }
             else{
-                cosole.log(res.response);
-                alert(res.response);
+                console.log(res.response);
+               window.alert(res.response);
                 
             }
             },
             error: function (request, status, error) {
-                cosole.log(error.message);
+                console.log(error.message);
 
             }
         });
