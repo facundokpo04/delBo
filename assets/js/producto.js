@@ -72,7 +72,7 @@ function cargarDataProducto(idProducto) {// funcion que llamamos del archivo aja
             $('#txtMinCompo').val(res.prod_maxComponente);//select
             $('#PEstado').val(res.prod_idEstado);//selec
             $('#VEstado').val(res.prod_idEstadoVisible);//selec
-            $('#imagen').attr('src', './assets/imagenes/producto' + res.prod_imagen);
+            $('#imagen').attr('src', './assets/imagenes/producto/' + res.prod_imagen);
             $('#idProducto').val(res.prod_id);
             $('#Pcategoria').val(res.prod_idCategoria);
 
