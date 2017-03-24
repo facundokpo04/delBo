@@ -335,8 +335,7 @@ function guardarImagen() {
             processData: false,
             contentType: false,
             success: function (res) {
-                
-               
+                              
                 $('#imagen').attr('src', './assets/imagenes/producto/' + res.prod_Imagen);
               
             }

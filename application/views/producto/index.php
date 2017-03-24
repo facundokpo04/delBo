@@ -212,7 +212,7 @@
                                             <div class="thumbnail">
                                                 <!--Foto de 76 x 76 -->
                 <!--									<img src="assets/img/Logo-impresion.png" alt="logo">-->
-                                                <img id="imagen" src="" alt="logo">	
+                                                <img id="imagen" src="" alt="Imagen">	
                                             </div>
                                         </div> 
                                     </div>
