@@ -12,14 +12,14 @@ function OcultarForm() {
     $("#sucursales").show();
 }
 
-function VerFormAgregar( ){
+function VerFormAgregar( ) {
     $("#sucursal").show();// Mostramos el formulario
     $("#paneles").hide();
-     $("#panelCont").hide();
+    $("#panelCont").hide();
     $("#herramientas").hide();// ocultamos el boton nuevo
     $("#sucursales").hide();
-    
-    
+
+
 }
 
 
@@ -38,12 +38,16 @@ function cargarParametros(idSucursal) {
             $('#txtTiempoE').val(res.par_tiempoEntrega);
             $('#rangete').val(res.par_tiempoEntrega);
 
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 }
 
 function actualizarParametros(idSucursal) {
-  
+
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/sucursal/updParametro/" + idSucursal,
@@ -57,7 +61,11 @@ function actualizarParametros(idSucursal) {
         },
         success: function (res) {
 
-     
+
+
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
 
         }
     });
@@ -90,6 +98,11 @@ function actualizarHorarios() {
                 },
                 success: function (res) {
 
+
+                }
+                ,
+                error: function (request, status, error) {
+                    cosole.log(error.message);
 
                 }
             });
@@ -133,8 +146,12 @@ function actualizarSucursal() {
         },
         success: function (res) {
 
-       
+
             actualizarParametros(res);
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 }

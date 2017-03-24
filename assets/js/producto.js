@@ -27,7 +27,12 @@ function cargarCategorias() {
                 ;
                 $("#Pcategoria").append("<option value=" + data.cat_id + ">" + data.cat_nombre + "</option>");
             });
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
+
     });
 }
 function VerFormAgregar() {
@@ -102,6 +107,10 @@ function cargarComponentes(idProducto) {
                         '</tr>'
                         );
             });
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 }
@@ -135,6 +144,10 @@ function cargarVariedades(idProducto) {
                         '</tr>'
                         );
             });
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 }
@@ -168,6 +181,10 @@ function CargarComponetesAgregar(idProducto) {
                         '</tr>'
                         );
             });
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 }
@@ -202,6 +219,10 @@ function ActualizarComponentes() {
                     success: function (res) {
 
 
+                    },
+                    error: function (request, status, error) {
+                        cosole.log(error.message);
+
                     }
                 });
             }
@@ -231,10 +252,12 @@ function ActualizarVariedad(idProducto) {
             var_id: $('#mIdVariedad').val()
         },
         success: function (res) {
-
-
             var a = 0;
             $('#mbtnCerrarModalVar').click();
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 }
@@ -261,6 +284,10 @@ function actualizarProducto() {
         success: function (res) {
 
             location.reload();
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 }
@@ -292,6 +319,7 @@ function guardarImagen() {
                 $('#imagen').attr('src', './assets/imagenes/producto/' + res.prod_Imagen);
             },
             error: function (request, status, error) {
+                cosole.log(error.message);
 
             }
         });

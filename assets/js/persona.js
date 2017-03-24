@@ -68,6 +68,10 @@ selPersona = function (idPersonas) {
             $('#mPerfilUsuario').val(res.per_perfilUsuario);
             $('#mIdPersona').val(res.per_id);
 //            $('#mImagen').val(res.cat_imagen);
+        },
+         error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 
@@ -95,6 +99,10 @@ $('#mbtnUpdPersona').click(function () {
             $('#mbtnCerrarModal').click();
 
             location.reload();
+        },
+         error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 

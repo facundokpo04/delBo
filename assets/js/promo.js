@@ -58,6 +58,10 @@ function cargarDataPromo(idPromo) {// funcion que llamamos del archivo ajax/Cate
             $('#imagen').attr('src', './assets/imagenes/promo/' + res.pro_imagen);
             $('#idPromo').val(res.pro_id);
 
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 
@@ -92,6 +96,10 @@ function actualizarPromo() {
 
             guardarImagen();
 
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 }
@@ -125,6 +133,10 @@ function guardarImagen() {
             success: function (res) {
 
                 $('#imagen').attr('src', './assets/imagenes/promo/' + res.pro_Imagen);
+
+            },
+            error: function (request, status, error) {
+                cosole.log(error.message);
 
             }
         });

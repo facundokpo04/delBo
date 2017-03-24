@@ -24,7 +24,7 @@ $('#tblComponentes').DataTable({
         {"orderable": true,
             render: function (data, type, row) {
 
-           
+
 
                 return '<span class="pull-right" >' +
                         '<div class="dropdown">' +
@@ -86,7 +86,7 @@ $('#tblComponentes').DataTable({
 
 selComponente = function (idComponente) {
 
-debugger;
+    debugger;
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/componente/get_componenteById/" + idComponente,
@@ -103,10 +103,14 @@ debugger;
 
             $('#mIdComponente').val(res.com_id);
 
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
-    
-    
+
+
 
 };
 $('#mbtnCerrarModal').click(function () {
@@ -162,6 +166,10 @@ $('#mbtnUpdComponente').click(function () {
                 $('#mbtnCerrarModal').click();
 
                 location.reload();
+            },
+            error: function (request, status, error) {
+                cosole.log(error.message);
+
             }
         });
     } else {
@@ -183,6 +191,10 @@ $('#mbtnUpdComponente').click(function () {
                 $('#mbtnCerrarModal').click();
 
                 location.reload();
+            },
+            error: function (request, status, error) {
+                cosole.log(error.message);
+
             }
         });
 

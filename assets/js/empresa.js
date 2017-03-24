@@ -23,6 +23,10 @@ iniciar = function (idEmpresa) {
             $('#imagen').attr('src', './assets/imagenes/empresa/' + res.logo);
             ;
 
+        },
+         error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 
@@ -123,7 +127,11 @@ $('#btnUpdEmpresa').click(function () {
             success: function (res) {
 
                 location.reload();
-            }
+            },
+         error: function (request, status, error) {
+            cosole.log(error.message);
+
+        }
         });
     } else {
         $.ajax({
@@ -147,7 +155,11 @@ $('#btnUpdEmpresa').click(function () {
 
 
                 location.reload();
-            }
+            },
+         error: function (request, status, error) {
+            cosole.log(error.message);
+
+        }
         });
 
 

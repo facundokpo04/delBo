@@ -97,21 +97,25 @@ selEmpleado = function (idEmpleados) {
             $('#mSucursal option[value=' + empleados.suc_id + ']').attr('selected', 'selected');
             $('#imagen').attr('src', './assets/imagenes/empleado/' + empleados.emp_imagen);
 //            $('#mImagen').val(res.cat_imagen);
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 };
 
 
-$.validator.setDefaults( {
-			submitHandler: function () {
-				alert( "submitted!" );
-			}
-		} );
-$("#FormCategoria").submit(function(e) {
+$.validator.setDefaults({
+    submitHandler: function () {
+        alert("submitted!");
+    }
+});
+$("#FormCategoria").submit(function (e) {
 
-alert('a');
+    alert('a');
     var inputFile = $('input#mImagen');
-    
+
     var fileToUpload = inputFile[0].files[0];
     // make sure there is file to upload
 
@@ -145,6 +149,10 @@ alert('a');
 
                 $('#mbtnCerrarModal').click();
                 location.reload();
+            },
+            error: function (request, status, error) {
+                cosole.log(error.message);
+
             }
         });
     }
@@ -170,7 +178,7 @@ $('#mCerrarModal,#mbtnCerrarModal').click(function () {
 
 $("#FormCategoria").validate({
     rules: {
-       
+
         mNombre: {
             required: true,
             minlength: 4
@@ -181,7 +189,7 @@ $("#FormCategoria").validate({
         }
     },
     messages: {
-        
+
         mNombre: {
             required: "Please enter a username",
             minlength: "Your username must consist of at least 2 characters"

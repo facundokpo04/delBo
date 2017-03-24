@@ -89,25 +89,28 @@ selCategoria = function (idCategorias) {
             //ajax para traer todos los estados
             $('#mIdCategoria').val(res.cat_id);
 
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
         }
     });
 
 };
 $('#mbtnCerrarModal').click(function () {
-    
-            $('#mDescripcion').val('');
-            $('#mNombre').val('');
-            $('#mEstado').val('1');//select
-            //ajax para traer todos los estados
-            $('#mIdCategoria').val('');
+
+    $('#mDescripcion').val('');
+    $('#mNombre').val('');
+    $('#mEstado').val('1');//select
+    //ajax para traer todos los estados
+    $('#mIdCategoria').val('');
 })
 $('#mCerrarModal').click(function () {
-    
-            $('#mDescripcion').val('');
-            $('#mNombre').val('');
-            $('#mEstado').val('1');//select
-            //ajax para traer todos los estados
-            $('#mIdCategoria').val('');
+
+    $('#mDescripcion').val('');
+    $('#mNombre').val('');
+    $('#mEstado').val('1');//select
+    //ajax para traer todos los estados
+    $('#mIdCategoria').val('');
 })
 
 $('#mbtnUpdCategoria').click(function () {
@@ -156,18 +159,21 @@ $('#mbtnUpdCategoria').click(function () {
             success: function (res) {
 
 
-                  var a = 0;
+                var a = 0;
                 $('#mbtnCerrarModal').click();
 
                 location.reload();
+            },
+            error: function (request, status, error) {
+                cosole.log(error.message);
             }
         });
 
 
     }
-    
 
-  
+
+
 });
 
 

@@ -99,6 +99,10 @@ getCliente = function (idpedido) {
                     'Email: ' +
                     res.per_email);
 
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 
@@ -124,74 +128,81 @@ getPedido = function (idpedido) {
                     '<b>Estado:</b>' + res.descripcion + '<br>' +
                     '<b>Metodo Pago:</b>' + res.pe_medioPago);
 
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
     });
 
 }
 cargarDetalle = function (idPedido) {
 
-$('#tbProductos tbody').empty()
+    $('#tbProductos tbody').empty()
     $.ajax({
-    type: "POST",
-            url: baseurl + "index.php/pedido/get_detalleById/" + idPedido,
-            dataType: 'json',
-            data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
-            success: function (res) {
+        type: "POST",
+        url: baseurl + "index.php/pedido/get_detalleById/" + idPedido,
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
 
-            res.forEach (function (item) {
-          
+            res.forEach(function (item) {
+
+                $('#tbProductos tbody').append('<tr>' +
+                        ' <td>' +
+                        item.producto.dp_Cantidad +
+                        ' </td>' +
+                        ' <td>' +
+                        item.producto.prod_codigoProducto +
+                        ' </td>' +
+                        ' <td>' +
+                        item.producto.prod_nombre +
+                        ' -Grande </td>' +
+                        ' <td>' +
+                        'Sin aceitunas' +
+                        ' </td>' +
+                        ' <td>' + '$&nbsp;' +
+                        item.producto.dp_PrecioUnitario +
+                        '</tr>'
+                        );
+                item.componentes.forEach(function (comp) {
+
                     $('#tbProductos tbody').append('<tr>' +
-                    ' <td>' +
-                    item.producto.dp_Cantidad +
-                    ' </td>' +
-                    ' <td>' +
-                    item.producto.prod_codigoProducto +
-                    ' </td>' +
-                    ' <td>' +
-                    item.producto.prod_nombre +
-                    ' -Grande </td>' +
-                      ' <td>' +
-                    'Sin aceitunas'+
-                    ' </td>' +
-                    ' <td>' + '$&nbsp;' +
-                    item.producto.dp_PrecioUnitario +
-                    '</tr>'
-                    );
-             item.componentes.forEach (function (comp) {
-          
-                    $('#tbProductos tbody').append('<tr>' +
-                    ' <td>' +
-                           1 +
-                    ' </td>' +
-                    ' <td>' +
-              
-                    ' </td>' +
-                    ' <td>' +
-                      comp.com_nombre +
-                    ' </td>' +
-                      ' <td>' +
-                    ''+
-                    ' </td>' +
-                    ' <td>' + '$&nbsp;' +
-                    comp.com_precio +
-                    '</tr>'
-                    );
-           
-                    });
-           
-                    });
-            
-            }
+                            ' <td>' +
+                            1 +
+                            ' </td>' +
+                            ' <td>' +
+                            ' </td>' +
+                            ' <td>' +
+                            comp.com_nombre +
+                            ' </td>' +
+                            ' <td>' +
+                            '' +
+                            ' </td>' +
+                            ' <td>' + '$&nbsp;' +
+                            comp.com_precio +
+                            '</tr>'
+                            );
 
-
-
-
+                });
 
             });
-                    }
 
-    selPedido = function (idpedido) {
-            VerForm();
+        },
+        error: function (request, status, error) {
+            cosole.log(error.message);
+
+        }
+
+
+
+
+
+    });
+}
+
+selPedido = function (idpedido) {
+    VerForm();
 
     getCliente(idpedido);
     getPedido(idpedido);

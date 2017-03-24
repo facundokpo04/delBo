@@ -69,7 +69,12 @@ selVariedad = function (idVariedades) {
             //ajax para traer todos los estados
             $('#mIdVariedad').val(res.var_id);
 
+        },
+         error: function (request, status, error) {
+            cosole.log(error.message);
+
         }
+        
     });
 
 };
@@ -112,7 +117,11 @@ $('#mbtnUpdVariedad').click(function () {
                 $('#mbtnCerrarModal').click();
 
                 location.reload();
-            }
+            },
+         error: function (request, status, error) {
+            cosole.log(error.message);
+
+        }
         });
 
 
