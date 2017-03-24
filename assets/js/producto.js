@@ -315,8 +315,15 @@ function guardarImagen() {
             processData: false,
             contentType: false,
             success: function (res) {
+                
+                if(res.estado){
 
                 $('#imagen').attr('src', './assets/imagenes/producto/' + res.prod_Imagen);
+            }
+            else{
+                cosole.log(res.response);
+                
+            }
             },
             error: function (request, status, error) {
                 cosole.log(error.message);
