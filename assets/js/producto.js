@@ -318,7 +318,7 @@ function guardarImagen() {
                 
                 if(res.estado){
 
-                $('#imagen').attr('src', './assets/imagenes/producto/' + res.prod_Imagen);
+                $('#imagen').attr('src', './assets/imagenes/producto/' + res.response.prod_Imagen);
             }
             else{
                 console.log(res.response);

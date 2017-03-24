@@ -122,7 +122,7 @@ class Producto extends CI_Controller {
 
                 echo json_encode(
                         [
-                            'estado' => false,
+                            'estado' => true,
                             'response' => $data
                         ]
                 );
