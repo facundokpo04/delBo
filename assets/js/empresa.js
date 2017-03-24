@@ -20,7 +20,7 @@ iniciar = function (idEmpresa) {
             $('#txtEmail').val(res.Email);//select
             //ajax para traer todos los estados
             $('#txtPais').val(res.Pais);
-            $('#imagen').attr('src', '../assets/imagenes/empresa/' + res.logo);
+            $('#imagen').attr('src', './assets/imagenes/empresa/' + res.logo);
             ;
 
         }

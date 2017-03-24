@@ -95,7 +95,7 @@ selEmpleado = function (idEmpleados) {
             }
             debugger;
             $('#mSucursal option[value=' + empleados.suc_id + ']').attr('selected', 'selected');
-            $('#imagen').attr('src', '../assets/imagenes/empleado/' + empleados.emp_imagen);
+            $('#imagen').attr('src', './assets/imagenes/empleado/' + empleados.emp_imagen);
 //            $('#mImagen').val(res.cat_imagen);
         }
     });

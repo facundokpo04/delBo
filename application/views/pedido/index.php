@@ -57,7 +57,7 @@
     <br/>
 
 </div>
-<div id="pedido" class="row" style="display:block;"> 
+<div id="pedido" class="row" style="display: none"> 
     <section class="invoice">
     <!-- title row -->
     <div class="row">
