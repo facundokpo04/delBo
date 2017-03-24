@@ -322,6 +322,7 @@ function guardarImagen() {
             }
             else{
                 cosole.log(res.response);
+                alert(res.response);
                 
             }
             },
