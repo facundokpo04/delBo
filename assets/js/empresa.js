@@ -25,7 +25,7 @@ iniciar = function (idEmpresa) {
 
         },
          error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -129,7 +129,7 @@ $('#btnUpdEmpresa').click(function () {
                 location.reload();
             },
          error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
         });
@@ -157,7 +157,7 @@ $('#btnUpdEmpresa').click(function () {
                 location.reload();
             },
          error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
         });

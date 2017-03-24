@@ -91,7 +91,7 @@ selCategoria = function (idCategorias) {
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
         }
     });
 
@@ -165,7 +165,7 @@ $('#mbtnUpdCategoria').click(function () {
                 location.reload();
             },
             error: function (request, status, error) {
-                cosole.log(error.message);
+                console.log(error.message);
             }
         });
 

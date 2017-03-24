@@ -40,7 +40,7 @@ function cargarParametros(idSucursal) {
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -65,7 +65,7 @@ function actualizarParametros(idSucursal) {
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -102,7 +102,7 @@ function actualizarHorarios() {
                 }
                 ,
                 error: function (request, status, error) {
-                    cosole.log(error.message);
+                    console.log(error.message);
 
                 }
             });
@@ -150,7 +150,7 @@ function actualizarSucursal() {
             actualizarParametros(res);
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });

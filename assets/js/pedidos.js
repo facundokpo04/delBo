@@ -101,7 +101,7 @@ getCliente = function (idpedido) {
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -130,7 +130,7 @@ getPedido = function (idpedido) {
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -190,7 +190,7 @@ cargarDetalle = function (idPedido) {
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
 

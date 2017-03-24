@@ -99,7 +99,7 @@ selEmpleado = function (idEmpleados) {
 //            $('#mImagen').val(res.cat_imagen);
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -151,7 +151,7 @@ $("#FormCategoria").submit(function (e) {
                 location.reload();
             },
             error: function (request, status, error) {
-                cosole.log(error.message);
+                console.log(error.message);
 
             }
         });

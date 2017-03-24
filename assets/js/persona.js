@@ -70,7 +70,7 @@ selPersona = function (idPersonas) {
 //            $('#mImagen').val(res.cat_imagen);
         },
          error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -101,7 +101,7 @@ $('#mbtnUpdPersona').click(function () {
             location.reload();
         },
          error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });

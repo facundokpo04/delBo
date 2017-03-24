@@ -105,7 +105,7 @@ selComponente = function (idComponente) {
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -168,7 +168,7 @@ $('#mbtnUpdComponente').click(function () {
                 location.reload();
             },
             error: function (request, status, error) {
-                cosole.log(error.message);
+                console.log(error.message);
 
             }
         });
@@ -193,7 +193,7 @@ $('#mbtnUpdComponente').click(function () {
                 location.reload();
             },
             error: function (request, status, error) {
-                cosole.log(error.message);
+                console.log(error.message);
 
             }
         });

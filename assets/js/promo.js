@@ -60,7 +60,7 @@ function cargarDataPromo(idPromo) {// funcion que llamamos del archivo ajax/Cate
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -98,7 +98,7 @@ function actualizarPromo() {
 
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -136,7 +136,7 @@ function guardarImagen() {
 
             },
             error: function (request, status, error) {
-                cosole.log(error.message);
+                console.log(error.message);
 
             }
         });

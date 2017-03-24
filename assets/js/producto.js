@@ -29,7 +29,7 @@ function cargarCategorias() {
             });
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
 
@@ -109,7 +109,7 @@ function cargarComponentes(idProducto) {
             });
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -146,7 +146,7 @@ function cargarVariedades(idProducto) {
             });
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -183,7 +183,7 @@ function CargarComponetesAgregar(idProducto) {
             });
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -221,7 +221,7 @@ function ActualizarComponentes() {
 
                     },
                     error: function (request, status, error) {
-                        cosole.log(error.message);
+                        console.log(error.message);
 
                     }
                 });
@@ -256,7 +256,7 @@ function ActualizarVariedad(idProducto) {
             $('#mbtnCerrarModalVar').click();
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
@@ -286,7 +286,7 @@ function actualizarProducto() {
             location.reload();
         },
         error: function (request, status, error) {
-            cosole.log(error.message);
+            console.log(error.message);
 
         }
     });
