@@ -101,7 +101,7 @@ class Producto extends CI_Controller {
         $id = $this->input->post('prod_id');
 
         $config = [
-            "upload_path" => "./assets/imagenes/promo",
+            "upload_path" => "./assets/imagenes/producto",
             "allowed_types" => "png|jpg"
         ];
 
