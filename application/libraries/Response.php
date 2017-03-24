@@ -7,7 +7,7 @@ class Response
 	public $message    = 'Ocurrio un error inesperado.';
         public $errors     = [];
 	
-	public function SetResponse($response, $m='',$result=-1)
+	public static function SetResponse($response, $m='',$result=-1)
 	{
 		$this->response = $response;
 		$this->message = $m;

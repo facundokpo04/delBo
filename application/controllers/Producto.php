@@ -123,12 +123,13 @@ class Producto extends CI_Controller {
             } catch (Exception $e) {
                 if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
                     $errors = RestApi::getEntityValidationFieldsError();
-                    echo json_encode($errors);
+                    
+                    echo json_encode(Response::SetResponse(false,$errors ));
                     
                 }
             }
         } else {
-            echo  json_encode($this->upload->display_errors());
+            echo  json_encode(Response::SetResponse(false,$this->upload->display_errors()));
             //$imagen = $this->cm->obtener($id)->cat_imagen;
         }
     }
