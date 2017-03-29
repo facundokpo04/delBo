@@ -76,10 +76,23 @@
                 <div class="modal-header">
                     <button type="button" class="close" id="mCerrarModal" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Agregar/ Eliminar Categor&iacute;a</h4>
+                    <h4 class="modal-title">Agregar/ Eliminar Componente</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal">
+                     <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#datostab" aria-controls="uploadTab" role="tab" data-toggle="tab">Datos</a>
+
+                        </li>
+                        <li role="presentation"><a href="#imagentab" aria-controls="browseTab" role="tab" data-toggle="tab">Imagen</a>
+
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="datostab">
+                           <form class="form-horizontal">
                         <!-- parametros ocultos -->
                         <input type="hidden" id="mIdComponente">
 
@@ -87,7 +100,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Nombre Componente</label>
                                 <div class="col-sm-9"> 
-                                    <input type="text" name="mNombre" id="mNombre" class="form-control" id="mtxtNombre" placeholder="">
+                                    <input type="text" name="mNombre" id="mNombre" class="form-control" placeholder="">
                                 </div>
                             </div>
 
@@ -112,17 +125,43 @@
                                         <option value="2">Deshabilitado</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-
-                                <label class="col-sm-3 control-label">Imagen</label>
-                                <div class="col-sm-9">
-                                    <input   type="file"  id="mImagen">
-                                </div>
-                            </div>
-
+                            </div>                         
                         </div>
                     </form>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="imagentab">
+                           <div class="media-body">
+                                <div class="panel panel-bluedark">
+                                    <div class="col-lg-12 form-group">
+                                        <label for="">Imagen Componente</label>
+                                        <span class="label label-primary">La imagen debe ser de 76 x 76</span>     
+                                        <div class="input-group">
+                                            <span class="input-group-addon cajaParametro"><i class="fa fa-picture-o fa-fw"></i> </span>
+                                            <input class="form-control" type="file" name="cImagen" id="mImagen" tabindex="16">  
+                                        </div>  
+
+                                        <div class="form-group">    
+                                            <br>	
+                                            <div class="thumbnail">
+                                                <!--Foto de 76 x 76 -->
+                <!--									<img src="assets/img/Logo-impresion.png" alt="logo">-->
+                                                <img id="imagen" src="" alt="imagen">	
+                                            </div>
+                                        </div> 
+                                    </div>
+
+                                    <div style="height:35px;">
+                                    </div>
+                                </div>    
+                                <!-- Botón para agregar filas -->
+                                <input type="button" class="btn btn-info" id="btnGuardarImg" value="Guardar" />
+
+
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" id="mbtnCerrarModal" data-dismiss="modal">Cancelar</button>

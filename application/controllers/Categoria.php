@@ -54,16 +54,68 @@ class Categoria extends CI_Controller {
 
         try {
             $result = $this->cm->obtener($idCategoria);
-            $data = $result;
+             $respuesta = [
+                        'estado' => true,
+                        'response' => $result
+            ];
         } catch (Exception $e) {
-            var_dump($e);
+            $respuesta = [
+                        'estado' => false,
+                        'response' => $e->getMessage()
+            ];
         }
-        echo json_encode($data);
+        echo json_encode($respuesta);
     }
 
     
     public function updCategoria() {
+        $errors = array();
+        $id = $this->input->post('cat_id');
+          $respuesta = [];
+        $data = [
+            'cat_nombre' => $this->input->post('cat_nombre'),
+            'cat_descripcion' => $this->input->post('cat_descripcion'),
+            'cat_idEstado' => $this->input->post('cat_idEstado'),        
+        ];
+        try {
 
+            if (empty($id)) {
+               $response = $this->cm->registrar($data);
+                $respuesta = [
+                            'estado' => true,
+                            'response' => $response
+                ];
+            } else {
+                $response = $this->cm->actualizar($data, $id);
+                $respuesta = [
+                            'estado' => true,
+                            'response' => $response
+                ];
+            }
+        } catch (Exception $e) {
+            if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
+                $errors = RestApi::getEntityValidationFieldsError();
+                  $respuesta = [
+                            'estado' => false,
+                            'validator' => true,
+                            'response' => $errors
+                ];
+            }
+            else {
+                $respuesta = [
+                            'estado' => false,
+                            'validator' => false,
+                            'response' => $e->getMessage()
+                ];
+            }
+        }
+
+               echo json_encode($respuesta);
+    }
+
+    public function updImagen() {
+        
+        $id = $this->input->post('cat_id');
         $config = [
             "upload_path" => "./assets/imagenes/categoria",
             "allowed_types" => "png|jpg"
@@ -72,47 +124,42 @@ class Categoria extends CI_Controller {
 
         $this->load->library("upload", $config);
 
-        $id = $this->input->post('cat_id');
-
-
-
         if ($this->upload->do_upload('cat_imagen')) {
             $archivo = array("upload_data" => $this->upload->data());
             $imagen = $archivo['upload_data']['file_name'];
-        } else {
-            //echo  json_encode($this->upload->display_errors());
-            $imagen = $this->cm->obtener($id)->cat_imagen;
-          
-        }
-
-        $data = [
-            'cat_nombre' => $this->input->post('cat_nombre'),
-            'cat_descripcion' => $this->input->post('cat_descripcion'),
-            'cat_idEstado' => $this->input->post('cat_idEstado'),
-            'cat_Imagen' => $imagen
-        ];
-        try {
-
-            if (empty($id)) {
-                $this->cm->registrar($data);
-            } else {
+            $data = [
+                'cat_Imagen' => $imagen
+            ];
+            try {
                 $this->cm->actualizar($data, $id);
+
+                echo json_encode(
+                        [
+                            'estado' => true,
+                            'response' => $data
+                        ]
+                );
+            } catch (Exception $e) {
+                if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
+                    $errors = RestApi::getEntityValidationFieldsError();
+
+                    echo json_encode(
+                            [
+                                'estado' => false,
+                                'response' => $errors
+                            ]
+                    );
+                }
             }
-        } catch (Exception $e) {
-            if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
-                $errors = RestApi::getEntityValidationFieldsError();
-            }
+        } else {
+            echo json_encode(
+                    [
+                        'estado' => false,
+                        'response' => $this->upload->display_errors()
+                    ]
+            );
+            //$imagen = $this->cm->obtener($id)->cat_imagen;
         }
-
-               echo json_encode($errors);
-    }
-
-    public function guardar() {
-        
-    }
-
-    public function eliminar($id) {
-        
     }
 
 }

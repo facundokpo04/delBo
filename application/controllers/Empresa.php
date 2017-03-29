@@ -20,47 +20,29 @@ class Empresa extends CI_Controller {
         //header
         $this->load->view('layout/header');
         $this->load->view('layout/menu');
-        $this->load->view('empresa/index.php');
+        $this->load->view('Empresa/index.php');
         $this->load->view('layout/footer');
     }
 
     public function get_EmpresaById($idEmpresa) {
-
-
-
         try {
             $result = $this->em->obtener($idEmpresa);
-            $data = $result;
+            $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
         } catch (Exception $e) {
-            var_dump($e);
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
         }
-        echo json_encode($data);
+        echo json_encode($respuesta);
     }
 
-    public function updEmpresa() {
-
-        $config = [
-            "upload_path" => "./assets/imagenes/empresa",
-            "allowed_types" => "png|jpg"
-        ];
+  public function updEmpresa() {
         $errors = array();
-        $imagen='';
-
-        $this->load->library("upload", $config);
         $id = $this->input->post('emp_id');
-        
-        if ($this->upload->do_upload('logo')) {
-            $archivo = array("upload_data" => $this->upload->data());
-            var_dump($archivo);
-            $imagen = $archivo['upload_data']['file_name'];
-        } else {
-            //echo  json_encode($this->upload->display_errors());
-             if (!empty($id)) {
-             $imagen = $this->em->obtener($id)->logo;
-             
-             }
-        }
-
         $data = [
             'cuilt' => $this->input->post('cuilt'),
             'telefono' => $this->input->post('telefono'),
@@ -69,36 +51,88 @@ class Empresa extends CI_Controller {
             'Domicilio' => $this->input->post('Domicilio'),
             'Email' => $this->input->post('Email'),
             'Pais' => $this->input->post('Pais'),
-            'logo' => $imagen
         ];
-        var_dump($data);
         try {
             if (empty($id)) {
-                $this->em->registrar($data);
+                $response = $this->em->registrar($data);
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $response
+                ];
             } else {
-                $this->em->actualizar($data, $id);
+                $response = $this->em->actualizar($data, $id);
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $response
+                ];
             }
         } catch (Exception $e) {
             if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
                 $errors = RestApi::getEntityValidationFieldsError();
-                var_dump($errors);
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => true,
+                    'response' => $errors
+                ];
+            } else {
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => false,
+                    'response' => $e->getMessage()
+                ];
+            }
+        }        
+            echo json_encode($respuesta);         
+ }
+      
+    function updImagen() {
+
+            $id = $this->input->post('emp_id');
+            $config = [
+                "upload_path" => "./assets/imagenes/empresa",
+                "allowed_types" => "png|jpg"
+            ];
+            $errors = array();
+
+            $this->load->library("upload", $config);
+
+            if ($this->upload->do_upload('logo')) {
+                $archivo = array("upload_data" => $this->upload->data());
+                $imagen = $archivo['upload_data']['file_name'];
+                $data = [
+                    'logo' => $imagen
+                ];
+                try {
+                    $this->cm->actualizar($data, $id);
+
+                    echo json_encode(
+                            [
+                                'estado' => true,
+                                'response' => $data
+                            ]
+                    );
+                } catch (Exception $e) {
+                    if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
+                        $errors = RestApi::getEntityValidationFieldsError();
+
+                        echo json_encode(
+                                [
+                                    'estado' => false,
+                                    'response' => $errors
+                                ]
+                        );
+                    }
+                }
+            } else {
+                echo json_encode(
+                        [
+                            'estado' => false,
+                            'response' => $this->upload->display_errors()
+                        ]
+                );
+                //$imagen = $this->cm->obtener($id)->cat_imagen;
             }
         }
-        
-                 
-        if(count($errors) === 0) redirect('empresa');
-        else {
-            $this->load->view('layout/header');
-            $this->load->view('layout/menu');
-            $this->load->view('empresa/validation', [
-                'errors' => $errors
-            ]);
-             $this->load->view('layout/footer');
-        }
-
-     
-    }
 
    
-
 }

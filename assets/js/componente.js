@@ -86,22 +86,26 @@ $('#tblComponentes').DataTable({
 
 selComponente = function (idComponente) {
 
-    debugger;
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/componente/get_componenteById/" + idComponente,
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
-
-
-            $('#mDescripcion').val(res.com_descripcion);
-            $('#mNombre').val(res.com_Nombre);
-            $('#mEstado').val(res.com_idEstado);//select
+            
+             if (res.estado) {
+            $('#mDescripcion').val(res.response.com_descripcion);
+            $('#mNombre').val(res.response.com_nombre);
+            $('#mEstado').val(res.response.com_idEstado);//select
             //ajax para traer todos los estados
-            $('#mPrecio').val(res.com_precio);
+            $('#imagen').attr('src', './assets/imagenes/componentes/' + res.response.com_imagen);
+            $('#mPrecio').val(res.response.com_precio);
+            $('#mIdComponente').val(res.response.com_id);        
+            }
+             else {
+                console.log(res.response);
 
-            $('#mIdComponente').val(res.com_id);
+            }
 
         },
         error: function (request, status, error) {
@@ -109,7 +113,43 @@ selComponente = function (idComponente) {
 
         }
     });
+function guardarImagen() {
+    var inputFile = $('input#mImagen');
+    var fileToUpload = inputFile[0].files[0];
+    // make sure there is file to upload
 
+    // provide the form data
+    // that would be sent to sever through ajax
+    if (fileToUpload != 'undefined') {
+        var formData = new FormData();
+        formData.append('com_imagen', fileToUpload);
+        formData.append('com_id', $('#mIdComponente').val());
+        // now upload the file using $.ajax
+        $.ajax({
+            url: baseurl + "index.php/componente/updImagen",
+            type: 'post',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+
+                if (res.estado) {
+
+                    $('#mImagen').attr('src', './assets/imagenes/componente/' + res.response.com_imagen);
+                } else {
+                    console.log(res.response);
+                    window.alert(res.response);
+
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error.message);
+
+            }
+        });
+    }
+};
 
 
 };
@@ -137,52 +177,17 @@ $('#mCerrarModal').click(function () {
 })
 
 $('#mbtnUpdComponente').click(function () {
-    var inputFile = $('input#mImagen');
-
-    var fileToUpload = inputFile[0].files[0];
-    // make sure there is file to upload
-    // provide the form data
-    // that would be sent to sever through ajax
-    if (fileToUpload != 'undefined') {
-        var formData = new FormData();
-        formData.append('<?php echo $this->security->get_csrf_token_name(); ?>', '<?php echo $this->security->get_csrf_hash(); ?>');
-        formData.append('com_Nombre', $('#mNombre').val());
-        formData.append('com_descripcion', $('#mDescripcion').val());
-        formData.append('com_idEstado', $('#mEstado').val());
-        formData.append('com_precio', $('#mPrecio').val());
-        formData.append('com_id', $('#mIdComponente').val());
-        formData.append('com_imagen', fileToUpload);
-
-        // now upload the file using $.ajax
-        $.ajax({
-            url: baseurl + "index.php/componente/updComponente",
-            type: 'post',
-            dataType: 'json',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (res) {
-                var a = 0;
-                $('#mbtnCerrarModal').click();
-
-                location.reload();
-            },
-            error: function (request, status, error) {
-                console.log(error.message);
-
-            }
-        });
-    } else {
+ 
         $.ajax({
             type: "POST",
-            url: baseurl + "index.php/categoria/updComponente",
+            url: baseurl + "index.php/componente/updComponente",
             dataType: 'json',
             data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
                 com_Nombre: $('#mNombre').val(),
                 com_descripcion: $('#mDescripcion').val(),
                 com_idEstado: $('#mEstado').val(),
                 com_precio: $('#mPrecio').val(),
-                com_id: $('#mIdCategoria').val()
+                com_id: $('#mIdComponente').val()
             },
             success: function (res) {
 
@@ -198,18 +203,17 @@ $('#mbtnUpdComponente').click(function () {
             }
         });
 
-
-    }
-
-
-
 });
 
+$('#btnGuardarImg').click(function () {
 
+    guardarImagen();
+})
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 
 

@@ -11,20 +11,26 @@ iniciar = function (idEmpresa) {
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
 
-            $('#idEmpresa').val(res.emp_id);
-            $('#txtRazonSocial').val(res.razonSocial);
-            $('#txtRubro').val(res.Rubro);
-            $('#txtCuit').val(res.cuilt);
-            $('#txtDomicilio').val(res.Domicilio);
-            $('#txtTelefono').val(res.telefono);
-            $('#txtEmail').val(res.Email);//select
-            //ajax para traer todos los estados
-            $('#txtPais').val(res.Pais);
-            $('#imagen').attr('src', './assets/imagenes/empresa/' + res.logo);
-            ;
+
+            if (res.estado) {
+               $('#idEmpresa').val(res.response.emp_id);
+                $('#txtRazonSocial').val(res.response.razonSocial);
+                $('#txtRubro').val(res.response.Rubro);
+                $('#txtCuit').val(res.response.cuilt);
+                $('#txtDomicilio').val(res.response.Domicilio);
+                $('#txtTelefono').val(res.response.telefono);
+                $('#txtEmail').val(res.response.Email);//select
+                //ajax para traer todos los estados
+                $('#txtPais').val(res.response.Pais);
+                $('#imagen').attr('src', './assets/imagenes/empresa/' + res.response.logo);
+            } else {
+                console.log(res.response);
+
+            }
+
 
         },
-         error: function (request, status, error) {
+        error: function (request, status, error) {
             console.log(error.message);
 
         }
@@ -52,8 +58,7 @@ iniciar = function (idEmpresa) {
             {data: 'suc_razonSocial'},
             {data: 'suc_direccion'},
             {"orderable": true,
-                render: function (data, type, row) {
-                    debugger;
+                render: function (data, type, row) {                 
                     return '<span class="pull-right" >' +
                             '<div class="dropdown">' +
                             '  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
@@ -93,32 +98,17 @@ iniciar = function (idEmpresa) {
 
 
 };
-
-$('#btnUpdEmpresa').click(function () {
-    debugger;
+function guardarImagen() {
     var inputFile = $('input#txtLogo');
-
     var fileToUpload = inputFile[0].files[0];
-    // make sure there is file to upload
 
-    // provide the form data
-    // that would be sent to sever through ajax
-    if (fileToUpload !== 'undefined') {
+    if (!("undefined" === typeof fileToUpload)) {
         var formData = new FormData();
-        formData.append('<?php echo $this->security->get_csrf_token_name(); ?>', '<?php echo $this->security->get_csrf_hash(); ?>');
-        formData.append('razonSocial', $('#txtRazonSocial').val());
-        formData.append('Rubro', $('#txtRubro').val());
-        formData.append('cuilt', $('#txtCuit').val());
-        formData.append('Domicilio', $('#txtDomicilio').val());
-        formData.append('telefono', $('#txtTelefono').val());
-        formData.append('Email', $('#txtEmail').val());
-        formData.append('Pais', $('#txtPais').val());
-        formData.append('emp_id', $('#idEmpresa').val());
         formData.append('logo', fileToUpload);
-
+        formData.append('emp_id', $('#idEmpresa').val());
         // now upload the file using $.ajax
         $.ajax({
-            url: baseurl + "index.php/empresa/updEmpresa",
+            url: baseurl + "index.php/empresa/updImagen",
             type: 'post',
             dataType: 'json',
             data: formData,
@@ -126,46 +116,68 @@ $('#btnUpdEmpresa').click(function () {
             contentType: false,
             success: function (res) {
 
-                location.reload();
-            },
-         error: function (request, status, error) {
-            console.log(error.message);
+                if (res.estado) {
 
-        }
+                    $('#imagen').attr('src', './assets/imagenes/empresa/' + res.response.logo);
+                } else {
+                    console.log(res.response);
+                    window.alert(res.response);
+
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error.message);
+
+            }
         });
-    } else {
-        $.ajax({
-            type: "POST",
-            url: baseurl + "index.php/empresa/updEmpresa",
-            dataType: 'json',
-            data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
-                razonSocial: $('#txtRazonSocial').val(),
-                Rubro: $('#txtRubro').val(),
-                cuilt: $('#txtCuit').val(),
-                Domicilio: $('#txtDomicilio').val(),
-                telefono: $('#txtTelefono').val(),
-                Email: $('#txtEmail').val(),
-                Pais: $('#txtPais').val(),
-                emp_id: $('#idEmpresa').val()
-
-            },
-            success: function (res) {
-
-
-
-
-                location.reload();
-            },
-         error: function (request, status, error) {
-            console.log(error.message);
-
-        }
-        });
-
-
+    }else{
+          window.alert("Seleccione una Imagen");
     }
+};
+$('#btnUpdEmpresa').click(function () {
+    
+    
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/empresa/updEmpresa",
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+            razonSocial: $('#txtRazonSocial').val(),
+            Rubro: $('#txtRubro').val(),
+            cuilt: $('#txtCuit').val(),
+            Domicilio: $('#txtDomicilio').val(),
+            telefono: $('#txtTelefono').val(),
+            Email: $('#txtEmail').val(),
+            Pais: $('#txtPais').val(),
+            emp_id: $('#idEmpresa').val()
+
+        },
+        success: function (res) {
+            if (res.estado) {
+                location.reload();
+                
+            } else {
+                console.log(res.response);
+
+            }
+        },
+        error: function (request, status, error) {
+            console.log(error.message);
+
+        }
+    });
+
+
+
 
 
 
 });
+
+$('#btnGuardarImg').click(function () {
+
+    guardarImagen();
+})
+       
+
 iniciar(1);

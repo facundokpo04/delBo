@@ -82,19 +82,63 @@ selCategoria = function (idCategorias) {
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
 
+            if (res.estado) {
+                $('#mDescripcion').val(res.response.cat_descripcion);
+                $('#mNombre').val(res.response.cat_nombre);
+                $('#mEstado').val(res.response.cat_idEstado);//select
+                //ajax para traer todos los estados
+                $('#imagen').attr('src', './assets/imagenes/categoria/' + res.response.cat_imagen);
+                $('#mIdCategoria').val(res.response.cat_id);
+            } else {
+                console.log(res.response);
 
-            $('#mDescripcion').val(res.cat_descripcion);
-            $('#mNombre').val(res.cat_nombre);
-            $('#mEstado').val(res.cat_idEstado);//select
-            //ajax para traer todos los estados
-            $('#mIdCategoria').val(res.cat_id);
-
+            }
         },
         error: function (request, status, error) {
             console.log(error.message);
         }
     });
 
+};
+function guardarImagen() {
+    var inputFile = $('input#cImagen');
+    var fileToUpload = inputFile[0].files[0];
+    // make sure there is file to upload
+
+    // provide the form data
+    // that would be sent to sever through ajax
+    if (!("undefined" === typeof fileToUpload)) {
+        
+        var formData = new FormData();
+        formData.append('cat_imagen', fileToUpload);
+        formData.append('cat_id', $('#mIdCategoria').val());
+        // now upload the file using $.ajax
+        $.ajax({
+            url: baseurl + "index.php/categoria/updImagen",
+            type: 'post',
+            dataType: 'json',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (res) {
+
+                if (res.estado) {
+
+                    $('#imagen').attr('src', './assets/imagenes/categoria/' + res.response.cat_imagen);
+                } else {
+                    console.log(res.response);
+                    window.alert(res.response);
+
+                }
+            },
+            error: function (request, status, error) {
+                console.log(error.message);
+
+            }
+        });
+    }else{
+          window.alert("Seleccione una Imagen");
+    }
 };
 $('#mbtnCerrarModal').click(function () {
 
@@ -113,40 +157,8 @@ $('#mCerrarModal').click(function () {
     $('#mIdCategoria').val('');
 })
 
-$('#mbtnUpdCategoria').click(function () {
-    var inputFile = $('input#pImagen');
-
-    var fileToUpload = inputFile[0].files[0];
-    // make sure there is file to upload
-
-    // provide the form data
-    // that would be sent to sever through ajax
-    if (fileToUpload != 'undefined') {
-        var formData = new FormData();
-        formData.append('<?php echo $this->security->get_csrf_token_name(); ?>', '<?php echo $this->security->get_csrf_hash(); ?>');
-        formData.append('cat_nombre', $('#mNombre').val());
-        formData.append('cat_descripcion', $('#mDescripcion').val());
-        formData.append('cat_idEstado', $('#mEstado').val());
-        formData.append('cat_id', $('#mIdCategoria').val());
-        formData.append('cat_imagen', fileToUpload);
-
-        // now upload the file using $.ajax
-        $.ajax({
-            url: baseurl + "index.php/categoria/updCategoria",
-            type: 'post',
-            dataType: 'json',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (res) {
-                var a = 0;
-                $('#mbtnCerrarModal').click();
-
-                location.reload();
-            }
-        });
-    } else {
-        $.ajax({
+$('#mbtnUpdCategoria').click(function () { 
+       $.ajax({
             type: "POST",
             url: baseurl + "index.php/categoria/updCategoria",
             dataType: 'json',
@@ -157,24 +169,26 @@ $('#mbtnUpdCategoria').click(function () {
                 cat_id: $('#mIdCategoria').val()
             },
             success: function (res) {
+                if (res.estado) {
+                    var a = 0;
+                    $('#mbtnCerrarModal').click();
 
-
-                var a = 0;
-                $('#mbtnCerrarModal').click();
-
-                location.reload();
+                    location.reload();
+                } else {
+                    console.log(res.response);
+                }
             },
             error: function (request, status, error) {
                 console.log(error.message);
             }
-        });
-
-
-    }
-
-
-
+        });  
 });
 
 
-         
+
+
+
+$('#btnGuardarImg').click(function () {
+
+    guardarImagen();
+})

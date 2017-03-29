@@ -51,7 +51,7 @@
     </div>
 </div>
 <!--Detalle de producto -->
-<div id="producto" class="row" style="display: none">   
+<div id="producto" class="row" >   
     <div class="col-lg-12">     
         <div class="panel panel-bluedark">
             <div class="panel-heading">Datos del Producto</div>
@@ -212,7 +212,7 @@
                                             <div class="thumbnail">
                                                 <!--Foto de 76 x 76 -->
                 <!--									<img src="assets/img/Logo-impresion.png" alt="logo">-->
-                                                <img id="imagen" src="" alt="Imagen">	
+                                                <img id="imagen" src="" alt="logo">	
                                             </div>
                                         </div> 
                                     </div>
@@ -374,11 +374,5 @@
 
 <script type="text/javascript">
     //Timepicker
-
-
     var baseurl = "<?php echo base_url(); ?>";
-
-
-
-
 </script>
