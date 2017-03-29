@@ -49,7 +49,7 @@
         <!-- /.box -->
     </div>
 </div>
-<div id="sucursal" class="row" style="display:block;">               
+<div id="sucursal" class="row" style="display:none">               
     <div class="col-lg-12">     
         <div class="panel panel-bluedark">
             <div class="panel-heading">Datos de la Sucursal</div>

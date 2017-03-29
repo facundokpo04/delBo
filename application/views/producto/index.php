@@ -51,7 +51,7 @@
     </div>
 </div>
 <!--Detalle de producto -->
-<div id="producto" class="row" >   
+<div id="producto" class="row" style="display:none">   
     <div class="col-lg-12">     
         <div class="panel panel-bluedark">
             <div class="panel-heading">Datos del Producto</div>
