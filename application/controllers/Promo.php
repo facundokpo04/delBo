@@ -77,7 +77,7 @@ class Promo extends CI_Controller {
         $id = $this->input->post('pro_id');
 
         $config = [
-            "upload_path" => "./assets/imagenes/promo",
+            "upload_path" => "./assets/imagenes/promos",
             "allowed_types" => "png|jpg"
         ];
         $errors = array();
