@@ -55,7 +55,8 @@
 
 <script src="<?php echo base_url(); ?>assets/plugins/datetimepicker/bootstrap-datetimepicker.min.js"></script>
 
-
+<!-- sweetalert -->
+<script src="<?php echo base_url(); ?>assets/dist/js/sweetalert.min.js"></script>
 
 
 
