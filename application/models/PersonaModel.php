@@ -15,8 +15,6 @@ class PersonaModel extends CI_Model {
     }
 
     public function registrar($data) {
-
-
         return RestApi::call(
                         RestApiMethod::POST, 'persona/insertar', $data
         );

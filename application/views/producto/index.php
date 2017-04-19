@@ -12,19 +12,34 @@
         <div class="btn-group"> 
             <button class="btn btn-primary" type="button" id="btnAgregarProd" >Agregar</button>
         </div>
-
-
+                   
     </div>
 </div>
-<br/>
+
+<div id="filtros" class="panel panel-default">
+    <div class="panel-heading">
+        Filtros
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+       <div  class="col-sm-6 form-group">
+                    <label for="">Categoria</label>
+                    <div class="input-group col-sm-6" > 
+                        <select   name="Fcategoria" id="Fcategoria" class="form-control">                       
+                            <option value="">Todas</option>
+                        </select>
+                    </div>
+                </div>
+                   
+    </div>
+</div>
 <div id="productos" class="row">
     <div class="col-xs-12">
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Productos</h3>
             </div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
+    <div class="box-body table-responsive no-padding">         <!-- /.box-header -->                                 
                 <table  id="tbProductos" class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -50,8 +65,8 @@
         <!-- /.box -->
     </div>
 </div>
-<!--Detalle de producto -->
-<div id="producto" class="row" style="display:none">   
+
+<div id="producto" class="row" >   
     <div class="col-lg-12">     
         <div class="panel panel-bluedark">
             <div class="panel-heading">Datos del Producto</div>
@@ -99,12 +114,12 @@
                         <span class="input-group-addon cajaParametro"><i class="fa  fa-minus-circle fa-fw"></i> </span><input class="form-control" placeholder="" name="txtMinCompo" id="txtMinCompo" type="number" autocomplete="on" autofocus="" tabindex="4" >
                     </div>	
                 </div> 
-                <div class="col-sm-6 form-group">
+                <div class="col-sm-6 form-group" id="estadodiv">
                     <label for="">Estado</label>
                     <div class="input-group col-sm-12"> 
                         <select name="PEstado" id="PEstado" class="form-control">                       
                             <option value="1">Habilitado</option>
-                            <option value="2">Deshabilitado</option>
+                            <option value="2" selected>Deshabilitado</option>
                         </select>
                     </div>
                 </div>
@@ -135,8 +150,7 @@
                     </ul> 
                     <div class="tab-content" id="panelCont">
                         <div class="tab-pane active" id="tabVariedad">  
-                            <div class="media-body">
-
+                           
                                 <div class="media-body">
                                     <div class="box-body table-responsive no-padding">
                                         <table  id="tblVariedades" class="table table-bordered table-striped">
@@ -162,7 +176,7 @@
 
 
                                 </div>
-                            </div>
+                          
                         </div>
                         <div class="tab-pane" id="tabComponentes">  
 
@@ -241,7 +255,7 @@
 
     </div>  
 
-    <div class="panel-footer"><button type="button" class="btn btn-default">Cancelar</button>
+    <div class="panel-footer"><button type="button" class="btn btn-default" onclick="location.reload()">Cancelar</button>
         <button type="button" class="btn btn-info" id="mbtnUpdProducto">Actualizar</button></div>
 </div> 
 <!-- modal agregar componente -->
@@ -374,5 +388,11 @@
 
 <script type="text/javascript">
     //Timepicker
+
+
     var baseurl = "<?php echo base_url(); ?>";
+
+
+
+
 </script>

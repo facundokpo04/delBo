@@ -83,36 +83,6 @@ $('#tblComponentes').DataTable({
     "order": [[0, "asc"]],
 });
 
-
-selComponente = function (idComponente) {
-
-    $.ajax({
-        type: "POST",
-        url: baseurl + "index.php/componente/get_componenteById/" + idComponente,
-        dataType: 'json',
-        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
-        success: function (res) {
-            
-             if (res.estado) {
-            $('#mDescripcion').val(res.response.com_descripcion);
-            $('#mNombre').val(res.response.com_nombre);
-            $('#mEstado').val(res.response.com_idEstado);//select
-            //ajax para traer todos los estados
-            $('#imagen').attr('src', './assets/imagenes/componentes/' + res.response.com_imagen);
-            $('#mPrecio').val(res.response.com_precio);
-            $('#mIdComponente').val(res.response.com_id);        
-            }
-             else {
-                console.log(res.response);
-
-            }
-
-        },
-        error: function (request, status, error) {
-            console.log(error.message);
-
-        }
-    });
 function guardarImagen() {
     var inputFile = $('input#mImagen');
     var fileToUpload = inputFile[0].files[0];
@@ -149,10 +119,42 @@ function guardarImagen() {
             }
         });
     }
+}
+;
+selComponente = function (idComponente) {
+
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/componente/get_componenteById/" + idComponente,
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
+
+            if (res.estado) {
+                $('#mDescripcion').val(res.response.com_descripcion);
+                $('#mNombre').val(res.response.com_nombre);
+                $('#mEstado').val(res.response.com_idEstado);//select
+                //ajax para traer todos los estados
+                $('#imagen').attr('src', './assets/imagenes/componentes/' + res.response.com_imagen);
+                $('#mPrecio').val(res.response.com_precio);
+                $('#mIdComponente').val(res.response.com_id);
+            } else {
+                console.log(res.response);
+
+            }
+
+        },
+        error: function (request, status, error) {
+            console.log(error.message);
+
+        }
+    });
+
+
+
 };
 
 
-};
 $('#mbtnCerrarModal').click(function () {
 
     $('#mDescripcion').val('');
@@ -177,31 +179,31 @@ $('#mCerrarModal').click(function () {
 })
 
 $('#mbtnUpdComponente').click(function () {
- 
-        $.ajax({
-            type: "POST",
-            url: baseurl + "index.php/componente/updComponente",
-            dataType: 'json',
-            data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
-                com_Nombre: $('#mNombre').val(),
-                com_descripcion: $('#mDescripcion').val(),
-                com_idEstado: $('#mEstado').val(),
-                com_precio: $('#mPrecio').val(),
-                com_id: $('#mIdComponente').val()
-            },
-            success: function (res) {
+
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/componente/updComponente",
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+            com_Nombre: $('#mNombre').val(),
+            com_descripcion: $('#mDescripcion').val(),
+            com_idEstado: $('#mEstado').val(),
+            com_precio: $('#mPrecio').val(),
+            com_id: $('#mIdComponente').val()
+        },
+        success: function (res) {
 
 
-                var a = 0;
-                $('#mbtnCerrarModal').click();
+            var a = 0;
+            $('#mbtnCerrarModal').click();
 
-                location.reload();
-            },
-            error: function (request, status, error) {
-                console.log(error.message);
+            location.reload();
+        },
+        error: function (request, status, error) {
+            console.log(error.message);
 
-            }
-        });
+        }
+    });
 
 });
 
@@ -214,6 +216,5 @@ $('#btnGuardarImg').click(function () {
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 
 

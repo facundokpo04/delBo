@@ -1,12 +1,9 @@
 <?php
-
 defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Auth extends CI_Controller {
     public function __CONSTRUCT(){
         parent::__construct();
       //cargar el modelo
-
         $this->load->model('authmodel', 'am');
     }
     
@@ -54,5 +51,3 @@ class Auth extends CI_Controller {
         redirect('');
     }
 }
-
-

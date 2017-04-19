@@ -20,8 +20,7 @@ class ProductoModel extends CI_Model{
             RestApiMethod::GET,
             "producto/listarCate"
         );
-    }
-    
+    }   
         public function getAllComp($idProducto){
         return RestApi::call(
             RestApiMethod::GET,
@@ -60,8 +59,7 @@ class ProductoModel extends CI_Model{
       
         return RestApi::call(
             RestApiMethod::POST,
-            'producto/insertar',
-            $data
+            'producto/insertar',$data
         );
     }
 

@@ -20,13 +20,7 @@ class Variedad extends CI_Controller {
         //header
         $this->load->view('layout/header');
         $this->load->view('layout/menu');
-        //definimos variable para traer la data y mantner la logica de paginacion
-        //inicializacion de paginacion
-
-
         $this->load->view('variedad/index.php');
-
-        //footer
         $this->load->view('layout/footer');
     }
 
@@ -47,16 +41,19 @@ class Variedad extends CI_Controller {
     }
 
     public function get_variedadById($idVariedad) {
-
-
-
         try {
             $result = $this->cm->obtener($idVariedad);
-            $data = $result;
+            $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
         } catch (Exception $e) {
-            var_dump($e);
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
         }
-        echo json_encode($data);
+        echo json_encode($respuesta);
     }
 
     public function updVariedad() {

@@ -1,46 +1,61 @@
 <?php
-class PromoModel extends CI_Model{
+
+class PromoModel extends CI_Model {
+
+    public function getAll() {
+        return RestApi::call(
+                        RestApiMethod::GET, "promo/listar"
+        );
+    }
     
-    public function getAll(){
+      public function getAllProd($idPromo){
         return RestApi::call(
             RestApiMethod::GET,
-            "promo/listar"
+            "promo/listarprod/$idPromo"
+        );   
+        }
+
+
+    public function obtener($id) {
+        return RestApi::call(
+                        RestApiMethod::GET, "promo/obtener/$id"
         );
     }
 
-    
-    public function obtener($id){
+    public function registrar($data) {
+
+
         return RestApi::call(
-            RestApiMethod::GET,
-            "promo/obtener/$id"
-        );
-    }
-    
-    public function registrar($data){
-        
-      
-        return RestApi::call(
-            RestApiMethod::POST,
-            'promo/insertar',
-            $data
+                        RestApiMethod::POST, 'promo/insertar', $data
         );
     }
 
-    public function actualizar($data, $id){
+    public function actualizar($data, $id) {
         return RestApi::call(
-            RestApiMethod::PUT,
-            "promo/actualizar/$id" , $data
+                        RestApiMethod::PUT, "promo/actualizar/$id", $data
         );
     }
-     public function eliminar( $id){
+
+    public function eliminar($id) {
         return RestApi::call(
-            RestApiMethod::DELETE,
-            "promo/eliminar/$id"
+                        RestApiMethod::DELETE, "promo/eliminar/$id"
         );
-    }   
-   
-    
+    }
+
+    public function registrarProd($data) {
+        return RestApi::call(
+                        RestApiMethod::POST, "promo/insertarprod", $data
+        );
+    }
+
+    public function eliminarProd($idppro) {
+        return RestApi::call(
+                        RestApiMethod::DELETE, "promo/eliminarprodid/$idppro"
+        );
+    }
+
 }
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

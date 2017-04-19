@@ -17,6 +17,7 @@ $('#tblEmpleados').DataTable({
         {data: 'per_nombre'},
         {data: 'per_email'},
         {data: 'suc_nombre'},
+        {data: 'emp_cargo'},
         {"orderable": true,
             render: function (data, type, row) {
 
@@ -29,7 +30,7 @@ $('#tblEmpleados').DataTable({
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
                         '    <li><a href="#" title="Editar informacion" data-toggle="modal" data-target="#modalEditEmpleado" onClick="selEmpleado(\'' + row.emp_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i> Editar</a></li>' +
                         '    <li><a href="#"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver</a></li>' +
-                        '    <li><a href="#" title="Eliminar Empleado" onClick=""><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
+                        '     <li><a href="#" title="Eliminar Producto" onClick="eliminarEmpleado(\'' + row.emp_id + '\',\'' + row.emp_idPersona + '\');"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
@@ -46,116 +47,209 @@ $('#tblEmpleados').DataTable({
     "order": [[0, "asc"]],
 });
 
+function cargarSucursales(idEmpresa) {
+    $("#mSucursal option").remove();
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/empleado/get_Sucursales/" + idEmpresa,
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
+            if (res.estado) {
+
+                $.each(res.response.data, function (key, data) {
+                    $("#mSucursal").append("<option value=" + data.suc_id + ">" + data.suc_nombre + "</option>");
+                });
+            } else {
+                console.log(res.response)
+            }
+        },
+        error: function (request, status, error) {
+            console.log(error.message);
+
+        }
+
+    });
+}
 
 
 
-//$.ajax({
-//    type: "POST",
-//    url: baseurl + "index.php/sucursales/get_sucursales/1",
-//    dataType: 'json',
-//    data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
-//    success: function (res) {
-//        debugger;
-//        $('#mSucursal').append($('<option>', {
-//            value: res.suc_id,
-//            text: res.suc_nombre
-//
-//        }));
-//    }
-//})
 selEmpleado = function (idEmpleados) {
-
-
+    debugger;
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/empleado/get_empleadoById/" + idEmpleados,
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
-
-            var sucursales = res.sucursales.data;
-            var empleados = res.empleados;
-            $('#mNombre').val(empleados.per_nombre);
-            $('#mEmail').val(empleados.per_email);
-            $('#mDocumento').val(empleados.per_documento); //select
-            //ajax para traer todos los estados
-            $('#mNacionalidad').val(empleados.per_nacionalidad);
-            $('#mPassword').val(empleados.per_password);
-            $('#mPerfilUsuario').val(empleados.per_perfilUsuario);
-            $('#mIdPersona').val(empleados.emp_idPersona);
-            $('#mIdEmpleado').val(empleados.emp_id);
-            $('#mLegajo').val(empleados.emp_legajo);
-            $('#mCargo').val(empleados.emp_cargo);
-            for (var i = 0; i < sucursales.length; i++) {
-
-                $('#mSucursal').append($('<option>', {
-                    value: sucursales[i].suc_id,
-                    text: sucursales[i].suc_nombre
-                }));
-            }
-            debugger;
-            $('#mSucursal option[value=' + empleados.suc_id + ']').attr('selected', 'selected');
-            $('#imagen').attr('src', './assets/imagenes/empleado/' + empleados.emp_imagen);
+            if (res.estado) {
+                var empleados = res.response;
+                $('#mNombre').val(empleados.per_nombre);
+                $('#mEmail').val(empleados.per_email);
+                $('#mDocumento').val(empleados.per_documento); //select
+                //ajax para traer todos los estados
+                $('#mNacionalidad').val(empleados.per_nacionalidad);
+                $('#mPassword').val(empleados.per_password);
+                $('#mPerfilUsuario').val(empleados.per_perfilUsuario);
+                $('#mIdPersona').val(empleados.emp_idPersona);
+                $('#mIdEmpleado').val(empleados.emp_id);
+                $('#mLegajo').val(empleados.emp_legajo);
+                $('#mCargo').val(empleados.emp_cargo);
+                $('#imagen').attr('src', './assets/imagenes/empleado/' + empleados.emp_imagen);
 //            $('#mImagen').val(res.cat_imagen);
+            } else {
+                sweetAlert("Oops...", res.response, "error");
+                console.log(res.response);
+            }
         },
         error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
             console.log(error.message);
 
         }
     });
 };
+function eliminarEmpleado(idEmpleado, idPersona) {
+    swal({
+        title: "Esta seguro?",
+        text: "Se eliminara el empleado",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Si, Eliminar !",
+        cancelButtonText: "No, Cancelar!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: baseurl + "index.php/empleado/eliminar",
+                        dataType: 'json',
+                        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+                            emp_idPersona: idPersona,
+                            emp_id: idEmpleado
+                        },
+
+                        success: function (res) {
 
 
-$.validator.setDefaults({
-    submitHandler: function () {
-        alert("submitted!");
-    }
-});
-$("#FormCategoria").submit(function (e) {
+                            if (res.estado) {
 
-    alert('a');
-    var inputFile = $('input#mImagen');
+                                swal({
+                                    title: "Eliminado",
+                                    text: "El Empleado se a eliminado!",
+                                    type: "success",
+                                },
+                                        function () {
+                                            location.reload();
+                                        });
 
-    var fileToUpload = inputFile[0].files[0];
-    // make sure there is file to upload
+                            } else {
+                                sweetAlert("Ocurrio un Error", res.response, "error");
 
-    // provide the form data
-    // that would be sent to sever through ajax
-    if (fileToUpload != 'undefined' && false) {
-        var formData = new FormData();
-        formData.append('<?php echo $this->security->get_csrf_token_name(); ?>', '<?php echo $this->security->get_csrf_hash(); ?>');
-        formData.append('per_nombre', $('#mNombre').val());
-        formData.append('per_email', $('#mEmail').val());
-        formData.append('per_documento', $('#mDocumento').val());
-        formData.append('per_password', $('#mPassword').val());
-        formData.append('per_nacionalidad', $('#mNacionalidad').val());
-        formData.append('per_id', $('#mIdPersona').val());
-        formData.append('emp_id', $('#mIdEmpleado').val());
-        formData.append('per_perfilUsuario', $('#mPerfilUsuario').val());
-        formData.append('emp_legajo', $('#mLegajo').val());
-        formData.append('emp_cargo', $('#mCargo').val());
-        formData.append('emp_idSucursal', $('#mSucursal').val());
-        formData.append('emp_imagen', fileToUpload);
-        $.ajax({
-            url: baseurl + "index.php/empleado/updEmpleado",
-            type: 'post',
-            dataType: 'json',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (res) {
+                            }
+
+                        },
+                        error: function (request, status, error) {
+
+                            console.log(error);
+                            sweetAlert("Ocurrio un Error Inesperado", error, "error");
+
+                        }
+                    });
+                } else {
+                    swal("Cancelado", "El Empleado no fue Eliminado", "error");
+                }
+            });
+
+}
+
+function updateEmpleado(idPersona) {
+    $.ajax({
+        url: baseurl + "index.php/empleado/updEmpleado",
+        type: 'post',
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+            emp_idPersona: idPersona,
+            emp_id: $('#mIdEmpleado').val(),
+            emp_legajo: $('#mLegajo').val(),
+            emp_cargo: $('#mCargo').val(),
+            emp_idSucursal: $('#mSucursal').val(),
+            per_perfilUsuario: $('#mPerfilUsuario').val()
+        },
+        success: function (res) {
+            debugger;
+
+            if (res.estado) {
+
+                swal({
+                    title: "Los Datos Fueron Guardados!",
+                    text: "haga click!",
+                    type: "success",
+                },
+                        function () {
+                            $('#mbtnCerrarModal').click();
+                            location.reload();
+                        });
 
 
-
-                $('#mbtnCerrarModal').click();
-                location.reload();
-            },
-            error: function (request, status, error) {
-                console.log(error.message);
+            } else {
+                sweetAlert("Oops...", JSON.stringify(res.response), "error");
+                console.log(res.response);
 
             }
-        });
-    }
+
+        },
+        error: function (request, status, error) {
+            debugger;
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error);
+
+        }
+    });
+}
+
+$("#mbtnUpdEmpleado2").click(function () {
+
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/persona/updPersona",
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+            per_nombre: $('#mNombre').val(),
+            per_email: $('#mEmail').val(),
+            per_documento: $('#mDocumento').val(),
+            per_password: $('#mPassword').val(),
+            per_Nacionalidad: $('#mNacionalidad').val(),
+            per_id: $('#mIdPersona').val(),
+            per_perfilUsuario: $('#mPerfilUsuario').val()},
+        success: function (res) {
+
+            if (res.estado) {
+                debugger;
+
+                updateEmpleado(res.response);
+
+
+            } else {
+                debugger;
+                sweetAlert("Oops...", JSON.stringify(res.response), "error");
+                console.log(res.response);
+
+            }
+
+
+        },
+        error: function (request, status, error) {
+            debugger;
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error);
+
+        }
+    });
+
 
 });
 
@@ -166,50 +260,13 @@ $('#mCerrarModal,#mbtnCerrarModal').click(function () {
     $('#mEmail').val('');
     $('#mDocumento').val(''); //select
     //ajax para traer todos los estados
-    $('#mNacionalidad').val('');
     $('#mPassword').val('');
-    $('#mPerfilUsuario').val('');
     $('#mIdPersona').val('');
     $('#mIdEmpleado').val('');
     $('#mLegajo').val('');
-    $('#mCargo').val('');
+
+
 })
 
 
-$("#FormCategoria").validate({
-    rules: {
-
-        mNombre: {
-            required: true,
-            minlength: 4
-        },
-        password: {
-            required: true,
-            minlength: 5
-        }
-    },
-    messages: {
-
-        mNombre: {
-            required: "Please enter a username",
-            minlength: "Your username must consist of at least 2 characters"
-        }
-    },
-    errorElement: "em",
-    errorPlacement: function (error, element) {
-        // Add the `help-block` class to the error element
-        error.addClass("help-block");
-
-        if (element.prop("type") === "checkbox") {
-            error.insertAfter(element.parent("label"));
-        } else {
-            error.insertAfter(element);
-        }
-    },
-    highlight: function (element, errorClass, validClass) {
-        $(element).parents(".col-sm-5").addClass("has-error").removeClass("has-success");
-    },
-    unhighlight: function (element, errorClass, validClass) {
-        $(element).parents(".col-sm-5").addClass("has-success").removeClass("has-error");
-    }
-});
+cargarSucursales(1);

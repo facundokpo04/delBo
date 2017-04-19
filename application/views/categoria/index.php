@@ -12,10 +12,7 @@
         <div class="btn-group"> 
             <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#modalEditCategoria" >Agregar</button>
         </div>
-        <div class="btn-group"> 
-            <button class="btn btn-danger" type="button" onClick="">Eliminar</button>
-        </div>
-
+     
     </div>
 </div>
 <br/>

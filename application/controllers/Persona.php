@@ -13,7 +13,7 @@ class Persona extends CI_Controller {
         // Valida que exista el usuario obtenido del token, del caso contrario lo regresa a la pagina de inicio que es nuestro controlador auth
 //        if($this->user['user'] === null) redirect('');
 //
-        $this->load->model('PersonaModel', 'cm');
+        $this->load->model('PersonaModel', 'pm');
     }
 
     public function index($p = 0) {
@@ -30,14 +30,14 @@ class Persona extends CI_Controller {
         $this->load->view('layout/footer');
     }
 
-    public function get_personas($limite = 5, $p = 0) {
+    public function get_personas($limite = 10, $p = 0) {
 
         $data = [];
         $total = 0;
         $limite = 10;
         $data = new stdClass();
         try {
-            $result = $this->cm->getAll($limite, $p);
+            $result = $this->pm->getAll($limite, $p);
 
             $total = $result->total;
             $data->data = $result->data;
@@ -49,15 +49,19 @@ class Persona extends CI_Controller {
 
     public function get_personaById($idPersona) {
 
-
-
         try {
-            $result = $this->cm->obtener($idPersona);
-            $data = $result;
+            $result = $this->pm->obtener($idPersona);
+              $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
         } catch (Exception $e) {
-            var_dump($e);
+               $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
         }
-        echo json_encode($data);
+        echo json_encode($respuesta);
     }
 
     public function updPersona() {
@@ -80,26 +84,60 @@ class Persona extends CI_Controller {
             if (empty($id)) {
 
 
-                $this->cm->registrar($data);
+                $response = $this->pm->registrar($data);
+                  $respuesta = [
+                    'estado' => true,
+                    'response' => $response->result
+                ];
             } else {
 
-               $a= $this->cm->actualizar($data, $id);
+               $response = $this->pm->actualizar($data, $id);
+               
+               $respuesta = [
+                    'estado' => true,
+                    'response' => $id
+                ];
             }
              
         } catch (Exception $e) {
             if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
                 $errors = RestApi::getEntityValidationFieldsError();
+                 $respuesta = [
+                    'estado' => false,
+                    'validator' => true,
+                    'response' => $errors
+                ];
+                
+            }
+             else {
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => false,
+                    'response' => $e->getMessage()
+                ];
             }
         }
 
-        echo json_encode($errors);
+        echo json_encode($respuesta);
     }
 
-    public function guardar() {
+    public function eliminar($idPersona) {
         
-    }
+          try {
+            $result = $this->pm->eliminar($idPersona);
+            $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
+        } catch (Exception $e) {
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
+        }
+//           
 
-    public function eliminar($id) {
+        echo json_encode($respuesta);
         
     }
 

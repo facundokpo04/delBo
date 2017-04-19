@@ -96,6 +96,73 @@ class SucursalModel extends CI_Model{
             "parametros/eliminar/$idSucursal"
         );
     }
+    // 
+       public function getDatoC($idSucursal){
+        return RestApi::call(
+            RestApiMethod::GET,
+            "datocontacto/obtenersuc/$idSucursal"
+        );
+        
+    }
+      public function registrarDatoC($data){
+          return RestApi::call(
+            RestApiMethod::POST,
+            'datocontacto/insertar',
+            $data
+        );
+              
+    } 
+       public function actualizarDatoC($data, $id){
+        return RestApi::call(
+            RestApiMethod::PUT,
+            "datocontacto/actualizar/$id",$data
+        );
+    }
+    
+     public function eliminarDatoC($id){
+        return RestApi::call(
+            RestApiMethod::DELETE,
+            "datocontacto/eliminar/$id"
+        );
+    }
+    
+        
+    
+     public function registrarTel($data){
+          return RestApi::call(
+            RestApiMethod::POST,
+            'datocontacto/insertartel',
+            $data
+        );
+              
+    } 
+       public function actualizarTel($data, $id){
+        return RestApi::call(
+            RestApiMethod::PUT,
+            "datocontacto/actualizartel/$id",$data
+        );
+    }
+    
+     public function eliminarTel($id){
+        return RestApi::call(
+            RestApiMethod::DELETE,
+            "datocontacto/eliminartel/$id"
+        );
+    }
+    
+      public function getAllTel($idSucursal){
+        return RestApi::call(
+            RestApiMethod::GET,
+            "datocontacto/listartelsuc/$idSucursal"
+        );
+    }
+    
+     public function obtenerTel($idtel){
+        return RestApi::call(
+            RestApiMethod::GET,
+            "datocontacto/obtenertel/$idtel"
+        );
+    }
 }
 /* 
  * To change this license header, choose License Headers in Project Properties.

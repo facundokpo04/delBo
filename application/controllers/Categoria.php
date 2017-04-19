@@ -31,14 +31,12 @@ class Categoria extends CI_Controller {
         $this->load->view('layout/footer');
     }
 
-    public function get_categorias($limite = 5, $p = 0) {
+    public function get_categorias() {
 
         $data = [];
-        $total = 0;
-        $limite = 10;
         $data = new stdClass();
         try {
-            $result = $this->cm->getAll($limite, $p);
+            $result = $this->cm->getAll();
             $total = $result->total;
             $data->data = $result->data;
         } catch (Exception $e) {
@@ -162,4 +160,22 @@ class Categoria extends CI_Controller {
         }
     }
 
+    public function eliminar($idCategoria){
+              try {
+            $result = $this->cm->eliminar($idCategoria);
+             $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
+        } catch (Exception $e) {
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
+        }
+//           
+
+        echo json_encode($respuesta);
+    }
+    
 }

@@ -8,7 +8,7 @@ $('#tblCategorias').DataTable({
     'filter': true,
     'stateSave': true,
     'ajax': {
-        "url": baseurl + "index.php/categoria/get_categorias/",
+        "url": baseurl + "index.php/categoria/get_categorias",
         "type": "POST",
         "dataType": 'json',
         "data": {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
@@ -32,7 +32,7 @@ $('#tblCategorias').DataTable({
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
                         '    <li><a href="#" title="Editar informacion" data-toggle="modal" data-target="#modalEditCategoria" onClick="selCategoria(\'' + row.cat_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i> Editar</a></li>' +
                         '    <li><a href="#"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver</a></li>' +
-                        '    <li><a href="#" title="Eliminar Categoria" onClick=""><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
+                        '    <li><a href="#" title="Eliminar Categoria" onClick="eliminarCategoria(\'' + row.cat_id + '\');"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
@@ -90,12 +90,13 @@ selCategoria = function (idCategorias) {
                 $('#imagen').attr('src', './assets/imagenes/categoria/' + res.response.cat_imagen);
                 $('#mIdCategoria').val(res.response.cat_id);
             } else {
+                sweetAlert("Oops...", res.response, "error");
                 console.log(res.response);
-
             }
         },
         error: function (request, status, error) {
-            console.log(error.message);
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error);
         }
     });
 
@@ -108,7 +109,7 @@ function guardarImagen() {
     // provide the form data
     // that would be sent to sever through ajax
     if (!("undefined" === typeof fileToUpload)) {
-        
+
         var formData = new FormData();
         formData.append('cat_imagen', fileToUpload);
         formData.append('cat_id', $('#mIdCategoria').val());
@@ -127,19 +128,77 @@ function guardarImagen() {
                     $('#imagen').attr('src', './assets/imagenes/categoria/' + res.response.cat_imagen);
                 } else {
                     console.log(res.response);
-                    window.alert(res.response);
+                    sweetAlert("Oops...", res.response, "error");
 
                 }
             },
             error: function (request, status, error) {
+                sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
                 console.log(error.message);
 
             }
         });
-    }else{
-          window.alert("Seleccione una Imagen");
+    } else {
+        sweetAlert("Oops...", "Seleccione un Imagen", "warning");
     }
 };
+
+function eliminarCategoria(idCategoria) {
+    swal({
+        title: "Esta seguro?",
+        text: "Se eliminar la Categoria",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Si, Eliminar!",
+        cancelButtonText: "No, Cancelar!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+            function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        type: "POST",
+                        url: baseurl + "index.php/categoria/eliminar/"+idCategoria,
+                        dataType: 'json',
+                        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+
+                        success: function (res) {
+
+
+                            if (res.estado) {
+
+                                swal({
+                                    title: "Eliminado",
+                                    text: "La Categoria se a eliminado!",
+                                    type: "success",
+                                },
+                                        function () {
+                                            location.reload();
+                                        });
+
+                            } else {
+                                sweetAlert("Ocurrio un Error", res.response, "error");
+
+                            }
+
+                        },
+                        error: function (request, status, error) {
+
+                            console.log(error);
+                            sweetAlert("Ocurrio un Error Inesperado", error, "error");
+
+                        }
+                    });
+                } else {
+                    swal("Cancelado", "La Categoria no fue Eliminada", "error");
+                }
+            });
+
+}
+
+
+
 $('#mbtnCerrarModal').click(function () {
 
     $('#mDescripcion').val('');
@@ -157,31 +216,38 @@ $('#mCerrarModal').click(function () {
     $('#mIdCategoria').val('');
 })
 
-$('#mbtnUpdCategoria').click(function () { 
-       $.ajax({
-            type: "POST",
-            url: baseurl + "index.php/categoria/updCategoria",
-            dataType: 'json',
-            data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
-                cat_nombre: $('#mNombre').val(),
-                cat_descripcion: $('#mDescripcion').val(),
-                cat_idEstado: $('#mEstado').val(),
-                cat_id: $('#mIdCategoria').val()
-            },
-            success: function (res) {
-                if (res.estado) {
-                    var a = 0;
-                    $('#mbtnCerrarModal').click();
-
-                    location.reload();
-                } else {
-                    console.log(res.response);
-                }
-            },
-            error: function (request, status, error) {
-                console.log(error.message);
+$('#mbtnUpdCategoria').click(function () {
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/categoria/updCategoria",
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+            cat_nombre: $('#mNombre').val(),
+            cat_descripcion: $('#mDescripcion').val(),
+            cat_idEstado: $('#mEstado').val(),
+            cat_id: $('#mIdCategoria').val()
+        },
+        success: function (res) {
+            if (res.estado) {
+                swal({
+                    title: "Los Datos Fueron Guardados!",
+                    text: "haga click!",
+                    type: "success",
+                },
+                        function () {
+                            $('#mbtnCerrarModal').click();
+                            location.reload();
+                        });
+            } else {
+                sweetAlert("Oops...", JSON.stringify(res.response), "error");
+                console.log(res.response);
             }
-        });  
+        },
+        error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error);
+        }
+    });
 });
 
 
@@ -192,3 +258,4 @@ $('#btnGuardarImg').click(function () {
 
     guardarImagen();
 })
+         

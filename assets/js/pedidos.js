@@ -1,4 +1,11 @@
 
+$('#txtFechaPedido').datepicker({
+    autoclose: true,
+    format: 'yyyy-mm-dd'
+}).datepicker("setDate", new Date());
+;
+
+
 function VerForm() {
     $("#pedido").show();// Mostramos el formulario
     $("#pedidos").hide();
@@ -12,6 +19,7 @@ function OcultarForm() {
 
 
 OcultarForm();
+
 
 $('#tblPedidos').DataTable({
     "lengthMenu": [[6, 10, 15, -1], [5, 10, 15, "Todo"]],
@@ -32,6 +40,7 @@ $('#tblPedidos').DataTable({
         {data: 'pe_cli_tel'},
         {data: 'dir_direccion'},
         {data: 'dir_telefonoFijo'},
+        {data: 'pe_idEmpleado'},
         {"orderable": true,
             render: function (data, type, row) {
 
@@ -42,8 +51,10 @@ $('#tblPedidos').DataTable({
                         '  <span class="caret"></span>' +
                         '  </button>' +
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
-                        '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#" onClick="selPedido(\'' + row.pe_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i>Estado</a></li>' +
-                        '    <li><a href="#" onClick="selPedido(\'' + row.pe_id + '\')><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver Pedido</a></li>' +
+                        '    <li><a href="#" onClick="cambiarAPreparado(\'' + row.pe_id + '\');"><i style="color:#555;" class="fa fa-fw fa-cutlery"></i>Preparando Pedido</a></li>' +
+                        '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalEnviarPedido" onClick="selPedidoEnviar(\'' + row.pe_id + '\');"><i style="color:#555;" class="fa fa-fw fa-motorcycle"></i>Enviando Pedido</a></li>' +
+                        '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalCancelarPedido" onClick="selPedidoCancelar(\'' + row.pe_id + '\',\'' + row.pe_idEstado + '\');"><i style="color:#555;" class="fa fa-fw fa-close"></i>Cancelar Pedido</a></li>' +
+                        '    <li><a href="#" onClick="selPedido(\'' + row.pe_id + '\',\'' + row.pe_idEmpleado + '\');"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver Pedido</a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
@@ -64,7 +75,11 @@ $('#tblPedidos').DataTable({
                 if (data == 1) {
                     return "<span class='label label-warning'>Pendiente</span>";
                 } else if (data == 2) {
-                    return "<span class='label label-succes'>Enviado</span>";
+                    return "<span class='label label-info'>Preparando</span>";
+                } else if (data == 3) {
+                    return "<span class='label label-success'>Enviando</span>";
+                } else if (data == 4) {
+                    return "<span class='label label-danger'>Cancelado</span>";
                 }
 
             }
@@ -82,6 +97,116 @@ $('#tblPedidos').DataTable({
     "order": [[0, "asc"]],
 });
 
+var tablaP = $('#tblPedidos').DataTable();
+tablaP.search('').columns().search('').draw();
+
+cambiarAPreparado = function (idPedido) {
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/pedido/updPedido/",
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+            pe_id: idPedido,
+            pe_idEstado: 2
+        },
+        success: function (res) {
+            if (res.estado) {
+                swal({
+                    title: "El Pedido cambio a Preparando!",
+                    text: "haga click!",
+                    type: "success",
+                },
+                        function () {
+                            location.reload();
+                        });
+
+            } else {
+                sweetAlert("Oops...", "Error al cambiar el Estado del Pedido!", "error");
+                console.log(res.response)
+            }
+        },
+        error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error.message);
+
+        }
+    });
+
+
+};
+cambiarAEnviado = function (idPedido, idEmpleado) {
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/pedido/updPedido/",
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+            pe_id: idPedido,
+            pe_idEstado: 3,
+            pe_idEmpleado: idEmpleado
+
+        },
+        success: function (res) {
+            if (res.estado) {
+                swal({
+                    title: "El Pedido cambio a Enviando!",
+                    text: "haga click!",
+                    type: "success",
+                },
+                        function () {
+                            location.reload();
+                        });
+
+            } else {
+                sweetAlert("Oops...", "Error al cambiar el Estado del Pedido!", "error");
+                console.log(res.response)
+            }
+        },
+        error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error.message);
+
+        }
+    });
+
+};
+
+cancelarPedido = function (idPedido, motivo) {
+
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/pedido/updPedido/",
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+            pe_id: idPedido,
+            pe_idEstado: 4,
+            pe_motivoCancelado: motivo
+
+        },
+        success: function (res) {
+            if (res.estado) {
+                swal({
+                    title: "El Pedido cambio a Cancelado!",
+                    text: "haga click!",
+                    type: "success",
+                },
+                        function () {
+                            location.reload();
+                        });
+
+            } else {
+                sweetAlert("Oops...", "Error al cambiar el Estado del Pedido!", "error");
+                console.log(res.response)
+            }
+        },
+        error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error.message);
+
+        }
+    });
+
+};
+
 getCliente = function (idpedido) {
     $('#cliente').empty();
     $.ajax({
@@ -90,31 +215,65 @@ getCliente = function (idpedido) {
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
+            if (res.estado) {
+                $('#cliente').append('<strong>' + res.response.per_nombre + '</strong><br>Direccion: ' +
+                        res.response.dir_direccion +
+                        '<br>Telefono: ' +
+                        res.response.per_celular +
+                        '<br>' +
+                        'Email: ' +
+                        res.response.per_email);
 
-            $('#cliente').append('<strong>' + res.per_nombre + '</strong><br>Direccion: ' +
-                    res.dir_direccion +
-                    '<br>Telefono: ' +
-                    res.per_celular +
-                    '<br>' +
-                    'Email: ' +
-                    res.per_email);
+                $('#cliente2').append('<strong>' + res.response.per_nombre + '</strong><br>Direccion: ' +
+                        res.response.dir_direccion +
+                        '<br>Telefono: ' +
+                        res.response.per_celular);
+            } else {
+                sweetAlert("Oops...", "Error al Obtner el Cliente!", "error");
+                console.log(res.response)
+            }
 
         },
         error: function (request, status, error) {
             console.log(error.message);
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+
+        }
+    });
+
+}
+
+getEmpleado = function (idEmpleado) {
+    $('#empleadoP').empty();
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/empleado/get_empleadoById/" + idEmpleado,
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
+            if (res.estado) {
+                $('#empleadoP').append('Empleado:<br>' +
+                        '<b>Empleado ID :</b>' + res.response.emp_id + '<br>' +
+                        '<b>Nombre : </b>' + res.response.per_nombre + '<br>' +
+                        '<b>Legajo: </b>' + res.response.emp_legajo + '<br>' +
+                        '<b>Cargo: </b>' + res.response.emp_cargo
+                        );
+
+            } else {
+                sweetAlert("Oops...", "Error al Obtner el Empleado!", "error");
+                console.log(res.response)
+            }
+
+        },
+        error: function (request, status, error) {
+            console.log(error.message);
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
 
         }
     });
 
 }
 getPedido = function (idpedido) {
-
-//        <b>Pedido #007612</b><br>
-//        <br>
-//        <b>Pedido ID:</b> 4F3S8J<br>
-//        <b>Fecha Pedido:</b> 2/22/2014<br>
-//        <b>Estado:</b> Pendiente<br>
-//        <b>Metodo Pago:</b> Efectivo
     $('#pedidoE').empty();
     $.ajax({
         type: "POST",
@@ -122,20 +281,50 @@ getPedido = function (idpedido) {
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
-            $('#pedidoE').append(' <b>Pedido #PED' + res.pe_id + '</b><br>' +
-                    '<b>Pedido ID:</b>' + res.pe_id + '<br>' +
-                    '<b>Fecha Pedido:</b> 2/22/2014<br>' +
-                    '<b>Estado:</b>' + res.descripcion + '<br>' +
-                    '<b>Metodo Pago:</b>' + res.pe_medioPago);
+            if (res.estado) {
+                $('#pedidoE').append(' <b>Pedido #PED' + res.response.pe_id + '</b><br>' +
+                        '<b>Pedido ID:</b>' + res.response.pe_id + '<br>' +
+                        '<b>Fecha Pedido:</b>' + getFecha(res.response.pe_fechaPedido) + '<br>' +
+                        '<b>Hora Pedido:</b>' + getHora(res.response.pe_fechaPedido) + '<br>' +
+                        '<b>Estado:</b>' + res.response.descripcion + '<br>' +
+                        '<b>Metodo Pago:</b>' + res.response.pe_medioPago);
 
+                $('#fechaP').text("Fecha Pedido: " + getFecha(res.response.pe_fechaPedido));
+                $('#aclaracionP').text(res.response.pe_aclaraciones);
+            } else {
+                sweetAlert("Oops...", "Error al Obtener el Encabezado del Pedido!", "error");
+                console.log(res.response)
+            }
         },
         error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
             console.log(error.message);
 
         }
     });
 
 }
+cargarEmpleados = function () {
+    $("#mRepartidor option").remove();
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/empleado/get_empleados/1",
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
+            $.each(res.data, function (key, data) {
+                ;
+                $("#mRepartidor").append("<option value=" + data.emp_id + ">" + data.per_nombre + '-' + data.emp_cargo + "</option>");
+            });
+        },
+        error: function (request, status, error) {
+            console.log(error.message);
+
+        }
+
+    });
+}
+
 cargarDetalle = function (idPedido) {
 
     $('#tbProductos tbody').empty()
@@ -146,51 +335,58 @@ cargarDetalle = function (idPedido) {
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
 
-            res.forEach(function (item) {
-
-                $('#tbProductos tbody').append('<tr>' +
-                        ' <td>' +
-                        item.producto.dp_Cantidad +
-                        ' </td>' +
-                        ' <td>' +
-                        item.producto.prod_codigoProducto +
-                        ' </td>' +
-                        ' <td>' +
-                        item.producto.prod_nombre +
-                        ' -Grande </td>' +
-                        ' <td>' +
-                        'Sin aceitunas' +
-                        ' </td>' +
-                        ' <td>' + '$&nbsp;' +
-                        item.producto.dp_PrecioUnitario +
-                        '</tr>'
-                        );
-                item.componentes.forEach(function (comp) {
+            if (res.estado) {
+                res.response.forEach(function (item) {
 
                     $('#tbProductos tbody').append('<tr>' +
                             ' <td>' +
-                            1 +
+                            item.producto.dp_Cantidad +
                             ' </td>' +
                             ' <td>' +
+                            item.producto.prod_codigoProducto +
                             ' </td>' +
+                            ' <td><strong>' +
+                            item.producto.prod_nombre +'-'+item.producto.var_nombre+
+                            '</td><strong>' +
                             ' <td>' +
-                            comp.com_nombre +
-                            ' </td>' +
-                            ' <td>' +
-                            '' +
+                             item.producto.pp_aclaracion +
                             ' </td>' +
                             ' <td>' + '$&nbsp;' +
-                            comp.com_precio +
+                            item.producto.dp_PrecioUnitario +
                             '</tr>'
                             );
+                    item.componentes.forEach(function (comp) {
+
+                        $('#tbProductos tbody').append('<tr>' +
+                                ' <td>' +
+                                1 +
+                                ' </td>' +
+                                ' <td>' +
+                                ' </td>' +
+                                ' <td>' +
+                                comp.com_nombre +
+                                ' </td>' +
+                                ' <td>' +
+                                '' +
+                                ' </td>' +
+                                ' <td>' + '$&nbsp;' +
+                                comp.com_precio +
+                                '</tr>'
+                                );
+
+                    });
 
                 });
+            } else {
+                sweetAlert("Oops...", "Error al Obtener el Detalle del Pedido!", "error");
+                console.log(error.message);
 
-            });
+            }
 
         },
         error: function (request, status, error) {
             console.log(error.message);
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
 
         }
 
@@ -199,13 +395,212 @@ cargarDetalle = function (idPedido) {
 
 
     });
+
 }
 
-selPedido = function (idpedido) {
-    VerForm();
+cargarDetallePromo = function (idPedido) {
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/pedido/get_detallePromoById/" + idPedido,
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
 
+            if (res.estado) {
+                debugger;
+                
+             if( res.response instanceof Array)
+                  res.response.forEach(function (item) {
+
+                    $('#tbProductos tbody').append('<tr>' +
+                            ' <td>' +
+                            item.promo.ppro_cantidad +
+                            ' </td>' +
+                            ' <td>' +
+                            '-' +
+                            ' </td>' +
+                            ' <td><strong>' +
+                            item.promo.ppro_nombre +
+                            '</strong></td>' +
+                            ' <td>' +
+                            item.promo.ppro_aclaracion+
+                            ' </td>' +
+                            ' <td>' + '$&nbsp;' +
+                            item.promo.ppro_total +
+                            '</tr>'
+                            );
+                    item.productos.forEach(function (prod) {
+                        
+                        $('#tbProductos tbody').append('<tr>' +
+                                ' <td>' +
+                                '-' +
+                                ' </td>' +
+                                ' <td>' +
+                                '' +
+                                ' </td>' +
+                                ' <td>' +
+                                prod.prod_nombre + '-' + prod.var_nombre +
+                                '</td>' +
+                                ' <td>' +
+                                prod.pp_aclaracion +
+                                ' </td>' +
+                                ' <td>' + '-' +
+                                '</tr>'
+                                );
+
+                    });
+
+                });
+            
+
+
+
+               
+            } else {
+                sweetAlert("Oops...", "Error al Obtener el Detalle del Pedido!", "error");
+                console.log(error.message);
+
+            }
+
+        },
+        error: function (request, status, error) {
+            console.log(error.message);
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+
+        }
+
+
+
+
+
+    });
+
+}
+fechaActual = function () {
+    n = new Date();
+    y = n.getFullYear();
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    return(d + "/" + m + "/" + y);
+
+}
+
+getFecha = function (fecha) {
+    n = new Date(fecha);
+    y = n.getFullYear();
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    return(d + "/" + m + "/" + y);
+
+}
+
+getFechafiltro = function (fecha) {
+    n = new Date(fecha);
+    y = n.getFullYear();
+    m = n.getMonth() + 1;
+    d = n.getDate();
+    return(y + "-" + m + "-" + d);
+
+}
+getHora = function (fecha) {
+    n = new Date(fecha);
+    h = n.getHours();
+    m = n.getMinutes();
+
+    return(h + ":" + m);
+
+}
+selPedido = function (idpedido, idempleado) {
+    VerForm();
     getCliente(idpedido);
     getPedido(idpedido);
+    getEmpleado(idempleado);
     cargarDetalle(idpedido);
+    cargarDetallePromo(idpedido);
+    $('#date').text(fechaActual());
 
 };
+selPedidoEnviar = function (idpedido) {
+
+
+    cargarEmpleados();
+    $('#midPedido').val(idpedido);
+    debugger;
+
+
+};
+
+selPedidoCancelar = function (idpedido, idEstado) {
+
+    $('#midcPedido').val(idpedido);
+    $('#midEPedido').val(idEstado);
+    $('#mMotivo').val('');
+};
+
+$('#mbtnEnviarPedido').click(function () {
+
+    var idPedido = $('#midPedido').val();
+    var idEmpleado = $('#mRepartidor').val();
+    cambiarAEnviado(idPedido, idEmpleado);
+
+
+
+
+
+})
+
+$('#mbtnCancelarPedido').click(function () {
+
+    var idPedido = $('#midcPedido').val();
+    var motivo = $('#mMotivo').val();
+    var estadoPedido = $('#midEPedido').val();
+
+    swal({
+        title: "Esta seguro?",
+        text: "Se Cancelara el Pedido",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Si, Cancelar !",
+        cancelButtonText: "No, Volver!",
+        closeOnConfirm: false,
+        closeOnCancel: false
+    },
+            function (isConfirm) {
+                debugger;
+                if (isConfirm) {
+
+                    if (estadoPedido == 2 || estadoPedido == 3) {
+                        swal("Atencion", "No se puede cancelar un pedido que esta siendo Enviado/Preparado", "error");
+
+                    } else {
+                        cancelarPedido(idPedido, motivo);
+                    }
+                } else {
+                    swal("Cancelado", "EL Pedido Fue Cancelado", "error");
+                }
+            });
+
+})
+
+$("#selEst").change(function () {
+    if ($('#selEst').val() != 0) {
+        tablaP.columns(1).search($('#selEst').val().trim());//hit search on server
+        tablaP.draw();
+    } else {
+
+        tablaP.search('').columns().search('').draw();
+    }
+})
+
+$("#txtFechaPedido").change(function () {
+    debugger;
+    var fecha = $('#txtFechaPedido').val();
+
+    if (fecha) {
+        debugger;
+        tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
+
+    }
+//   tablaP.ajax.url(baseurl + "index.php/producto/get_pedidosFecha/"+fecha).load();
+})

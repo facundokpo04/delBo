@@ -1,10 +1,10 @@
 <?php
 class CategoriaModel extends CI_Model{
     
-    public function getAll($l = 5, $p = 0){
+    public function getAll(){
         return RestApi::call(
             RestApiMethod::GET,
-            "categoria/listar/$l/$p"
+            "categoria/listar1"
         );
     }
 
@@ -32,7 +32,7 @@ class CategoriaModel extends CI_Model{
         );
     }
 
-     public function eliminar( $id){
+     public function eliminar($id){
         return RestApi::call(
             RestApiMethod::DELETE,
             "categoria/eliminar/$id"
