@@ -206,14 +206,19 @@ $('#mbtnCerrarModal').click(function () {
     $('#mEstado').val('1');//select
     //ajax para traer todos los estados
     $('#mIdCategoria').val('');
+      $('.nav-tabs a:first').tab('show') 
+      
 })
 $('#mCerrarModal').click(function () {
-
     $('#mDescripcion').val('');
     $('#mNombre').val('');
     $('#mEstado').val('1');//select
     //ajax para traer todos los estados
-    $('#mIdCategoria').val('');
+    $('#mIdCategoria').val('');  
+      $('.nav-tabs a:first').tab('show') 
+    
+    
+    
 })
 
 $('#mbtnUpdCategoria').click(function () {

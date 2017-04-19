@@ -75,13 +75,13 @@
                     <h4 class="modal-title">Agregar/ Eliminar Categor&iacute;a</h4>
                 </div>
                 <div class="modal-body">
-                    <div role="tabpanel">
+                    <div role="tabpanel" id="tabs">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#datostab" aria-controls="uploadTab" role="tab" data-toggle="tab">Datos</a>
+                        <li id="tab1" role="presentation" class="active"><a href="#datostab" aria-controls="uploadTab" role="tab" data-toggle="tab">Datos</a>
 
                         </li>
-                        <li role="presentation"><a href="#imagentab" aria-controls="browseTab" role="tab" data-toggle="tab">Imagen</a>
+                        <li id="tab1" role="presentation"><a href="#imagentab" aria-controls="browseTab" role="tab" data-toggle="tab">Imagen</a>
 
                         </li>
                     </ul>
@@ -128,7 +128,6 @@
                         <div role="tabpanel" class="tab-pane" id="imagentab">
                            <div class="media-body">
                                 <div class="panel panel-bluedark">
-
 
                                     <div class="col-lg-12 form-group">
                                         <label for="">Imagen Producto</label>

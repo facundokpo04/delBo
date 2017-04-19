@@ -264,6 +264,7 @@ $('#mCerrarModal,#mbtnCerrarModal').click(function () {
     $('#mIdPersona').val('');
     $('#mIdEmpleado').val('');
     $('#mLegajo').val('');
+      $('.nav-tabs a:first').tab('show') 
 
 
 })
