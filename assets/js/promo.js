@@ -196,7 +196,7 @@ function cargarDataPromo(idPromo) {// funcion que llamamos del archivo ajax/Cate
                 $('#txtDescuento').val(res.response.pro_descuento);
                 $('#txtFechaInicio').val(res.response.pro_FechaInicio);
                 $('#txtFechaFin').val(res.response.pro_FechaFin);
-                $('#imagen').attr('src', './assets/imagenes/promo/' + res.response.pro_imagen);
+                $('#imagen').attr('src', './assets/imagenes/promos/' + res.response.pro_imagen);
                 $('#idPromo').val(res.response.pro_id);
                 $('#PEstado').val(res.response.pro_idEstado);
             } else {
@@ -288,7 +288,7 @@ function guardarImagen() {
             contentType: false,
             success: function (res) {
 
-                $('#imagen').attr('src', './assets/imagenes/promo/' + res.pro_Imagen);
+                $('#imagen').attr('src', './assets/imagenes/promos/' + res.pro_Imagen);
 
             },
             error: function (request, status, error) {
