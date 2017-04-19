@@ -237,8 +237,7 @@ function actualizarPromo() {
             pro_idEstado: $('#PEstado').val(),
             pro_id: $('#idPromo').val()
         },
-        success: function (res) {
-            debugger;
+        success: function (res) {    
             if (res.estado) {                       
                 swal({
                     title: "La Promo Fue Modificada!",
@@ -287,8 +286,16 @@ function guardarImagen() {
             processData: false,
             contentType: false,
             success: function (res) {
+                 swal({
+                    title: "La Imagen Fue Modificada!",
+                    text: "haga click!",
+                    type: "success",                  
+                },
+                        function () {
+                               $('#imagen').attr('src', './assets/imagenes/promos/' + res.response.pro_Imagen);
+                        });
 
-                $('#imagen').attr('src', './assets/imagenes/promos/' + res.pro_Imagen);
+             
 
             },
             error: function (request, status, error) {
