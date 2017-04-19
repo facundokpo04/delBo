@@ -190,6 +190,7 @@
         <!-- /.row -->
         <div class="row no-print">
             <div class="col-xs-12">    
+                <button type="button" class="btn btn-default" onclick="location.reload()">Volver</button>
                 <a  href="javascript:imprSelec('pedidoD2')" target="_blank" class="btn btn-default"><i class="fa fa-print"></i>Imprimir</a>         
             </div>
         </div>

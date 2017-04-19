@@ -577,7 +577,8 @@ $('#mbtnCancelarPedido').click(function () {
                         cancelarPedido(idPedido, motivo);
                     }
                 } else {
-                    swal("Cancelado", "EL Pedido Fue Cancelado", "error");
+                    swal("Volver", "EL Pedido No Fue Cancelado", "error");
+                    location.reload();
                 }
             });
 
