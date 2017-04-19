@@ -292,7 +292,7 @@ function guardarImagen() {
                     type: "success",                  
                 },
                         function () {
-                               $('#imagen').attr('src', './assets/imagenes/promos/' + res.response.pro_Imagen);
+                               $('#imagen').attr('src', './assets/imagenes/promos/' + res.response.pro_imagen);
                         });
 
              
