@@ -287,7 +287,7 @@ function guardarImagen() {
             contentType: false,
             success: function (res) {
                  swal({
-                    title: "La Imagen fue Modificada!",
+                    title: "La Imagen Fue Modificada!",
                     text: "haga click!",
                     type: "success",                  
                 },
