@@ -20,7 +20,7 @@ class Empresa extends CI_Controller {
         //header
         $this->load->view('layout/header');
         $this->load->view('layout/menu');
-        $this->load->view('Empresa/index.php');
+        $this->load->view('empresa/index.php');
         $this->load->view('layout/footer');
     }
 
