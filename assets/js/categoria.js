@@ -145,7 +145,7 @@ function guardarImagen() {
 
                     swal({
                         title: "La Imagen Fue Subida con exito!",
-                        text: "No se olvide de Actualziar para Guardar los Cambios",
+                        text: "No se olvide de Actualizar para Guardar los Cambios",
                         type: "success",
                         showLoaderOnConfirm: true,
                     }, function () {
