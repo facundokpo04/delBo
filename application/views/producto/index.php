@@ -1,5 +1,4 @@
-
-<?php // var_dump($model);                               ?>
+<?php // var_dump($model);                                ?>
 <ol class="breadcrumb">
     <li class="active">Productos</li>
 </ol>
@@ -12,7 +11,7 @@
         <div class="btn-group"> 
             <button class="btn btn-primary" type="button" id="btnAgregarProd" >Agregar</button>
         </div>
-                   
+
     </div>
 </div>
 
@@ -22,15 +21,15 @@
     </div>
     <!-- /.panel-heading -->
     <div class="panel-body">
-       <div  class="col-sm-6 form-group">
-                    <label for="">Categoria</label>
-                    <div class="input-group col-sm-6" > 
-                        <select   name="Fcategoria" id="Fcategoria" class="form-control">                       
-                            <option value="">Todas</option>
-                        </select>
-                    </div>
-                </div>
-                   
+        <div  class="col-sm-6 form-group">
+            <label for="">Categoria</label>
+            <div class="input-group col-sm-6" > 
+                <select   name="Fcategoria" id="Fcategoria" class="form-control">                       
+                    <option value="">Todas</option>
+                </select>
+            </div>
+        </div>
+
     </div>
 </div>
 <div id="productos" class="row">
@@ -39,7 +38,7 @@
             <div class="box-header">
                 <h3 class="box-title">Productos</h3>
             </div>
-    <div class="box-body table-responsive no-padding">         <!-- /.box-header -->                                 
+            <div class="box-body table-responsive no-padding">         <!-- /.box-header -->                                 
                 <table  id="tbProductos" class="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -66,7 +65,7 @@
     </div>
 </div>
 
-<div id="producto" class="row" style="display:none;">   
+<div id="producto" class="row" >   
     <div class="col-lg-12">     
         <div class="panel panel-bluedark">
             <div class="panel-heading">Datos del Producto</div>
@@ -74,7 +73,8 @@
 
 
                 <input id="idProducto" name="idProducto" style="display:none;">
-
+                <input id="imgProducto" name="imgProducto" style="display:none;">
+                
                 <div class="col-sm-6 form-group">
                     <label for="">Nombre</label>
                     <div class="input-group">
@@ -150,33 +150,33 @@
                     </ul> 
                     <div class="tab-content" id="panelCont">
                         <div class="tab-pane active" id="tabVariedad">  
-                           
-                                <div class="media-body">
-                                    <div class="box-body table-responsive no-padding">
-                                        <table  id="tblVariedades" class="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Nombre</th>
-                                                    <th>Descripcion</th>
-                                                    <th>Precio</th>                                     
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
 
-                                            </tbody>
+                            <div class="media-body">
+                                <div class="box-body table-responsive no-padding">
+                                    <table  id="tblVariedades" class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Nombre</th>
+                                                <th>Descripcion</th>
+                                                <th>Precio</th>                                     
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        </table>
+                                        </tbody>
 
-                                    </div>
-                                    <!-- Botón para agregar filas -->
-                                    <button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#modalEditVariedad" id="agregarVar"  data-backdrop="static" data-keyboard="false"> Agregar Variedad</button>
+                                    </table>
+
+                                </div>
+                                <!-- Botón para agregar filas -->
+                                <button type="button" class="btn btn-warning"  data-toggle="modal" data-target="#modalEditVariedad" id="agregarVar"  data-backdrop="static" data-keyboard="false"> Agregar Variedad</button>
 <!--                                    <input type="button" class="btn btn-info" id="guardarVar" value="Guardar" />-->
 
 
-                                </div>
-                          
+                            </div>
+
                         </div>
                         <div class="tab-pane" id="tabComponentes">  
 

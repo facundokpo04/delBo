@@ -214,6 +214,7 @@ function cargarDataProducto(idProducto) {// funcion que llamamos del archivo aja
                 $('#txtMinCompo').val(res.response.prod_maxComponente); //select
                 $('#PEstado').val(res.response.prod_idEstado); //selec
                 $('#VEstado').val(res.response.prod_idEstadoVisible); //selec
+                 $('#imgProducto').val(res.response.prod_imagen);
                 $('#imagen').attr('src', './assets/imagenes/producto/' + res.response.prod_imagen);
                 $('#idProducto').val(res.response.prod_id);
                 $('#Pcategoria').val(res.response.prod_idCategoria);
@@ -552,6 +553,7 @@ function actualizarProducto() {
             prod_idEstado: $('#PEstado').val(),
             prod_idCategoria: $('#Pcategoria').val(),
             prod_idEstadoVisible: $('#VEstado').val(),
+            prod_imagen: $('#imgProducto').val(),
             prod_id: $('#idProducto').val()
 
 
@@ -597,7 +599,7 @@ function guardarImagen() {
     if (!("undefined" === typeof fileToUpload)) {
         var formData = new FormData();
         formData.append('prod_imagen', fileToUpload);
-        formData.append('prod_id', $('#idProducto').val());
+
         // now upload the file using $.ajax
         $.ajax({
             url: baseurl + "index.php/producto/updImagen",
@@ -610,7 +612,18 @@ function guardarImagen() {
 
                 if (res.estado) {
 
-                    $('#imagen').attr('src', './assets/imagenes/producto/' + res.response.prod_Imagen);
+                    swal({
+                        title: "La Imagen Fue Subida con exito!",
+                        text: "haga click en actualizar para guardar!",
+                        type: "success",
+                        showLoaderOnConfirm: true,
+                    }, function () {
+                        debugger
+
+                        $('#imagen').attr('src', './assets/imagenes/producto/' + res.response);
+                        $('#imgProducto').val(res.response);
+                    });
+
                 } else {
                     console.log(res.response);
                     sweetAlert("Oops...", JSON.stringify(res.response), "error");
@@ -712,4 +725,5 @@ $('#mbtnCerrarModalVar,#mCerrarModalVar').click(function () {
     //ajax para traer todos los estados
     $('#mvTipo').val('');
     $('#mvPrecio').val('');
+      $('#imgProducto').val('');
 })

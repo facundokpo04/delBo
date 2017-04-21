@@ -152,7 +152,7 @@ class Producto extends CI_Controller {
         echo json_encode($respuesta);
     }
 
-    public function updImagen() {
+     public function updImagen() {
         $id = $this->input->post('prod_id');
         $config = [
             "upload_path" => "./assets/imagenes/producto",
@@ -165,30 +165,14 @@ class Producto extends CI_Controller {
         if ($this->upload->do_upload('prod_imagen')) {
             $archivo = array("upload_data" => $this->upload->data());
             $imagen = $archivo['upload_data']['file_name'];
-            $data = [
-                'prod_Imagen' => $imagen
-            ];
-            try {
-                $this->pm->actualizar($data, $id);
-
-                echo json_encode(
+            
+            echo json_encode(
                         [
                             'estado' => true,
-                            'response' => $data
-                        ]
-                );
-            } catch (Exception $e) {
-                if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
-                    $errors = RestApi::getEntityValidationFieldsError();
-
-                    echo json_encode(
-                            [
-                                'estado' => false,
-                                'response' => $errors
-                            ]
-                    );
-                }
-            }
+                            'response' => $imagen
+                        ]);
+            
+            
         } else {
             echo json_encode(
                     [
@@ -199,6 +183,7 @@ class Producto extends CI_Controller {
             //$imagen = $this->cm->obtener($id)->cat_imagen;
         }
     }
+
 
     public function updVariedad() {
 //         $errors = array();
@@ -298,6 +283,7 @@ class Producto extends CI_Controller {
             'prod_idEstado' => $this->input->post('prod_idEstado'),
             'prod_idCategoria' => $this->input->post('prod_idCategoria'),
             'prod_idEstadoVisible' => $this->input->post('prod_idEstadoVisible'),
+            'prod_imagen' => $this->input->post('prod_imagen'),
             'prod_idSucursal' => '4'
         ];
 
