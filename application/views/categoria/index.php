@@ -31,6 +31,7 @@
                             <th>Nombre</th>
                             <th>Descripcion</th>
                             <th>Estado</th>
+                            <th>Visible Menu</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -75,13 +76,13 @@
                     <h4 class="modal-title">Agregar/ Eliminar Categor&iacute;a</h4>
                 </div>
                 <div class="modal-body">
-                    <div role="tabpanel" id="tabs">
+                    <div role="tabpanel">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li id="tab1" role="presentation" class="active"><a href="#datostab" aria-controls="uploadTab" role="tab" data-toggle="tab">Datos</a>
+                        <li role="presentation" class="active"><a href="#datostab" aria-controls="uploadTab" role="tab" data-toggle="tab">Datos</a>
 
                         </li>
-                        <li id="tab1" role="presentation"><a href="#imagentab" aria-controls="browseTab" role="tab" data-toggle="tab">Imagen</a>
+                        <li role="presentation"><a href="#imagentab" aria-controls="browseTab" role="tab" data-toggle="tab">Imagen</a>
 
                         </li>
                     </ul>
@@ -91,6 +92,7 @@
                             <form class="form-horizontal">
                         <!-- parametros ocultos -->
                         <input type="hidden" id="mIdCategoria">
+                         <input type="hidden" id="imgCategoria">
 
                         <div class="box-body">
                             <div class="form-group">
@@ -120,6 +122,15 @@
                                         <option value="2">Deshabilitado</option>
                                     </select>
                                 </div>
+                            </div>                           
+                               <div class="form-group">
+                                <label class="col-sm-3 control-label">Visible Menu</label>
+                                <div class="col-sm-9"> 
+                                    <select name="mEstadoVisible" id="mEstadoVisible" class="form-control">                       
+                                        <option value="1">Habilitado</option>
+                                        <option value="2" selected>Deshabilitado</option>
+                                    </select>
+                                </div>
                             </div>
                           
                         </div>
@@ -128,6 +139,7 @@
                         <div role="tabpanel" class="tab-pane" id="imagentab">
                            <div class="media-body">
                                 <div class="panel panel-bluedark">
+
 
                                     <div class="col-lg-12 form-group">
                                         <label for="">Imagen Producto</label>
