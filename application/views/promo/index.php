@@ -177,7 +177,7 @@
                                     </div>
                                 </div>    
                                 <!-- Botón para agregar filas -->
-                                <input type="button" class="btn btn-info" id="btnGuardarImg" value="Guardar" />
+                                <input type="button" class="btn btn-info" id="btnGuardarImg" value="Subir Imagen" />
 
 
                             </div>
