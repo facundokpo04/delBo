@@ -73,9 +73,6 @@ class Promo extends CI_Controller {
 
     public function updImagen() {
 
-
-        $id = $this->input->post('pro_id');
-
         $config = [
             "upload_path" => "./assets/imagenes/promos",
             "allowed_types" => "png|jpg"
@@ -87,30 +84,14 @@ class Promo extends CI_Controller {
         if ($this->upload->do_upload('pro_imagen')) {
             $archivo = array("upload_data" => $this->upload->data());
             $imagen = $archivo['upload_data']['file_name'];
-            $data = [
-                'pro_imagen' => $imagen
-            ];
-            try {
-                $this->pm->actualizar($data, $id);
-                echo json_encode(
-                        [
-                            'estado' => true,
-                            'response' => $data
-                        ]
-                );
-            } catch (Exception $e) {
-                if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
-                    $errors = RestApi::getEntityValidationFieldsError();
-                    echo json_encode(
-                            [
-                                'estado' => false,
-                                'response' => $errors
-                            ]
-                    );
-                }
-            }
+            echo json_encode(
+                    [
+                        'estado' => true,
+                        'response' => $imagen
+                    ]
+            );
         } else {
-           echo json_encode(
+            echo json_encode(
                     [
                         'estado' => false,
                         'response' => $this->upload->display_errors()
@@ -135,6 +116,7 @@ class Promo extends CI_Controller {
             'pro_precio' => $this->input->post('pro_precio'),
             'pro_descuento' => $this->input->post('pro_descuento'),
             'pro_idEstado' => $this->input->post('pro_idEstado'),
+            'pro_imagen' => $this->input->post('pro_imagen'),           
             'pro_FechaInicio' => $FI,
             'pro_FechaFin' => $FF
         ];
@@ -145,36 +127,36 @@ class Promo extends CI_Controller {
             if (empty($id)) {
                 $response = $this->pm->registrar($data);
                 $respuesta = [
-                            'estado' => true,
-                            'response' => $response
+                    'estado' => true,
+                    'response' => $response
                 ];
             } else {
                 $response = $this->pm->actualizar($data, $id);
-                 $respuesta = [
-                            'estado' => true,
-                            'response' => $response
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $response
                 ];
             }
         } catch (Exception $e) {
             if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
                 $errors = RestApi::getEntityValidationFieldsError();
-                  $respuesta = [
-                            'estado' => false,
-                            'validator' => true,
-                            'response' => $errors
-                ];
-            }
-             else {
                 $respuesta = [
-                            'estado' => false,
-                            'validator' => false,
-                            'response' => $e->getMessage()
+                    'estado' => false,
+                    'validator' => true,
+                    'response' => $errors
+                ];
+            } else {
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => false,
+                    'response' => $e->getMessage()
                 ];
             }
         }
-        
+
         echo json_encode($respuesta);
     }
+
 
     public function updProducto() {
         $errors = array();

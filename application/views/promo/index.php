@@ -57,6 +57,7 @@
             <div class="panel-heading">Datos de la Promo </div>
             <div class="panel-body" >
                 <input id="idPromo" name="idPromo" style="display:none;">
+                <input id="imgPromo" name="imgPromo" style="display:none;">
                 <div class="col-sm-6 form-group">
                     <label for="">Nombre</label>
                     <div class="input-group">

@@ -188,15 +188,15 @@ function cargarDataPromo(idPromo) {// funcion que llamamos del archivo ajax/Cate
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
             if (res.estado) {
+                debugger;
                 $('#txtNombre').val(res.response.pro_nombre);
-                $('#txtDescripcion').val(res.response.pro_descripcion);
-
-                //ajax para traer todos los estados
+                $('#txtDescripcion').val(res.response.pro_descripcion);              //ajax para traer todos los estados
                 $('#txtPrecio').val(res.response.pro_precio);
                 $('#txtDescuento').val(res.response.pro_descuento);
                 $('#txtFechaInicio').val(res.response.pro_FechaInicio);
                 $('#txtFechaFin').val(res.response.pro_FechaFin);
-                $('#imagen').attr('src', './assets/imagenes/promos/' + res.response.pro_imagen);
+                $('#imgPromo').val(res.response.pro_imagen);
+                $('#imagen').attr('src', './assets/imagenes/promo/' + res.response.pro_imagen);
                 $('#idPromo').val(res.response.pro_id);
                 $('#PEstado').val(res.response.pro_idEstado);
             } else {
@@ -235,17 +235,20 @@ function actualizarPromo() {
             pro_FechaInicio: $('#txtFechaInicio').val(),
             pro_FechaFin: $('#txtFechaFin').val(),
             pro_idEstado: $('#PEstado').val(),
+            pro_imagen: $('#imgPromo').val(),
             pro_id: $('#idPromo').val()
         },
-        success: function (res) {    
-            if (res.estado) {                       
+        success: function (res) {
+            debugger;
+            if (res.estado) {
+                debugger;
                 swal({
                     title: "La Promo Fue Modificada!",
                     text: "haga click!",
-                    type: "success",                  
+                    type: "success",
                 },
                         function () {
-                             location.reload();
+                            location.reload();
                         });
             } else {
                 sweetAlert("Oops...", res.response, "error");
@@ -266,16 +269,10 @@ function guardarImagen() {
     var inputFile = $('input#pImagen');
 
     var fileToUpload = inputFile[0].files[0];
-    // make sure there is file to upload
 
-    // provide the form data
-    // that would be sent to sever through ajax
-    if (fileToUpload != 'undefined') {
+    if (!("undefined" === typeof fileToUpload)) {
         var formData = new FormData();
         formData.append('pro_imagen', fileToUpload);
-        formData.append('pro_id', $('#idPromo').val());
-
-
 
         // now upload the file using $.ajax
         $.ajax({
@@ -286,17 +283,25 @@ function guardarImagen() {
             processData: false,
             contentType: false,
             success: function (res) {
-                 swal({
-                    title: "La Imagen Fue Modificada!",
-                    text: "haga click!",
-                    type: "success",                  
-                },
-                        function () {
-                               $('#imagen').attr('src', './assets/imagenes/promos/' + res.response.pro_imagen);
-                        });
 
-             
+                if (res.estado) {
+                    swal({
+                        title: "La Imagen Fue Subida con exito!",
+                        text: "Luego haga click en actualizar para guardar!",
+                        type: "success",
+                        showLoaderOnConfirm: true,
+                    }, function () {
+                        debugger;
 
+                        $('#imagen').attr('src', './assets/imagenes/promos/' + res.response);
+                        $('#imgPromo').val(res.response);
+                    });
+
+                } else {
+                    console.log(res.response);
+                    sweetAlert("Oops...", JSON.stringify(res.response), "error");
+
+                }
             },
             error: function (request, status, error) {
                 console.log(error.message);

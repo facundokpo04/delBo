@@ -725,5 +725,4 @@ $('#mbtnCerrarModalVar,#mCerrarModalVar').click(function () {
     //ajax para traer todos los estados
     $('#mvTipo').val('');
     $('#mvPrecio').val('');
-      $('#imgProducto').val('');
 })
