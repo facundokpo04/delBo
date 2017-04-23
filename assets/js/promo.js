@@ -196,7 +196,7 @@ function cargarDataPromo(idPromo) {// funcion que llamamos del archivo ajax/Cate
                 $('#txtFechaInicio').val(res.response.pro_FechaInicio);
                 $('#txtFechaFin').val(res.response.pro_FechaFin);
                 $('#imgPromo').val(res.response.pro_imagen);
-                $('#imagen').attr('src', './assets/imagenes/promo/' + res.response.pro_imagen);
+                $('#imagen').attr('src', './assets/imagenes/promos/' + res.response.pro_imagen);
                 $('#idPromo').val(res.response.pro_id);
                 $('#PEstado').val(res.response.pro_idEstado);
             } else {
