@@ -77,7 +77,7 @@
                 <!-- /.box-body -->
                 <div class="box-footer clearfix">
 
-                    <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">View All Orders</a>
+                    <a onclick="fechaHoy()" class="btn btn-sm btn-default btn-flat pull-right">Pedidos de Hoy</a>
                 </div>
                 <!-- /.box-footer -->
             </div>

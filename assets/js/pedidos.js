@@ -16,9 +16,10 @@ function OcultarForm() {
     $("#pedido").hide();// Mostramos el formulario
     $("#pedidos").show();
 }
-function fechaHoy() {
+function fechaHoy(){
     debugger;
-    var fecha = $('#txtFechaPedido').val();
+     dp.datepicker("setDate", new Date());
+     var fecha = $('#txtFechaPedido').val();
 
     if (fecha) {
         debugger;
