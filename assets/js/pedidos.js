@@ -16,7 +16,16 @@ function OcultarForm() {
     $("#pedido").hide();// Mostramos el formulario
     $("#pedidos").show();
 }
+function fechaHoy() {
+    debugger;
+    var fecha = $('#txtFechaPedido').val();
 
+    if (fecha) {
+        debugger;
+        tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
+
+    }
+}
 
 OcultarForm();
 
@@ -98,6 +107,7 @@ $('#tblPedidos').DataTable({
 });
 
 var tablaP = $('#tblPedidos').DataTable();
+fechaHoy();
 tablaP.search('').columns().search('').draw();
 
 cambiarAPreparado = function (idPedido) {
@@ -346,10 +356,10 @@ cargarDetalle = function (idPedido) {
                             item.producto.prod_codigoProducto +
                             ' </td>' +
                             ' <td><strong>' +
-                            item.producto.prod_nombre +'-'+item.producto.var_nombre+
+                            item.producto.prod_nombre + '-' + item.producto.var_nombre +
                             '</td><strong>' +
                             ' <td>' +
-                             item.producto.pp_aclaracion +
+                            item.producto.pp_aclaracion +
                             ' </td>' +
                             ' <td>' + '$&nbsp;' +
                             item.producto.dp_PrecioUnitario +
@@ -408,54 +418,54 @@ cargarDetallePromo = function (idPedido) {
 
             if (res.estado) {
                 debugger;
-                
-             if( res.response instanceof Array)
-                  res.response.forEach(function (item) {
 
-                    $('#tbProductos tbody').append('<tr>' +
-                            ' <td>' +
-                            item.promo.ppro_cantidad +
-                            ' </td>' +
-                            ' <td>' +
-                            '-' +
-                            ' </td>' +
-                            ' <td><strong>' +
-                            item.promo.ppro_nombre +
-                            '</strong></td>' +
-                            ' <td>' +
-                            item.promo.ppro_aclaracion+
-                            ' </td>' +
-                            ' <td>' + '$&nbsp;' +
-                            item.promo.ppro_total +
-                            '</tr>'
-                            );
-                    item.productos.forEach(function (prod) {
-                        
+                if (res.response instanceof Array)
+                    res.response.forEach(function (item) {
+
                         $('#tbProductos tbody').append('<tr>' +
+                                ' <td>' +
+                                item.promo.ppro_cantidad +
+                                ' </td>' +
                                 ' <td>' +
                                 '-' +
                                 ' </td>' +
+                                ' <td><strong>' +
+                                item.promo.ppro_nombre +
+                                '</strong></td>' +
                                 ' <td>' +
-                                '' +
+                                item.promo.ppro_aclaracion +
                                 ' </td>' +
-                                ' <td>' +
-                                prod.prod_nombre + '-' + prod.var_nombre +
-                                '</td>' +
-                                ' <td>' +
-                                prod.pp_aclaracion +
-                                ' </td>' +
-                                ' <td>' + '-' +
+                                ' <td>' + '$&nbsp;' +
+                                item.promo.ppro_total +
                                 '</tr>'
                                 );
+                        item.productos.forEach(function (prod) {
+
+                            $('#tbProductos tbody').append('<tr>' +
+                                    ' <td>' +
+                                    '-' +
+                                    ' </td>' +
+                                    ' <td>' +
+                                    '' +
+                                    ' </td>' +
+                                    ' <td>' +
+                                    prod.prod_nombre + '-' + prod.var_nombre +
+                                    '</td>' +
+                                    ' <td>' +
+                                    prod.pp_aclaracion +
+                                    ' </td>' +
+                                    ' <td>' + '-' +
+                                    '</tr>'
+                                    );
+
+                        });
 
                     });
 
-                });
-            
 
 
 
-               
+
             } else {
                 sweetAlert("Oops...", "Error al Obtener el Detalle del Pedido!", "error");
                 console.log(error.message);
