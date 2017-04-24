@@ -270,7 +270,7 @@
                 <img src="<?php echo base_url(); ?>assets/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image" id="emplimg2">
 
                 <p>
-                  Jorge Jara - Administrador 
+                  Facundo Dominguez - Administrador 
                   <small>Administrador del Sistema</small>
                 </p>
               </li>
