@@ -1,9 +1,8 @@
 
-$('#txtFechaPedido').datepicker({
+var dp = $('#txtFechaPedido').datepicker({
     autoclose: true,
     format: 'yyyy-mm-dd'
 }).datepicker("setDate", new Date());
-;
 
 
 function VerForm() {
