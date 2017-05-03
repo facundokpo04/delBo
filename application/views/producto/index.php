@@ -215,7 +215,7 @@
 
                                     <div class="col-lg-12 form-group">
                                         <label for="">Imagen Producto</label>
-                                        <span class="label label-primary">La imagen debe ser de 76 x 76</span>     
+                                        <span class="label label-primary">La imagen debe ser de 480 x 240</span>     
                                         <div class="input-group">
                                             <span class="input-group-addon cajaParametro"><i class="fa fa-picture-o fa-fw"></i> </span>
                                             <input class="form-control" type="file" name="pImagen" id="pImagen" tabindex="16">  
