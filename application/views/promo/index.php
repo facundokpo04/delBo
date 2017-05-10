@@ -143,10 +143,8 @@
                                     <!-- Botón para agregar filas -->
                                     <button type="button" class="btn btn-warning" id="agregarProd"  data-backdrop="static" data-keyboard="false"> Agregar Producto</button>
 <!--                                    <input type="button" class="btn btn-info" id="guardarVar" value="Guardar" />-->
-
-
                                 </div>
-                            </div>
+                            </div>                                                     
                         </div>
 
                         <div class="tab-pane" id="tabImagen">  
