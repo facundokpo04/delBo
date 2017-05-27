@@ -98,7 +98,7 @@ $('#tblPedidos').DataTable({
             "data": "pe_id",
             "orderData": [1, 0],
             "render": function (data, type, row) {
-                return '<a href="pedido/verDetalle/' + data + '">PED' + data + '</a>'
+                return '<a onClick="verPedidoModal(\'' + data + '\')>PED' + data + '</a>'
 
             }
         },
