@@ -168,14 +168,14 @@
                     <p id="fechaP" class="lead"></p>
 
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="tblTotal">
                             <tr>
                                 <th style="width:50%">Subtotal:</th>
                                 <td>$250.30</td>
                             </tr>        
                             <tr>
                                 <th>Envio:</th>
-                                <td>$5.80</td>
+                                <td>$0.0</td>
                             </tr>
                             <tr>
                                 <th>Total:</th>

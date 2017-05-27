@@ -15,10 +15,10 @@ function OcultarForm() {
     $("#pedido").hide();// Mostramos el formulario
     $("#pedidos").show();
 }
-function fechaHoy(){
+function fechaHoy() {
     debugger;
-     dp.datepicker("setDate", new Date());
-     var fecha = $('#txtFechaPedido').val();
+    dp.datepicker("setDate", new Date());
+    var fecha = $('#txtFechaPedido').val();
 
     if (fecha) {
         debugger;
@@ -301,6 +301,14 @@ getPedido = function (idpedido) {
 
                 $('#fechaP').text("Fecha Pedido: " + getFecha(res.response.pe_fechaPedido));
                 $('#aclaracionP').text(res.response.pe_aclaraciones);
+
+                $('#tblTotal').append(' <tr><th style="width:50%">Subtotal:</th>' +
+                        '<td> $' + res.response.pe_Total+'</td>' +
+                        '</tr><tr><th>Envio:</th><td>$0.0</td></tr><tr>' +
+                        '<th>Total:</th>' +
+                        '<td>$' + res.response.pe_Total+'</td>' +
+                        '</tr>');
+
             } else {
                 sweetAlert("Oops...", "Error al Obtener el Encabezado del Pedido!", "error");
                 console.log(res.response)
