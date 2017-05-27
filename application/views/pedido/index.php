@@ -169,18 +169,7 @@
 
                     <div class="table-responsive">
                         <table class="table" id="tblTotal">
-                            <tr>
-                                <th style="width:50%">Subtotal:</th>
-                                <td>$250.30</td>
-                            </tr>        
-                            <tr>
-                                <th>Envio:</th>
-                                <td>$0.0</td>
-                            </tr>
-                            <tr>
-                                <th>Total:</th>
-                                <td>$265.24</td>
-                            </tr>
+                            
                         </table>
                     </div>
                 </div>
