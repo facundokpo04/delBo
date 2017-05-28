@@ -232,7 +232,6 @@ getCliente = function (idpedido) {
                         res.response.dir_direccion +
                         '<br>Telefono Fijo: ' +
                         res.response.dir_telefonoFijo+
-                        '<br>' +
                         '<br>Celular: ' +
                         res.response.per_celular +
                         '<br>' +
