@@ -98,7 +98,7 @@ $('#tblPedidos').DataTable({
             "data": "pe_id",
             "orderData": [1, 0],
             "render": function (data, type, row) {
-                return '<a onClick="verPedidoModal(\'' + data + '\')>PED' + data + '</a>'
+                return '<a onClick="verPedidoModal(\'' + data + '\')"> #PED' + data + '</a>'
 
             }
         },
@@ -227,9 +227,13 @@ getCliente = function (idpedido) {
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
             if (res.estado) {
+                debugger;
                 $('#cliente').append('<strong>' + res.response.per_nombre + '</strong><br>Direccion: ' +
                         res.response.dir_direccion +
-                        '<br>Telefono: ' +
+                        '<br>Telefono Fijo: ' +
+                        res.response.dir_telefonoFijo+
+                        '<br>' +
+                        '<br>Celular: ' +
                         res.response.per_celular +
                         '<br>' +
                         'Email: ' +
