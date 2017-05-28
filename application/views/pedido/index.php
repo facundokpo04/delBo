@@ -281,6 +281,44 @@
     <!-- /.modal -->
 </div>
 
+<div class="example-modal modal fade" id="modalResumenPedido" tabindex="-1" >
+    <div class="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id="mCerrarModal" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Resumen Pedido</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <!-- parametros ocultos -->
+                        <input type="hidden" id="midcPedido">
+                        <input type="hidden" id="midEPedido">
+
+                        <div class="box-body">                                
+                            <div class="form-group">                              
+                                <div class="col-sm-9" id="resumenP"> 
+                                  
+                                </div>
+                            </div>                         
+                        </div>
+                    </form>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="mbtnCerrarModal" data-dismiss="modal">Volver</button>
+                    <a  href="javascript:imprSelec('resumenP')" target="_blank" class="btn btn-default"><i class="fa fa-print"></i>Imprimir</a> 
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+</div>
+
 <script type="text/javascript">
     function imprSelec(muestra)
     {

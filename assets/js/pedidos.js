@@ -16,12 +16,12 @@ function OcultarForm() {
     $("#pedidos").show();
 }
 function fechaHoy() {
-    debugger;
+
     dp.datepicker("setDate", new Date());
     var fecha = $('#txtFechaPedido').val();
 
     if (fecha) {
-        debugger;
+
         tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
 
     }
@@ -98,12 +98,13 @@ $('#tblPedidos').DataTable({
             "data": "pe_id",
             "orderData": [1, 0],
             "render": function (data, type, row) {
-                return '<a onClick="verPedidoModal(\'' + data + '\')"> #PED' + data + '</a>'
+
+                return '<a data-toggle="modal" data-target="#modalResumenPedido" onClick="selPedidoResumen(\'' + data + '\');"> #PED' + data + '</a>'
 
             }
         },
     ],
-    
+
     "order": [[0, "asc"]],
 });
 
@@ -231,7 +232,7 @@ getCliente = function (idpedido) {
                 $('#cliente').append('<strong>' + res.response.per_nombre + '</strong><br>Direccion: ' +
                         res.response.dir_direccion +
                         '<br>Telefono Fijo: ' +
-                        res.response.dir_telefonoFijo+
+                        res.response.dir_telefonoFijo +
                         '<br>Celular: ' +
                         res.response.per_celular +
                         '<br>' +
@@ -307,10 +308,10 @@ getPedido = function (idpedido) {
                 $('#aclaracionP').text(res.response.pe_aclaraciones);
 
                 $('#tblTotal').append(' <tr><th style="width:50%">Subtotal:</th>' +
-                        '<td> $' + res.response.pe_Total+'</td>' +
+                        '<td> $' + res.response.pe_Total + '</td>' +
                         '</tr><tr><th>Envio:</th><td>$0.0</td></tr><tr>' +
                         '<th>Total:</th>' +
-                        '<td>$' + res.response.pe_Total+'</td>' +
+                        '<td>$' + res.response.pe_Total + '</td>' +
                         '</tr>');
 
             } else {
@@ -551,7 +552,40 @@ selPedidoEnviar = function (idpedido) {
 
 
 };
+selPedidoResumen = function (idpedido) {
 
+    debugger;
+    $('#resumenP').empty();
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/pedido/getPedido/" + idpedido,
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
+            if (res.estado) {
+                debugger;
+                
+                var str =res.response.pe_resumen
+                var res = str.replace(/\n/g, "<br />");
+                
+                $('#resumenP').html('<p>'+res+'</p>');
+
+            } else {
+                sweetAlert("Oops...", "Error al Obtener el Encabezado del Pedido!", "error");
+                console.log(res.response)
+            }
+        },
+        error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error.message);
+
+        }
+    });
+  
+
+
+
+};
 selPedidoCancelar = function (idpedido, idEstado) {
 
     $('#midcPedido').val(idpedido);
