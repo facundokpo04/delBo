@@ -1,5 +1,4 @@
 
-
 $('#tblPersonas').DataTable({
     "lengthMenu": [[6, 10, 15, -1], [5, 10, 15, "Todo"]],
     'paging': true,
@@ -7,7 +6,7 @@ $('#tblPersonas').DataTable({
     'filter': true,
     'stateSave': true,
     'ajax': {
-        "url": baseurl + "index.php/persona/get_personas/1",
+        "url": baseurl + "index.php/persona/get_personas",
         "type": "POST",
         "dataType": 'json',
         "data": {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
@@ -16,8 +15,12 @@ $('#tblPersonas').DataTable({
         {data: 'per_id', 'sClass': 'dt-body-center'},
         {data: 'per_nombre'},
         {data: 'per_email'},
+        {data: 'per_password'},
         {'data': 'per_documento'},
         {data: 'per_nacionalidad'},
+        {data: 'per_celular'},
+        {data: 'per_perfilUsuario'},
+
         {"orderable": true,
             render: function (data, type, row) {
 
@@ -29,7 +32,7 @@ $('#tblPersonas').DataTable({
                         '  </button>' +
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
                         '    <li><a href="#" title="Editar informacion" data-toggle="modal" data-target="#modalEditPersona" onClick="selPersona(\'' + row.per_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i> Editar</a></li>' +
-                        '    <li><a href="#"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver</a></li>' +
+                        '    <li><a href="#" title="Ver informacion" data-toggle="modal" data-target="#modalEditPersona" onClick="selPersona(\'' + row.per_id + '\');"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver</a></li>' +
                         '    <li><a href="#"  onClick="eliminarPersona(\'' + row.per_id + '\');"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
                         '    </ul>' +
                         '</div>' +
@@ -57,16 +60,18 @@ selPersona = function (idPersonas) {
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
-
+            
             if (res.estado) {
-                $('#mNombre').val(res.per_nombre);
-                $('#mEmail').val(res.per_email);
-                $('#mDocumento').val(res.per_documento);//select
+
+                $('#mNombre').val(res.response.per_nombre);
+                $('#mEmail').val(res.response.per_email);
+                $('#mDocumento').val(res.response.per_documento);//select
                 //ajax para traer todos los estados
-                $('#mNacionalidad').val(res.per_nacionalidad);
-                $('#mPassword').val(res.per_password);
-                $('#mPerfilUsuario').val(res.per_perfilUsuario);
-                $('#mIdPersona').val(res.per_id);
+                $('#mNacionalidad').val(res.response.per_nacionalidad);
+                $('#mPassword').val(res.response.per_password);
+                $('#mCelular').val(res.response.per_celular);
+                $('#mPerfilUsuario').val(res.response.per_perfilUsuario);
+                $('#mIdPersona').val(res.response.per_id);
             } else {
                 sweetAlert("Oops...", "Ocurrio Algun Error!", "error");
 

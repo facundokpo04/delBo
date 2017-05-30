@@ -30,14 +30,16 @@ class Persona extends CI_Controller {
         $this->load->view('layout/footer');
     }
 
-    public function get_personas($limite = 10, $p = 0) {
+    public function get_personas() {
 
         $data = [];
         $total = 0;
         $limite = 10;
         $data = new stdClass();
         try {
-            $result = $this->pm->getAll($limite, $p);
+//            $result = $this->pm->getAll($limite, $p);
+
+            $result = $this->pm->getAll2();
 
             $total = $result->total;
             $data->data = $result->data;
@@ -51,12 +53,12 @@ class Persona extends CI_Controller {
 
         try {
             $result = $this->pm->obtener($idPersona);
-              $respuesta = [
+            $respuesta = [
                 'estado' => true,
                 'response' => $result
             ];
         } catch (Exception $e) {
-               $respuesta = [
+            $respuesta = [
                 'estado' => false,
                 'response' => $e->getMessage()
             ];
@@ -85,31 +87,28 @@ class Persona extends CI_Controller {
 
 
                 $response = $this->pm->registrar($data);
-                  $respuesta = [
+                $respuesta = [
                     'estado' => true,
                     'response' => $response->result
                 ];
             } else {
 
-               $response = $this->pm->actualizar($data, $id);
-               
-               $respuesta = [
+                $response = $this->pm->actualizar($data, $id);
+
+                $respuesta = [
                     'estado' => true,
                     'response' => $id
                 ];
             }
-             
         } catch (Exception $e) {
             if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
                 $errors = RestApi::getEntityValidationFieldsError();
-                 $respuesta = [
+                $respuesta = [
                     'estado' => false,
                     'validator' => true,
                     'response' => $errors
                 ];
-                
-            }
-             else {
+            } else {
                 $respuesta = [
                     'estado' => false,
                     'validator' => false,
@@ -122,8 +121,8 @@ class Persona extends CI_Controller {
     }
 
     public function eliminar($idPersona) {
-        
-          try {
+
+        try {
             $result = $this->pm->eliminar($idPersona);
             $respuesta = [
                 'estado' => true,
@@ -138,7 +137,6 @@ class Persona extends CI_Controller {
 //           
 
         echo json_encode($respuesta);
-        
     }
 
 }

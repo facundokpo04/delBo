@@ -1,5 +1,5 @@
 
-<?php // var_dump($model);        ?>
+<?php // var_dump($model);         ?>
 <ol class="breadcrumb">
     <li class="active">Persona</li>
 </ol>
@@ -33,8 +33,11 @@
                             <th>#</th>
                             <th>Nombre</th>
                             <th>Email</th>
+                            <th>Contraseña</th>
                             <th>Documento</th>
                             <th>Nacionalida</th>
+                            <th>Celular</th>
+                            <th>Perfil</th>
                             <th></th>
                         </tr>
                     </thead>
