@@ -253,7 +253,7 @@ function cargarComponentes(idProducto) {
                     $('#tblComponentes tbody').append('<tr>' +
                             ' <td>' +
                             data.com_id +
-                            ' </td>' +
+                            '</td>' +
                             ' <td>' +
                             data.com_nombre +
                             ' </td>' +
