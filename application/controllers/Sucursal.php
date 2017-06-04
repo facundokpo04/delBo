@@ -176,29 +176,37 @@ class Sucursal extends CI_Controller {
         try {
             if (empty($id)) {
                 $response = $this->sm->registrarDh($data);
-                $respuesta = ($response->result);
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $result
+                ];
             } else {
-                $this->sm->actualizarDh($data, $id);
-                $respuesta = $id;
+                $response = $this->sm->actualizarDh($data, $id);
+
+
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $response
+                ];
             }
         } catch (Exception $e) {
             if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
                 $errors = RestApi::getEntityValidationFieldsError();
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => true,
+                    'response' => $errors
+                ];
+            } else {
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => false,
+                    'response' => $e->getMessage()
+                ];
             }
         }
 //                 
-//        if(count($errors) === 0) //redirect('sucursal')
-//        //
-//         echo json_encode($respuesta);
-//        else {
-//            $this->load->view('layout/header');
-//            $this->load->view('layout/menu');
-//            $this->load->view('sucursal/validation', [
-//                'errors' => $errors
-//            ]);
-//             $this->load->view('layout/footer');
-//        }
-//        
+        echo json_encode($respuesta);
     }
 
     public function eliminar($idSucursal) {
@@ -301,7 +309,7 @@ class Sucursal extends CI_Controller {
         ];
         try {
             if (empty($id)) {
-               $response = $this->sm->registrarTel($data);
+                $response = $this->sm->registrarTel($data);
                 $respuesta = [
                     'estado' => true,
                     'response' => $response
@@ -367,12 +375,12 @@ class Sucursal extends CI_Controller {
         }
         echo json_encode($respuesta);
     }
-    
+
     public function eliminarTel($idTelefono) {
 
         try {
             $result = $this->sm->eliminarTel($idTelefono);
-             $respuesta = [
+            $respuesta = [
                 'estado' => true,
                 'response' => $result
             ];

@@ -75,16 +75,16 @@ function actualizarParametros(idSucursal) {
 
 function actualizarHorarios() {
 
-
+    var exito = true;
     $('#tablahorario tbody tr').each(function () {
-        debugger;
+
 
         if ($(this).find('td').length > 0) {
             var dh_id = $(this).find('td').eq(0).html();
             var dh_diaSemana = $(this).find('td').eq(1).find("select").val();
             var dh_horaApertura = $(this).find('td').eq(2).find("input").eq(0).val();
             var dh_horaCierre = $(this).find('td').eq(3).find("input").eq(0).val();
-
+            debugger;
             $.ajax({
                 type: "POST",
                 url: baseurl + "index.php/sucursal/updDiahorario",
@@ -97,11 +97,18 @@ function actualizarHorarios() {
                     dh_id: dh_id
                 },
                 success: function (res) {
+                    debugger;
+                    if (!res.estado) {
+                        exito = false;
+
+                    }
 
 
                 }
                 ,
                 error: function (request, status, error) {
+                    debugger;
+                    exito = false;
                     console.log(error.message);
 
                 }
@@ -109,7 +116,21 @@ function actualizarHorarios() {
 
         }
 
+
     });
+
+    if (exito) {
+        swal({
+            title: "Informacion",
+            text: "Se Actualizaron los Horarios",
+            type: "success",
+        },
+                function () {
+                    
+                });
+    } else {
+        sweetAlert("Oops...", "No se pudo actualizar los horarios", "error");
+    }
 }
 
 $('#mCerrarModal').click(function () {
@@ -126,26 +147,22 @@ $('#mCerrarModal').click(function () {
 
 
 
-function actualizarSucursal() {
+function actualizarSucursal(id) {
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/sucursal/updsucursal",
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
-            prod_nombre: $('#txtNombre').val(),
-            prod_descripcionProducto: $('#txtDescripcion').val(),
-            prod_codigoProducto: $('#txtCodigo').val(),
-            prod_PrecioBase: $('#txtPrecio').val(),
-            prod_maxComponente: $('#txtMaxCompo').val(),
-            prod_minComponente: $('#txtMaxCompo').val(),
-            prod_idEstado: $('#PEstado').val(),
-            prod_idEstadoVisible: $('#VEstado').val(),
-            prod_idCategoria: $('#Pcategoria').val()
+            suc_nombre: $('#txtNombre').val(),
+            suc_cuit: $('#txtCuit').val(),
+            suc_razonSocial: $('#txtRazonSocial').val(),
+            suc_direccion: $('#txtDomicilio').val(),
+            suc_id: $('#idSucursal').val()
 
 
         },
         success: function (res) {
-
+            debugger;
 
             actualizarParametros(res);
         },
@@ -157,7 +174,7 @@ function actualizarSucursal() {
 }
 
 $('#mbtnUpdSucursal').click(function () {
-
+    debugger;
     actualizarSucursal();
 
 
@@ -185,7 +202,7 @@ function cargarHorarios(idSucursal) {
                 $('#tablahorario tbody tr:last').after('<tr class="fila-base">' +
                         ' <td>' +
                         res.data[i].dh_id +
-                        ' </td>' +
+                        '</td>' +
                         ' <td>' +
                         '  <select style="width: 90%" class="form-control" id="dia' + res.data[i].dh_id + '">' +
                         '  <option value="1">Lunes</option>' +

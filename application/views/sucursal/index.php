@@ -93,6 +93,8 @@
                     <div class="tab-content" id="panelCont">
                         <div class="tab-pane active" id="tabParametros">  
                             <div class="media-body">
+                                
+                                 <input id="idParametro" name="idParametro" style="display:none;">
 
                                 <div class="col-sm-6 form-group">
                                     <label for="">Zona Entrega</label>
@@ -165,7 +167,7 @@
             </div>  
 
             <div class="panel-footer"><button type="button" class="btn btn-default"><a href="sucursal">Cancelar</button>
-                <button type="button" class="btn btn-info" id="mbtnUpdSucursal">Actualizar</button></div>
+            <button type="button" class="btn btn-info" id="mbtnUpdSucursal">Actualizar</button></div>
 
 
 
