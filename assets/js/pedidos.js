@@ -60,16 +60,13 @@ $('#tblPedidos').DataTable({
                         '  <span class="caret"></span>' +
                         '  </button>' +
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
+                        '    <li><a href="#" onClick="selPedido(\'' + row.pe_id + '\',\'' + row.pe_idEmpleado + '\');"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver Pedido</a></li>' +
                         '    <li><a href="#" onClick="cambiarAPreparado(\'' + row.pe_id + '\');"><i style="color:#555;" class="fa fa-fw fa-cutlery"></i>Preparando Pedido</a></li>' +
                         '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalEnviarPedido" onClick="selPedidoEnviar(\'' + row.pe_id + '\');"><i style="color:#555;" class="fa fa-fw fa-motorcycle"></i>Enviando Pedido</a></li>' +
                         '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalCancelarPedido" onClick="selPedidoCancelar(\'' + row.pe_id + '\',\'' + row.pe_idEstado + '\');"><i style="color:#555;" class="fa fa-fw fa-close"></i>Cancelar Pedido</a></li>' +
-                        '    <li><a href="#" onClick="selPedido(\'' + row.pe_id + '\',\'' + row.pe_idEmpleado + '\');"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver Pedido</a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
-                // '<a href="#" class="btn btn-block btn-primary btn-sm" style="width: 80%;" data-toggle="modal" data-target="#modalEditCategoria" onClick="selCategoria(\'' + row.cat_id + '\');"><i class="fa fa-fw fa-edit"></i></a></td>';
-
-
             }
 
         }
@@ -564,11 +561,14 @@ selPedidoResumen = function (idpedido) {
         success: function (res) {
             if (res.estado) {
                 debugger;
-                
-                var str =res.response.pe_resumen
+
+                var str = res.response.pe_resumen
                 var res = str.replace(/\n/g, "<br />");
-                
-                $('#resumenP').html('<p>'+res+'</p>');
+
+                $('#resumenP').html('<p>' + res + '</p>');
+
+
+
 
             } else {
                 sweetAlert("Oops...", "Error al Obtener el Encabezado del Pedido!", "error");
@@ -581,7 +581,7 @@ selPedidoResumen = function (idpedido) {
 
         }
     });
-  
+
 
 
 
