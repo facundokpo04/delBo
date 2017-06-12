@@ -109,6 +109,7 @@ class Pedido extends CI_Controller {
         $data = [
             'pe_idEstado' => $this->input->post('pe_idEstado'),
             'pe_idEmpleado' => $this->input->post('pe_idEmpleado'),
+            'pe_nombreEmp' => $this->input->post('pe_nombreEmp'),
             'pe_motivoCancelado' => $this->input->post('pe_motivoCancelado'),
         ];
         try {

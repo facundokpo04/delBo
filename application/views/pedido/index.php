@@ -64,7 +64,8 @@
                                     <th>Celular</th>
                                     <th>Direccion</th>
                                     <th>Telefono</th>
-                                    <th>Empleado ID</th>
+                                    <th>Empleado</th>
+                                    <th>Hora</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -215,6 +216,7 @@
                     <form class="form-horizontal">
                         <!-- parametros ocultos -->
                         <input type="hidden" id="midPedido">
+                        
 
                         <div class="box-body">                                
                             <div class="form-group">

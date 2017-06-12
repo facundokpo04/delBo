@@ -1,8 +1,18 @@
 
 var dp = $('#txtFechaPedido').datepicker({
     autoclose: true,
-    format: 'yyyy-mm-dd'
+    format: 'yyyy-mm-dd',
+    closeText: 'Cerrar',
+    prevText: '<Ant',
+    nextText: 'Sig>',
+    currentText: 'Hoy',
+    monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+    monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
+    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']
 }).datepicker("setDate", new Date());
+
 
 
 function VerForm() {
@@ -49,7 +59,8 @@ $('#tblPedidos').DataTable({
         {data: 'pe_cli_tel'},
         {data: 'dir_direccion'},
         {data: 'dir_telefonoFijo'},
-        {data: 'pe_idEmpleado'},
+        {data: 'pe_nombreEmp'},
+        {data: 'pe_fechaPedido'},
         {"orderable": true,
             render: function (data, type, row) {
 
@@ -60,13 +71,16 @@ $('#tblPedidos').DataTable({
                         '  <span class="caret"></span>' +
                         '  </button>' +
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
-                        '    <li><a href="#" onClick="selPedido(\'' + row.pe_id + '\',\'' + row.pe_idEmpleado + '\');"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver Pedido</a></li>' +
                         '    <li><a href="#" onClick="cambiarAPreparado(\'' + row.pe_id + '\');"><i style="color:#555;" class="fa fa-fw fa-cutlery"></i>Preparando Pedido</a></li>' +
                         '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalEnviarPedido" onClick="selPedidoEnviar(\'' + row.pe_id + '\');"><i style="color:#555;" class="fa fa-fw fa-motorcycle"></i>Enviando Pedido</a></li>' +
                         '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalCancelarPedido" onClick="selPedidoCancelar(\'' + row.pe_id + '\',\'' + row.pe_idEstado + '\');"><i style="color:#555;" class="fa fa-fw fa-close"></i>Cancelar Pedido</a></li>' +
+                        '    <li><a href="#" onClick="selPedido(\'' + row.pe_id + '\',\'' + row.pe_idEmpleado + '\');"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver Pedido</a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
+                // '<a href="#" class="btn btn-block btn-primary btn-sm" style="width: 80%;" data-toggle="modal" data-target="#modalEditCategoria" onClick="selCategoria(\'' + row.cat_id + '\');"><i class="fa fa-fw fa-edit"></i></a></td>';
+
+
             }
 
         }
@@ -97,6 +111,16 @@ $('#tblPedidos').DataTable({
             "render": function (data, type, row) {
 
                 return '<a data-toggle="modal" data-target="#modalResumenPedido" onClick="selPedidoResumen(\'' + data + '\');"> #PED' + data + '</a>'
+
+            }
+        },
+        {
+            "targets": [7],
+            "data": "pe_fechaPedido",
+            "orderData": [1, 0],
+            "render": function (data, type, row) {
+
+                return getHora(data);
 
             }
         },
@@ -143,7 +167,7 @@ cambiarAPreparado = function (idPedido) {
 
 
 };
-cambiarAEnviado = function (idPedido, idEmpleado) {
+cambiarAEnviado = function (idPedido, idEmpleado,nombreEmpleado) {
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/pedido/updPedido/",
@@ -151,7 +175,8 @@ cambiarAEnviado = function (idPedido, idEmpleado) {
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
             pe_id: idPedido,
             pe_idEstado: 3,
-            pe_idEmpleado: idEmpleado
+            pe_idEmpleado: idEmpleado,
+            pe_nombreEmp: nombreEmpleado
 
         },
         success: function (res) {
@@ -334,7 +359,7 @@ cargarEmpleados = function () {
         success: function (res) {
             $.each(res.data, function (key, data) {
                 ;
-                $("#mRepartidor").append("<option value=" + data.emp_id + ">" + data.per_nombre + '-' + data.emp_cargo + "</option>");
+                $("#mRepartidor").append("<option value=" + data.emp_id + ">" + data.per_nombre+"</option>");
             });
         },
         error: function (request, status, error) {
@@ -597,7 +622,9 @@ $('#mbtnEnviarPedido').click(function () {
 
     var idPedido = $('#midPedido').val();
     var idEmpleado = $('#mRepartidor').val();
-    cambiarAEnviado(idPedido, idEmpleado);
+    var nombreEmpleado =$('#mRepartidor option:selected').text();
+    debugger;
+    cambiarAEnviado(idPedido, idEmpleado,nombreEmpleado);
 
 
 
