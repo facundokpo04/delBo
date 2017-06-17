@@ -204,6 +204,7 @@ function cargarDataProducto(idProducto) {// funcion que llamamos del archivo aja
         success: function (res) {
 
             if (res.estado) {
+                debugger;
 
                 $('#txtNombre').val(res.response.prod_nombre);
                 $('#txtDescripcion').val(res.response.prod_descripcionProducto);
@@ -214,10 +215,15 @@ function cargarDataProducto(idProducto) {// funcion que llamamos del archivo aja
                 $('#txtMinCompo').val(res.response.prod_maxComponente); //select
                 $('#PEstado').val(res.response.prod_idEstado); //selec
                 $('#VEstado').val(res.response.prod_idEstadoVisible); //selec
-                 $('#imgProducto').val(res.response.prod_imagen);
+                $('#imgProducto').val(res.response.prod_imagen);
                 $('#imagen').attr('src', './assets/imagenes/producto/' + res.response.prod_imagen);
                 $('#idProducto').val(res.response.prod_id);
+                $('#Paderezos').prop("checked", res.response.prod_isAderezo==1);
+
                 $('#Pcategoria').val(res.response.prod_idCategoria);
+
+
+
             } else {
                 sweetAlert("Oops...", res.response, "error");
 
@@ -234,7 +240,8 @@ function cargarDataProducto(idProducto) {// funcion que llamamos del archivo aja
     });
     cargarComponentes(idProducto);
     cargarVariedades(idProducto);
-//    CargarComponetesAgregar(idProducto);
+
+    //    CargarComponetesAgregar(idProducto);
 
 
 
@@ -281,8 +288,8 @@ function cargarComponentes(idProducto) {
 }
 //variedades
 
-function actualizarTablaVariedades(idProducto){
-      table2.ajax.url(baseurl + "index.php/producto/get_VariedadesById/" + idProducto).load()
+function actualizarTablaVariedades(idProducto) {
+    table2.ajax.url(baseurl + "index.php/producto/get_VariedadesById/" + idProducto).load()
 }
 function cargarVariedades(idProducto) {
 
@@ -291,7 +298,7 @@ function cargarVariedades(idProducto) {
         'paging': true,
         'info': false,
         'filter': false,
-        'stateSave': true,    
+        'stateSave': true,
         'ajax': {
             "url": baseurl + "index.php/producto/get_VariedadesById/" + idProducto,
             "type": "POST",
@@ -362,7 +369,8 @@ function selVariedad(idVariedad) {
             console.log(error);
         }
     });
-};
+}
+;
 function eliminarVariedad(idVariedad) {
     swal({
         title: "Esta seguro?",
@@ -410,7 +418,8 @@ function eliminarVariedad(idVariedad) {
 
 
 
-};
+}
+;
 function ActualizarVariedad(idProducto) {
 
     $.ajax({
@@ -539,6 +548,7 @@ function ActualizarComponentes() {
 
 
 function actualizarProducto() {
+    debugger;
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/producto/updProducto",
@@ -553,6 +563,7 @@ function actualizarProducto() {
             prod_idEstado: $('#PEstado').val(),
             prod_idCategoria: $('#Pcategoria').val(),
             prod_idEstadoVisible: $('#VEstado').val(),
+            prod_isAderezo: ($('#Paderezos').prop("checked") ?  '1' : '0'),
             prod_imagen: $('#imgProducto').val(),
             prod_id: $('#idProducto').val()
 
@@ -560,13 +571,14 @@ function actualizarProducto() {
         },
         success: function (res) {
             if (res.estado) {
-
+                debugger;
                 swal({
                     title: "Los Datos Fueron Guardados!",
                     text: "haga click!",
                     type: "success",
                 },
                         function () {
+
                             location.reload();
                         });
 
@@ -672,6 +684,7 @@ $(document).on("click", ".eliminarComp", function () {
                             idComponente: comp_id
                         },
                         success: function (res) {
+                            debugger;
 
                             if (res.estado) {
                                 $(parent).remove();
@@ -726,3 +739,16 @@ $('#mbtnCerrarModalVar,#mCerrarModalVar').click(function () {
     $('#mvTipo').val('');
     $('#mvPrecio').val('');
 })
+
+
+
+//$("#Paderezos").on('change', function () {
+//    debugger;
+//    if ($(this).is(':checked')) {
+//        $(this).attr('value', '1');
+//    } else {
+//        $(this).attr('value', '0');
+//    }
+
+
+//});

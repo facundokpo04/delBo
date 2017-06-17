@@ -1,4 +1,4 @@
-<?php // var_dump($model);                                ?>
+<?php // var_dump($model);                                 ?>
 <ol class="breadcrumb">
     <li class="active">Productos</li>
 </ol>
@@ -65,7 +65,7 @@
     </div>
 </div>
 
-<div id="producto" class="row" >   
+<div id="producto" class="row" style="display:none;" >   
     <div class="col-lg-12">     
         <div class="panel panel-bluedark">
             <div class="panel-heading">Datos del Producto</div>
@@ -74,7 +74,7 @@
 
                 <input id="idProducto" name="idProducto" style="display:none;">
                 <input id="imgProducto" name="imgProducto" style="display:none;">
-                
+
                 <div class="col-sm-6 form-group">
                     <label for="">Nombre</label>
                     <div class="input-group">
@@ -132,6 +132,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div  class="col-sm-6 form-group">
                     <label for="">Categoria</label>
                     <div class="input-group col-sm-12" > 
@@ -139,7 +140,15 @@
                             <option value="">Selecciona una Categoria</option>
                         </select>
                     </div>
+                  
                 </div>
+                  <div  class="col-sm-6 form-group">
+                        <label for="">Aderezos</label>
+                        <div class="input-group col-sm-12" > 
+                            <input type="checkbox" id="Paderezos"> incluir aderezos
+                            <div id="checkbox-value"></div>
+                        </div>
+                    </div>
                 <!-- /.paneles de Variedad/componente/imagen -->
                 <div class="col-sm-12">
                     <ul class="nav nav-tabs" role="tablist" id="paneles">

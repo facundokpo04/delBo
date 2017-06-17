@@ -285,6 +285,7 @@ class Producto extends CI_Controller {
             'prod_idCategoria' => $this->input->post('prod_idCategoria'),
             'prod_idEstadoVisible' => $this->input->post('prod_idEstadoVisible'),
             'prod_imagen' => $this->input->post('prod_imagen'),
+            'prod_isAderezo' => $this->input->post('prod_isAderezo'),
             'prod_idSucursal' => '4'
         ];
 
