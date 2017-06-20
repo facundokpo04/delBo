@@ -7,7 +7,6 @@ class AderezoModel extends CI_Model{
             "aderezo/listar1"
         );
     }
-
     public function obtener($id){
         return RestApi::call(
             RestApiMethod::GET,
@@ -24,14 +23,12 @@ class AderezoModel extends CI_Model{
             $data
         );
     }
-
     public function actualizar($data, $id){
         return RestApi::call(
             RestApiMethod::PUT,
             "aderezo/actualizar/$id" , $data
         );
     }
-
      public function eliminar($id){
         return RestApi::call(
             RestApiMethod::DELETE,
