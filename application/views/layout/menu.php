@@ -37,7 +37,7 @@
                     <li><a href="empleado"><i class="fa fa-circle-o"></i> Empleado</a></li>
                 </ul>
             </li>
-               <li class="active treeview">
+            <li class="active treeview">
                 <a href="#">
                     <i class="fa fa-book"></i> <span>Menu </span>
                     <span class="pull-right-container">
@@ -47,11 +47,13 @@
                 <ul class="treeview-menu">
                     <li class="active"><a href="categoria"><i class="fa fa-circle-o"></i> Categor&iacute;a</a></li>
                     <li class="active"><a href="producto"><i class="fa fa-circle-o"></i> Producto</a></li>
+                    <li class="active"><a href="promo"><i class="fa fa-circle-o"></i> Promos </a></li> 
+                    <li class="active"><a href="aderezo"><i class="fa fa-circle-o"></i> Aderezos </a></li>  
                     <li class="active"><a href="componente"><i class="fa fa-circle-o"></i> Componente </a></li>                   
-                    <li class="active"><a href="promo"><i class="fa fa-circle-o"></i> Promos </a></li>  
+
                 </ul>
             </li>
-              <li class="active treeview">
+            <li class="active treeview">
                 <a href="#">
                     <i class="fa fa-cart-plus"></i> <span>Pedidos </span>
                     <span class="pull-right-container">
