@@ -243,6 +243,7 @@ cancelarPedido = function (idPedido, motivo) {
 
 getCliente = function (idpedido) {
     $('#cliente').empty();
+    $('#cliente2').empty();
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/pedido/getCliente/" + idpedido,
@@ -261,9 +262,9 @@ getCliente = function (idpedido) {
                         'Email: ' +
                         res.response.per_email);
 
-                $('#cliente2').append('<strong>' + res.response.per_nombre + '</strong><br>Direccion: ' +
+                $('#cliente2').append(' <strong>&nbspCliente:&nbsp</strong> '+ res.response.per_nombre + '<strong>&nbspDireccion: &nbsp</strong> ' +
                         res.response.dir_direccion +
-                        '<br>Telefono: ' +
+                        '<strong>&nbspTelefono:&nbsp</strong> '+
                         res.response.per_celular);
             } else {
                 sweetAlert("Oops...", "Error al Obtner el Cliente!", "error");
@@ -335,6 +336,7 @@ getPedido = function (idpedido) {
                         '<th>Total:</th>' +
                         '<td>$' + res.response.pe_Total + '</td>' +
                         '</tr>');
+                $('#aderezos').append(' <strong>&nbspAderezos Pedidos:&nbsp</strong> '+ res.response.pe_aderezos+' <strong>&nbspCantidad de Sandwiches:&nbsp</strong>'+  res.response.pe_cantAderezos);
 
             } else {
                 sweetAlert("Oops...", "Error al Obtener el Encabezado del Pedido!", "error");

@@ -1,5 +1,5 @@
 
-<?php // var_dump($model);           ?>
+<?php // var_dump($model);             ?>
 <ol class="breadcrumb">
     <li class="active">Pedidos Hoy</li>
 </ol>
@@ -141,13 +141,25 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr>
 
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="col-xs-6">
-                    Cliente:
-                    <address id="cliente2">
+                <div class="col-xs-12">
+                    <!--
+                    -->                    <address id="cliente2">
+
+                    </address>
+
+
+                </div>
+
+                <div class="col-xs-12">
+                    <!--
+                    -->                   
+                    <address id="aderezos">
 
                     </address>
 
@@ -170,7 +182,7 @@
 
                     <div class="table-responsive">
                         <table class="table" id="tblTotal">
-                            
+
                         </table>
                     </div>
                 </div>
@@ -216,7 +228,7 @@
                     <form class="form-horizontal">
                         <!-- parametros ocultos -->
                         <input type="hidden" id="midPedido">
-                        
+
 
                         <div class="box-body">                                
                             <div class="form-group">
@@ -301,7 +313,7 @@
                         <div class="box-body">                                
                             <div class="form-group">                              
                                 <div class="col-sm-9" id="resumenP"> 
-                                  
+
                                 </div>
                             </div>                         
                         </div>
