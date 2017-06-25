@@ -78,8 +78,8 @@ getUsuarioimg = function (idPersona) {
 
 
             $('#empimg').attr('src', './assets/imagenes/empleado/' + res.response.emp_imagen);
-            $('#empimg1').attr('src', './assets/imagenes/empleado/' + res.response.emp_imagen);
-            $('#empimg2').attr('src', './assets/imagenes/empleado/' + res.response.emp_imagen);
+            $('#emplimg1').attr('src', './assets/imagenes/empleado/' + res.response.emp_imagen);
+            $('#emplimg2').attr('src', './assets/imagenes/empleado/' + res.response.emp_imagen);
 
 
 
