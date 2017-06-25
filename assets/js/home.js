@@ -52,7 +52,7 @@ getUsuario = function () {
             $('#detalleEmp').append(res.NombreCompleto + 'Administrador' +
                     '<small>Administrador del Sistema</small>');
             $('#nombreEmp2').append(res.NombreCompleto);
-//            getUsuarioimg(res.id);
+           getUsuarioimg(res.id);
 
 
 
