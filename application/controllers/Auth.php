@@ -46,8 +46,17 @@ class Auth extends CI_Controller {
 //        $this->load->view('footer');
     }
     
-    public function logout(){
+     public function logout(){
         RestApi::destroyToken();
-        redirect('');
+         echo json_encode('exito');
+        
+      
+    }
+    
+    public function getUser(){
+        
+        
+      $user = RestApi::getUserData();
+          echo json_encode($user);
     }
 }

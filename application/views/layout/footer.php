@@ -57,7 +57,8 @@
 
 <!-- sweetalert -->
 <script src="<?php echo base_url(); ?>assets/dist/js/sweetalert.min.js"></script>
-
+//iniciliza todo
+<script   type="text/javascript" src="<?php echo base_url('assets/js/home.js') ?>"></script>
 
 
  
@@ -97,6 +98,7 @@
 <?php if($this->uri->segment(1)=='aderezo'){?>
 <script   type="text/javascript" src="<?php echo base_url('assets/js/aderezo.js') ?>"></script>
 <?php }?>
+
 </body>
 </html>
 

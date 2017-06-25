@@ -7,8 +7,8 @@ class PedidoModel extends CI_Model {
                         RestApiMethod::GET, "pedidoencabezado/listar"
         );
     }
-    
-     public function getAllfecha($id) {
+
+    public function getAllfecha($id) {
         return RestApi::call(
                         RestApiMethod::GET, "pedidoencabezado/listarfecha/$id"
         );
@@ -20,7 +20,6 @@ class PedidoModel extends CI_Model {
         );
     }
 
- 
     public function actualizar($data, $id) {
         return RestApi::call(
                         RestApiMethod::PUT, "pedidoencabezado/actualizar/$id", $data
@@ -32,17 +31,29 @@ class PedidoModel extends CI_Model {
                         RestApiMethod::DELETE, "pedidoencabezado/eliminar/$id"
         );
     }
-    
-     public function obtenerCliente($id) {
+
+    public function obtenerCliente($id) {
         return RestApi::call(
                         RestApiMethod::GET, "pedidoencabezado/obtenercli/$id"
         );
-     }
-     
-       public function obtenerEmpleado($id) {
+    }
+
+    public function obtenerEmpleado($id) {
         return RestApi::call(
                         RestApiMethod::GET, "pedidoencabezado/obteneremp/$id"
         );
-     }
+    }
+
+    public function getAllfechaPedPe($id) {
+        return RestApi::call(
+                        RestApiMethod::GET, "pedidoencabezado/listarfechatotpe/$id"
+        );
+    }
+
+    public function getAllfechaPedEn($id) {
+        return RestApi::call(
+                        RestApiMethod::GET, "pedidoencabezado/listarfechatoten/$id"
+        );
+    }
 
 }

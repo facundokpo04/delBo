@@ -96,7 +96,7 @@
                                 
                                  <input id="idParametro" name="idParametro" style="display:none;">
 
-                                <div class="col-sm-6 form-group">
+                                <div class="col-sm-6 form-group" style="display:none;">
                                     <label for="">Zona Entrega</label>
                                     <div class="input-group">
                                         <span class="input-group-addon cajaParametro "><i class="fa fa-building fa-fw"></i></span><input class="form-control width_input" placeholder="" name="txtZonaE" id="txtZonaE" type="text" autocomplete="on" autofocus="" tabindex="5" required="">
