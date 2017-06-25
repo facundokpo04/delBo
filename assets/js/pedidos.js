@@ -687,3 +687,5 @@ $("#txtFechaPedido").change(function () {
     }
 //   tablaP.ajax.url(baseurl + "index.php/producto/get_pedidosFecha/"+fecha).load();
 })
+
+  var int=self.setInterval("fechaHoy()",60000);
