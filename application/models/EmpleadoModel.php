@@ -15,6 +15,13 @@ class EmpleadoModel extends CI_Model{
         );
     }
     
+    
+     public function obtenerPer($id){
+        return RestApi::call(
+            RestApiMethod::GET,
+            "empleado/obtenerper/$id"
+        );
+    }
     public function registrar($data){
         
       

@@ -68,10 +68,10 @@ getUsuario = function () {
 
 
 }
-getUsuarioimg = function (idEmpleado) {
+getUsuarioimg = function (idPersona) {
     $.ajax({
         type: "POST",
-        url: baseurl + "index.php/empleado/get_empleadoById/" + idEmpleado,
+        url: baseurl + "index.php/empleado/get_empleadoByIdPer/" + idPersona,
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {

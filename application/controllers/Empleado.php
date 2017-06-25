@@ -66,6 +66,26 @@ class Empleado extends CI_Controller {
         }
         echo json_encode($respuesta);
     }
+    
+       public function get_empleadoByIdPer($idPersona) {
+
+        $data = new stdClass();
+
+        try {
+            $result = $this->em->obtenerPer($idPersona);
+            $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
+        } catch (Exception $e) {
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
+        }
+        echo json_encode($respuesta);
+    }
+
 
     public function updEmpleado() {
 
