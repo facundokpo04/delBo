@@ -24,7 +24,7 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu">
-            <li class="header">MAIN NAVIGATION</li>
+            <li class="header">MENU PRINCIPAL</li>
             <li class="active treeview">
                 <a href="#">
                     <i class="fa fa-dashboard"></i> <span>Administrador</span>
@@ -76,7 +76,7 @@
                     <li><a href="sucursal"><a href="sucursal"><i class="fa fa-home"></i> Sucursales</a></li>
                 </ul>
             </li>
-            <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li> 
+            <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentacion</span></a></li> 
             <li><a onclick="salir()"><i class="fa fa-power-off" ></i> <span>Salir</span></a></li>
           
         </ul>

@@ -390,7 +390,7 @@ cargarDetalle = function (idPedido) {
                             item.producto.prod_codigoProducto +
                             ' </td>' +
                             ' <td><strong>' +
-                            item.producto.prod_nombre + '-' + item.producto.var_nombre +
+                            item.producto.prod_nombre + '-' + ( item.producto.var_nombre? item.producto.var_nombre : '') +
                             '</td><strong>' +
                             ' <td>' +
                             item.producto.pp_aclaracion +
@@ -483,7 +483,7 @@ cargarDetallePromo = function (idPedido) {
                                     '' +
                                     ' </td>' +
                                     ' <td>' +
-                                    prod.prod_nombre + '-' + prod.var_nombre +
+                                    prod.prod_nombre + '-' + ( prod.var_nombre?  prod.var_nombre : '') +
                                     '</td>' +
                                     ' <td>' +
                                     prod.pp_aclaracion +
