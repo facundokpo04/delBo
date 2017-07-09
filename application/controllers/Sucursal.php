@@ -98,12 +98,7 @@ class Sucursal extends CI_Controller {
         $errors = array();
         $result = 0;
         
-         $respuesta = [
-                    'estado' => false,
-                    'validator' => false,
-                    'response' => 'Valor por Defecto'
-                ];
-
+         
         $result = $this->sm->getParTot($idSucursal);
 
 
@@ -115,7 +110,7 @@ class Sucursal extends CI_Controller {
             'par_idSucursal' => $idSucursal
         ];
         try {
-            if ($result<=0) {
+            if (false) {
                 $response = $this->sm->registrarPar($data);
                 $respuesta = [
                     'estado' => true,
