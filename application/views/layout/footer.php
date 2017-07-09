@@ -57,7 +57,9 @@
 
 <!-- sweetalert -->
 <script src="<?php echo base_url(); ?>assets/dist/js/sweetalert.min.js"></script>
-//iniciliza todo
+
+<!-- jqueryloading -->
+<script src="<?php echo base_url(); ?>assets/dist/js/jquery.loading.min.js"></script>//iniciliza todo
 <script   type="text/javascript" src="<?php echo base_url('assets/js/home.js') ?>"></script>
 
 

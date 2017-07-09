@@ -28,15 +28,22 @@ function OcultarForm() {
 function fechaHoy() {
 
     dp.datepicker("setDate", new Date());
-    var fecha = $('#txtFechaPedido').val();
-    if (fecha) {
-        tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
-    }
+
 }
 
 OcultarForm();
 
+$("#txtFechaPedido").change(function () {
 
+    var fecha = $('#txtFechaPedido').val();
+
+    if (fecha) {
+
+        tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
+
+    }
+//   tablaP.ajax.url(baseurl + "index.php/producto/get_pedidosFecha/"+fecha).load();
+})
 $('#tblPedidos').DataTable({
     "lengthMenu": [[6, 10, 15, -1], [5, 10, 15, "Todo"]],
     'paging': true,
@@ -71,7 +78,7 @@ $('#tblPedidos').DataTable({
                         '    <li><a href="#" onClick="selPedido(\'' + row.pe_id + '\',\'' + row.pe_idEmpleado + '\');"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver Pedido</a></li>' +
                         '    <li><a href="#" onClick="cambiarAPreparado(\'' + row.pe_id + '\');"><i style="color:#555;" class="fa fa-fw fa-cutlery"></i>Preparando Pedido</a></li>' +
                         '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalEnviarPedido" onClick="selPedidoEnviar(\'' + row.pe_id + '\');"><i style="color:#555;" class="fa fa-fw fa-motorcycle"></i>Enviando Pedido</a></li>' +
-                        '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalCancelarPedido" onClick="selPedidoCancelar(\'' + row.pe_id + '\',\'' + row.pe_idEstado + '\');"><i style="color:#555;" class="fa fa-fw fa-close"></i>Cancelar Pedido</a></li>' +           
+                        '    <li><a href="#" title="Cambiar Estado" data-toggle="modal" data-target="#modalCancelarPedido" onClick="selPedidoCancelar(\'' + row.pe_id + '\',\'' + row.pe_idEstado + '\');"><i style="color:#555;" class="fa fa-fw fa-close"></i>Cancelar Pedido</a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
@@ -164,7 +171,7 @@ cambiarAPreparado = function (idPedido) {
 
 
 };
-cambiarAEnviado = function (idPedido, idEmpleado,nombreEmpleado) {
+cambiarAEnviado = function (idPedido, idEmpleado, nombreEmpleado) {
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/pedido/updPedido/",
@@ -259,9 +266,9 @@ getCliente = function (idpedido) {
                         'Email: ' +
                         res.response.per_email);
 
-                $('#cliente2').append(' <strong>&nbspCliente:&nbsp</strong> '+ res.response.per_nombre + '<strong>&nbspDireccion: &nbsp</strong> ' +
+                $('#cliente2').append(' <strong>&nbspCliente:&nbsp</strong> ' + res.response.per_nombre + '<strong>&nbspDireccion: &nbsp</strong> ' +
                         res.response.dir_direccion +
-                        '<strong>&nbspTelefono:&nbsp</strong> '+
+                        '<strong>&nbspTelefono:&nbsp</strong> ' +
                         res.response.per_celular);
             } else {
                 sweetAlert("Oops...", "Error al Obtner el Cliente!", "error");
@@ -333,7 +340,7 @@ getPedido = function (idpedido) {
                         '<th>Total:</th>' +
                         '<td>$' + res.response.pe_Total + '</td>' +
                         '</tr>');
-                $('#aderezos').append(' <strong>&nbspAderezos Pedidos:&nbsp</strong> '+ res.response.pe_aderezos+' <strong>&nbspCantidad de Sandwiches:&nbsp</strong>'+  res.response.pe_cantAderezos);
+                $('#aderezos').append(' <strong>&nbspAderezos Pedidos:&nbsp</strong> ' + res.response.pe_aderezos + ' <strong>&nbspCantidad de Sandwiches:&nbsp</strong>' + res.response.pe_cantAderezos);
 
             } else {
                 sweetAlert("Oops...", "Error al Obtener el Encabezado del Pedido!", "error");
@@ -358,7 +365,7 @@ cargarEmpleados = function () {
         success: function (res) {
             $.each(res.data, function (key, data) {
                 ;
-                $("#mRepartidor").append("<option value=" + data.emp_id + ">" + data.per_nombre+"</option>");
+                $("#mRepartidor").append("<option value=" + data.emp_id + ">" + data.per_nombre + "</option>");
             });
         },
         error: function (request, status, error) {
@@ -390,7 +397,7 @@ cargarDetalle = function (idPedido) {
                             item.producto.prod_codigoProducto +
                             ' </td>' +
                             ' <td><strong>' +
-                            item.producto.prod_nombre + '-' + ( item.producto.var_nombre? item.producto.var_nombre : '') +
+                            item.producto.prod_nombre + '-' + (item.producto.var_nombre ? item.producto.var_nombre : '') +
                             '</td><strong>' +
                             ' <td>' +
                             item.producto.pp_aclaracion +
@@ -483,7 +490,7 @@ cargarDetallePromo = function (idPedido) {
                                     '' +
                                     ' </td>' +
                                     ' <td>' +
-                                    prod.prod_nombre + '-' + ( prod.var_nombre?  prod.var_nombre : '') +
+                                    prod.prod_nombre + '-' + (prod.var_nombre ? prod.var_nombre : '') +
                                     '</td>' +
                                     ' <td>' +
                                     prod.pp_aclaracion +
@@ -621,9 +628,9 @@ $('#mbtnEnviarPedido').click(function () {
 
     var idPedido = $('#midPedido').val();
     var idEmpleado = $('#mRepartidor').val();
-    var nombreEmpleado =$('#mRepartidor option:selected').text();
+    var nombreEmpleado = $('#mRepartidor option:selected').text();
     debugger;
-    cambiarAEnviado(idPedido, idEmpleado,nombreEmpleado);
+    cambiarAEnviado(idPedido, idEmpleado, nombreEmpleado);
 
 
 
@@ -676,16 +683,4 @@ $("#selEst").change(function () {
     }
 })
 
-$("#txtFechaPedido").change(function () {
-    debugger;
-    var fecha = $('#txtFechaPedido').val();
-
-    if (fecha) {
-        debugger;
-        tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
-
-    }
-//   tablaP.ajax.url(baseurl + "index.php/producto/get_pedidosFecha/"+fecha).load();
-})
-
-  var int=self.setInterval("fechaHoy()",60000);
+var int = self.setInterval("fechaHoy()", 60000);

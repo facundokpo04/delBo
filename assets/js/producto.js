@@ -1,5 +1,3 @@
-
-
 var table = $('#tbProductos').DataTable({
     "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todo"]],
     'paging': true,
@@ -31,7 +29,7 @@ var table = $('#tbProductos').DataTable({
                         '  <span class="caret"></span>' +
                         '  </button>' +
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
-                        '    <li><a href="#" title="Editar informacion"   onClick="cargarDataProducto(\'' + row.prod_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i> Editar</a></li>' +
+                        '    <li><a href="#" title="Editar informacion"   onClick="verDataProducto(\'' + row.prod_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i> Editar</a></li>' +
                         '    <li><a href="#"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver</a></li>' +
                         '    <li><a href="#" title="Eliminar Producto" onClick="eliminarProducto(\'' + row.prod_id + '\');"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
                         '    </ul>' +
@@ -163,7 +161,7 @@ function cargarCategorias() {
         success: function (res) {
             if (res.estado) {
                 $.each(res.response, function (key, data) {
-                    ;
+
                     $("#Pcategoria").append("<option value=" + data.cat_id + ">" + data.cat_nombre + "</option>");
                 });
             } else {
@@ -180,7 +178,6 @@ function cargarCategorias() {
 
     });
 }
-
 function actualizarTablaCat(idCat) {
     debugger;
     if (idCat == 0) {
@@ -193,9 +190,9 @@ function actualizarTablaCat(idCat) {
 
 }
 
-function cargarDataProducto(idProducto) {// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
-    VerForm();
-    cargarCategorias();
+function cargarDataProducto(idProducto, productoCallback) {// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
+
+//    cargarCategorias();
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/producto/get_productoById/" + idProducto,
@@ -218,9 +215,12 @@ function cargarDataProducto(idProducto) {// funcion que llamamos del archivo aja
                 $('#imgProducto').val(res.response.prod_imagen);
                 $('#imagen').attr('src', './assets/imagenes/producto/' + res.response.prod_imagen);
                 $('#idProducto').val(res.response.prod_id);
-                $('#Paderezos').prop("checked", res.response.prod_isAderezo==1);
-
+                $('#Paderezos').prop("checked", res.response.prod_isAderezo == 1);
                 $('#Pcategoria').val(res.response.prod_idCategoria);
+//                VerForm();
+
+                productoCallback()
+
 
 
 
@@ -238,8 +238,11 @@ function cargarDataProducto(idProducto) {// funcion que llamamos del archivo aja
         }
 
     });
+
+
     cargarComponentes(idProducto);
     cargarVariedades(idProducto);
+//    VerForm();
 
     //    CargarComponetesAgregar(idProducto);
 
@@ -247,6 +250,16 @@ function cargarDataProducto(idProducto) {// funcion que llamamos del archivo aja
 
 
 }
+
+function verDataProducto(idProducto) {
+
+    cargarDataProducto(idProducto, function () {
+        debugger;
+        console.log('terminó de hacer algo');
+        VerForm();
+    })
+}
+
 function cargarComponentes(idProducto) {
     $.ajax({
         type: "POST",
@@ -287,7 +300,6 @@ function cargarComponentes(idProducto) {
     });
 }
 //variedades
-
 function actualizarTablaVariedades(idProducto) {
     table2.ajax.url(baseurl + "index.php/producto/get_VariedadesById/" + idProducto).load()
 }
@@ -563,7 +575,7 @@ function actualizarProducto() {
             prod_idEstado: $('#PEstado').val(),
             prod_idCategoria: $('#Pcategoria').val(),
             prod_idEstadoVisible: $('#VEstado').val(),
-            prod_isAderezo: ($('#Paderezos').prop("checked") ?  '1' : '0'),
+            prod_isAderezo: ($('#Paderezos').prop("checked") ? '1' : '0'),
             prod_imagen: $('#imgProducto').val(),
             prod_id: $('#idProducto').val()
 
@@ -601,7 +613,7 @@ function actualizarProducto() {
 /**
  * Comment
  */
-function guardarImagen() {
+function guardarImagen(imagenCallback) {
     var inputFile = $('input#pImagen');
     var fileToUpload = inputFile[0].files[0];
     // make sure there is file to upload
@@ -613,6 +625,9 @@ function guardarImagen() {
         formData.append('prod_imagen', fileToUpload);
 
         // now upload the file using $.ajax
+        $('#tabImagen').on('loading.start', function (event, loadingObj) {
+            // do something whenever the loading state of #my-element is turned on
+        });
         $.ajax({
             url: baseurl + "index.php/producto/updImagen",
             type: 'post',
@@ -634,15 +649,25 @@ function guardarImagen() {
 
                         $('#imagen').attr('src', './assets/imagenes/producto/' + res.response);
                         $('#imgProducto').val(res.response);
+                        $('#tabImagen').on('loading.stop', function (event, loadingObj) {
+                            // do something whenever the loading state of #my-element is turned on
+                        });
+                        imagenCallback();
                     });
 
                 } else {
                     console.log(res.response);
+                    $('#tabImagen').on('loading.stop', function (event, loadingObj) {
+                            // do something whenever the loading state of #my-element is turned on
+                        });
                     sweetAlert("Oops...", JSON.stringify(res.response), "error");
 
                 }
             },
             error: function (request, status, error) {
+                $('#tabImagen').on('loading.stop', function (event, loadingObj) {
+                            // do something whenever the loading state of #my-element is turned on
+                        });
                 sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
                 console.log(error.message);
 
@@ -712,6 +737,7 @@ $(document).on("click", ".eliminarComp", function () {
 });
 OcultarForm();
 cargarFCategorias();
+cargarCategorias();
 
 $("#Fcategoria").change(function () {
     actualizarTablaCat(this.value);
@@ -726,7 +752,10 @@ $('#btnAgregarProd').click(function () {
     cargarCategorias();
 })
 $('#btnGuardarImg').click(function () {
-    guardarImagen();
+
+    guardarImagen(function () {
+        console.log('terminó de hacer algo');
+    });
 })
 
 

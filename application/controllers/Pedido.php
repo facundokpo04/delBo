@@ -10,7 +10,8 @@ class Pedido extends CI_Controller {
         parent::__construct();
         $this->user = ['user' => RestApi::getUserData()];
         // Valida que exista el usuario obtenido del token, del caso contrario lo regresa a la pagina de inicio que es nuestro controlador auth
-        if($this->user['user'] === null) redirect('');
+        if ($this->user['user'] === null)
+            redirect('');
         $this->load->model('PedidoModel', 'pm');
         $this->load->model('PedidoDetalleModel', 'dm');
         $this->load->model('PromoPedidoModel', 'dp');
@@ -40,28 +41,37 @@ class Pedido extends CI_Controller {
         }
         echo json_encode($data);
     }
-        public function get_pedidosFechaEnv($fecha) {
 
-       
+    public function get_pedidosFechaEnv($fecha) {
+
+
         $data = new stdClass();
         try {
             $data = $this->pm->getAllfechaPedEn($fecha);
-
-          
         } catch (Exception $e) {
             var_dump($e);
         }
         echo json_encode($data);
     }
-    
-      public function get_pedidosFechaPed($fecha) {
 
-       
+    public function get_pedidosFechaPed($fecha) {
+
+
         $data = new stdClass();
         try {
             $data = $this->pm->getAllfechaPedPe($fecha);
+        } catch (Exception $e) {
+            var_dump($e);
+        }
+        echo json_encode($data);
+    }
 
-            
+    public function get_pedidosFechaPre($fecha) {
+
+
+        $data = new stdClass();
+        try {
+            $data = $this->pm->getAllfechaPedPre($fecha);
         } catch (Exception $e) {
             var_dump($e);
         }
