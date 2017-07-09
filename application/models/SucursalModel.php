@@ -73,6 +73,14 @@ class SucursalModel extends CI_Model{
         );
         
     }
+    
+      public function getParTot($idSucursal){
+        return RestApi::call(
+            RestApiMethod::GET,
+            "parametros/obtenerTotal/$idSucursal"
+        );
+        
+    }
       public function registrarPar($data){
           return RestApi::call(
             RestApiMethod::POST,

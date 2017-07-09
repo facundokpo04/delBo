@@ -96,7 +96,7 @@ class Sucursal extends CI_Controller {
 
     public function updParametro($idSucursal) {
         $errors = array();
-        $result = '';
+        $result = 0;
         
          $respuesta = [
                     'estado' => false,
@@ -104,7 +104,7 @@ class Sucursal extends CI_Controller {
                     'response' => 'Valor por Defecto'
                 ];
 
-        $result = $this->sm->getPar($idSucursal);
+        $result = $this->sm->getParTot($idSucursal);
 
 
         $data = [
@@ -115,7 +115,7 @@ class Sucursal extends CI_Controller {
             'par_idSucursal' => $idSucursal
         ];
         try {
-            if (empty ($result)) {
+            if ($result<=0) {
                 $response = $this->sm->registrarPar($data);
                 $respuesta = [
                     'estado' => true,
