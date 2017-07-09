@@ -4,13 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Sucursal extends CI_Controller {
 
+  
     private $user;
 
     public function __CONSTRUCT() {
         parent::__construct();
         $this->user = ['user' => RestApi::getUserData()];
         // Valida que exista el usuario obtenido del token, del caso contrario lo regresa a la pagina de inicio que es nuestro controlador auth
-        if($this->user['user'] === null) redirect('');
+        if ($this->user['user'] === null)
+            redirect('');
 //
         $this->load->model('SucursalModel', 'sm');
     }
@@ -34,7 +36,9 @@ class Sucursal extends CI_Controller {
             $total = $result->total;
             $data->data = $result->data;
         } catch (Exception $e) {
-            var_dump($e);
+            if ($e->getMessage() === RestApiErrorCode::UNAUTHORIZED) {
+               redirect('');
+            }
         }
         echo json_encode($data);
     }
@@ -43,33 +47,51 @@ class Sucursal extends CI_Controller {
 
         try {
             $result = $this->sm->obtener($idSucursal);
-            $data = $result;
+            $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
         } catch (Exception $e) {
-            var_dump($e);
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
         }
-        echo json_encode($data);
+        echo json_encode($respuesta);
     }
 
     public function get_ParametroById($idSucursal) {
 
         try {
             $result = $this->sm->getPar($idSucursal);
-            $data = $result;
+            $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
         } catch (Exception $e) {
-            var_dump($e);
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
         }
-        echo json_encode($data);
+        echo json_encode($respuesta);
     }
 
     public function get_HorariosById($idSucursal) {
 
         try {
             $result = $this->sm->getAllDh($idSucursal);
-            $data = $result;
+            $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
         } catch (Exception $e) {
-            var_dump($e);
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
         }
-        echo json_encode($data);
+        echo json_encode($respuesta);
     }
 
     public function updParametro($idSucursal) {
@@ -84,31 +106,40 @@ class Sucursal extends CI_Controller {
             'par_pedidoMinimo' => $this->input->post('par_pedidoMinimo'),
             'par_tiempoEntrega' => $this->input->post('par_tiempoEntrega'),
             'par_costoEnvio' => $this->input->post('par_costoEnvio'),
-            'par_idSucursal' => $this->input->post('par_idSucursal')
+            'par_idSucursal' => $idSucursal
         ];
         try {
             if ($result == 'false') {
-                $this->sm->registrarPar($data);
+                $response = $this->sm->registrarPar($data);
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $response
+                ];
             } else {
-                $this->sm->actualizarPar($data, $idSucursal);
+                $response = $this->sm->actualizarPar($data, $idSucursal);
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $response
+                ];
             }
         } catch (Exception $e) {
 
             if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
                 $errors = RestApi::getEntityValidationFieldsError();
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => true,
+                    'response' => $errors
+                ];
+            } else {
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => false,
+                    'response' => $e->getMessage()
+                ];
             }
         }
-        if (count($errors) === 0)
-            redirect('sucursal');
-
-        else {
-            $this->load->view('layout/header');
-            $this->load->view('layout/menu');
-            $this->load->view('sucursal/validation', [
-                'errors' => $errors
-            ]);
-            $this->load->view('layout/footer');
-        }
+        echo json_encode($respuesta);
     }
 
     public function updsucursal() {
@@ -116,9 +147,7 @@ class Sucursal extends CI_Controller {
         $errors = array();
 
         $id = $this->input->post('suc_id');
-        $respuesta;
-
-
+        $respuesta = [];
 
         $data = [
             'suc_nombre' => $this->input->post('suc_nombre'),
@@ -131,31 +160,35 @@ class Sucursal extends CI_Controller {
         try {
             if (empty($id)) {
                 $response = $this->sm->registrar($data);
-
-                $respuesta = ($response->result);
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $response
+                ];
             } else {
-                $this->sm->actualizar($data, $id);
-                $respuesta = $id;
+                $response=$this->sm->actualizar($data, $id);
+                $respuesta = [
+                    'estado' => true,
+                    'response' => $response
+                ];
+//                $respuesta = $id;
             }
         } catch (Exception $e) {
             if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
                 $errors = RestApi::getEntityValidationFieldsError();
-                var_dump($errors);
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => true,
+                    'response' => $errors
+                ];
+            } else {
+                $respuesta = [
+                    'estado' => false,
+                    'validator' => false,
+                    'response' => $e->getMessage()
+                ];
             }
         }
-
-
-        if (count($errors) === 0) //redirect('sucursal')
-            //
-         echo json_encode($respuesta);
-        else {
-            $this->load->view('layout/header');
-            $this->load->view('layout/menu');
-            $this->load->view('sucursal/validation', [
-                'errors' => $errors
-            ]);
-            $this->load->view('layout/footer');
-        }
+          echo json_encode($respuesta);
     }
 
     public function updDiahorario() {
@@ -212,11 +245,17 @@ class Sucursal extends CI_Controller {
 
 
         try {
-            $respuesta = $this->sm->eliminar($idSucursal);
+            $result = $this->sm->eliminar($idSucursal);
+
+            $respuesta = [
+                'estado' => true,
+                'response' => $result
+            ];
         } catch (Exception $e) {
-            if ($e->getMessage() === RestApiErrorCode::UNPROCESSABLE_ENTITY) {
-                $errors = RestApi::getEntityValidationFieldsError();
-            }
+            $respuesta = [
+                'estado' => false,
+                'response' => $e->getMessage()
+            ];
         }
 //           
 

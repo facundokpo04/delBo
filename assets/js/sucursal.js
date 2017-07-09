@@ -31,15 +31,21 @@ function cargarParametros(idSucursal) {
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
-            $('#txtZonaE').val(res.par_zonaEntrega);
-            $('#txtPedidoM').val(res.par_pedidoMinimo);
-            $('#txtCostoE').val(res.par_costoEnvio);
-            $('#rangepm').val(res.par_pedidoMinimo);
-            $('#txtTiempoE').val(res.par_tiempoEntrega);
-            $('#rangete').val(res.par_tiempoEntrega);
+            if (res.estado) {
+                $('#txtZonaE').val(res.response.par_zonaEntrega);
+                $('#txtPedidoM').val(res.response.par_pedidoMinimo);
+                $('#txtCostoE').val(res.response.par_costoEnvio);
+                $('#rangepm').val(res.response.par_pedidoMinimo);
+                $('#txtTiempoE').val(res.response.par_tiempoEntrega);
+                $('#rangete').val(res.response.par_tiempoEntrega);
+            } else {
+                sweetAlert("Oops...", res.response, "error");
+                console.log(res.response);
+            }
 
         },
         error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
             console.log(error.message);
 
         }
@@ -47,7 +53,7 @@ function cargarParametros(idSucursal) {
 }
 
 function actualizarParametros(idSucursal) {
-
+debugger;
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/sucursal/updParametro/" + idSucursal,
@@ -56,16 +62,33 @@ function actualizarParametros(idSucursal) {
             par_zonaEntrega: $('#txtZonaE').val(),
             par_pedidoMinimo: $('#txtPedidoM').val(),
             par_tiempoEntrega: $('#txtTiempoE').val(),
-            par_costoEnvio: $('#txtCostoE').val(),
-            par_idSucursal: idSucursal
+            par_costoEnvio: $('#txtCostoE').val()
         },
         success: function (res) {
+            debugger;
+            if (res.estado) {
+                swal({
+                    title: "Los Datos Fueron Guardados!",
+                    text: "haga click!",
+                    type: "success",
+                },
+                        function () {
+
+//                            location.reload();
+                        });
+            } else {
+                debugger;
+                sweetAlert("Oops...", JSON.stringify(res.response), "error");
+                console.log(res.response);
+            }
 
 
 
         },
         error: function (request, status, error) {
-            console.log(error.message);
+            debugger;
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error);
 
         }
     });
@@ -126,7 +149,7 @@ function actualizarHorarios() {
             type: "success",
         },
                 function () {
-                    
+
                 });
     } else {
         sweetAlert("Oops...", "No se pudo actualizar los horarios", "error");
@@ -147,7 +170,8 @@ $('#mCerrarModal').click(function () {
 
 
 
-function actualizarSucursal(id) {
+function actualizarSucursal() {
+    debugger;
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/sucursal/updsucursal",
@@ -157,17 +181,23 @@ function actualizarSucursal(id) {
             suc_cuit: $('#txtCuit').val(),
             suc_razonSocial: $('#txtRazonSocial').val(),
             suc_direccion: $('#txtDomicilio').val(),
-            suc_id: $('#idSucursal').val()
-
-
+            suc_id: $('#idSucursal').val()   
         },
         success: function (res) {
             debugger;
+            if (res.estado) {
+                debugger;
+                actualizarParametros($('#idSucursal').val());
+            } else {
+                sweetAlert("Oops...", JSON.stringify(res.response), "error");
+                console.log(res.response);
+            }
 
-            actualizarParametros(res);
         },
         error: function (request, status, error) {
-            console.log(error.message);
+            debugger;
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error);
 
         }
     });
@@ -196,61 +226,67 @@ function cargarHorarios(idSucursal) {
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
 
+            if (res.estado) {
+                for (var i = 0; i < res.response.data.length; i++) {
 
-            for (var i = 0; i < res.data.length; i++) {
+                    $('#tablahorario tbody tr:last').after('<tr class="fila-base">' +
+                            ' <td>' +
+                            res.response.data[i].dh_id +
+                            '</td>' +
+                            ' <td>' +
+                            '  <select style="width: 90%" class="form-control" id="dia' + res.response.data[i].dh_id + '">' +
+                            '  <option value="1">Lunes</option>' +
+                            '  <option value="2">Martes</option>' +
+                            '  <option value="3">Miercoles</option>' +
+                            '  <option value="4">Jueves</option>' +
+                            '  <option value="5">Viernes</option>' +
+                            '  <option value="6">Sabado</option>' +
+                            '  <option value="0">Domingo</option>' +
+                            '  </select>' +
+                            '  </td>' +
+                            '  <td> <div  class="input-append datetimepicker">' +
+                            '  <input id="horaApertura' + res.response.data[i].dh_id + '" data-format="hh:mm:ss" type="text" style="width: 90%"></input>' +
+                            '  <span class="add-on">' +
+                            '  <i class="fa fa-clock-o"></i>' +
+                            '  </span>' +
+                            '  </div>' +
+                            '  </div>' +
+                            '  </td>' +
+                            '  <td>' +
+                            '  <div  class="input-append datetimepicker">' +
+                            '  <input id="horaCierre' + res.response.data[i].dh_id + '" data-format="hh:mm:ss" type="text" style="width: 90%"></input>' +
+                            '  <span class="add-on">' +
+                            '  <i class="fa fa-clock-o"></i>' +
+                            '  </span>' +
+                            '  </div>' +
+                            '  </div>' +
+                            '  </td>' +
+                            '  <td class="eliminar"><a href="#"  onClick=""><i style="color:red;" class="glyphicon glyphicon-remove"></i></a></td>' +
+                            '  </tr>');
 
-                $('#tablahorario tbody tr:last').after('<tr class="fila-base">' +
-                        ' <td>' +
-                        res.data[i].dh_id +
-                        '</td>' +
-                        ' <td>' +
-                        '  <select style="width: 90%" class="form-control" id="dia' + res.data[i].dh_id + '">' +
-                        '  <option value="1">Lunes</option>' +
-                        '  <option value="2">Martes</option>' +
-                        '  <option value="3">Miercoles</option>' +
-                        '  <option value="4">Jueves</option>' +
-                        '  <option value="5">Viernes</option>' +
-                        '  <option value="6">Sabado</option>' +
-                        '  <option value="0">Domingo</option>' +
-                        '  </select>' +
-                        '  </td>' +
-                        '  <td> <div  class="input-append datetimepicker">' +
-                        '  <input id="horaApertura' + res.data[i].dh_id + '" data-format="hh:mm:ss" type="text" style="width: 90%"></input>' +
-                        '  <span class="add-on">' +
-                        '  <i class="fa fa-clock-o"></i>' +
-                        '  </span>' +
-                        '  </div>' +
-                        '  </div>' +
-                        '  </td>' +
-                        '  <td>' +
-                        '  <div  class="input-append datetimepicker">' +
-                        '  <input id="horaCierre' + res.data[i].dh_id + '" data-format="hh:mm:ss" type="text" style="width: 90%"></input>' +
-                        '  <span class="add-on">' +
-                        '  <i class="fa fa-clock-o"></i>' +
-                        '  </span>' +
-                        '  </div>' +
-                        '  </div>' +
-                        '  </td>' +
-                        '  <td class="eliminar"><a href="#"  onClick=""><i style="color:red;" class="glyphicon glyphicon-remove"></i></a></td>' +
-                        '  </tr>');
-
-                $('#dia' + res.data[i].dh_id).val(res.data[i].dh_diaSemana);
-                $('#horaApertura' + res.data[i].dh_id).val(res.data[i].dh_horaApertura);
-                $('#horaCierre' + res.data[i].dh_id).val(res.data[i].dh_horaCierre);
-
-
+                    $('#dia' + res.response.data[i].dh_id).val(res.response.data[i].dh_diaSemana);
+                    $('#horaApertura' + res.response.data[i].dh_id).val(res.response.data[i].dh_horaApertura);
+                    $('#horaCierre' + res.response.data[i].dh_id).val(res.response.data[i].dh_horaCierre);
 
 
+
+
+                }
+                $('.datetimepicker').datetimepicker({
+                    pickDate: false,
+                    pickSeconds: false,
+                    format: "hh:mm",
+                    pick12HourFormat: false
+                });
+
+            } else {
+                sweetAlert("Oops...", JSON.stringify(res.response), "error");
+                console.log(res.response);
             }
-            $('.datetimepicker').datetimepicker({
-                pickDate: false,
-                pickSeconds: false,
-                format: "hh:mm",
-                pick12HourFormat: false
-            });
-
-
-
+        },
+        error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error);
         }
     });
 
@@ -299,7 +335,7 @@ $("#agregar").on('click', function () {
             '  </div>' +
             '  </div>' +
             '  </td>' +
-            '  <td class="eliminar"><a href="#"  onClick=""><i style="color:red;" class="glyphicon glyphicon-remove"></i></a></td>' +
+//            '  <td class="eliminar"><a href="#"  onClick=""><i style="color:red;" class="glyphicon glyphicon-remove"></i></a></td>' +
             '  </tr>');
 
     $('.datetimepicker').datetimepicker({
@@ -329,6 +365,12 @@ $('#tbSucursales').DataTable({
         "data": {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
 
     },
+    error: function (request, status, error) {
+        debugger;
+        console.log(error.message);
+
+    },
+
     'columns': [
 
         {data: 'suc_id', 'sClass': 'dt-body-center'},
@@ -348,7 +390,6 @@ $('#tbSucursales').DataTable({
                         '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
                         '    <li><a href="#" title="Editar informacion"   onClick="cargarDataSucursal(\'' + row.suc_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i> Editar</a></li>' +
                         '    <li><a href="#"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver</a></li>' +
-                        '    <li><a href="#" title="Eliminar Sucursal" onClick="eliminarSucursal(\'' + row.suc_id + '\');"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
                         '    </ul>' +
                         '</div>' +
                         '</span>';
@@ -384,14 +425,25 @@ function cargarDataSucursal(idSucursal) {// funcion que llamamos del archivo aja
         dataType: 'json',
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
-            $('#txtNombre').val(res.suc_nombre);
-            $('#txtRazonSocial').val(res.suc_razonSocial);
-            $('#txtCuit').val(res.suc_cuit);//select
-            //ajax para traer todos los estados
-            $('#txtDomicilio').val(res.suc_direccion);
-            $('#idSucursal').val(res.suc_id);//select
 
+            if (res.estado) {
+                $('#txtNombre').val(res.response.suc_nombre);
+                $('#txtRazonSocial').val(res.response.suc_razonSocial);
+                $('#txtCuit').val(res.response.suc_cuit);//select
+                //ajax para traer todos los estados
+                $('#txtDomicilio').val(res.response.suc_direccion);
+                $('#idSucursal').val(res.response.suc_id);//select
+            } else {
+                sweetAlert("Oops...", res.response, "error");
+                console.log(res.response);
+            }
+
+        },
+        error: function (request, status, error) {
+            sweetAlert("Oops...", "Ocurrio un Error Inesperado!", "error");
+            console.log(error);
         }
+
     });
     cargarParametros(idSucursal);
     cargarHorarios(idSucursal);
@@ -400,16 +452,19 @@ function cargarDataSucursal(idSucursal) {// funcion que llamamos del archivo aja
 }
 
 function eliminarSucursal(idSucursal) {
-    $.ajax({
-        type: "POST",
-        url: baseurl + "index.php/sucursal/eliminar/" + idSucursal,
-        dataType: 'json',
-        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
-        success: function (res) {
-            window.location.reload(true);
 
-        }
-    });
+    //no dejar que eliminen sucursal.
+
+//    $.ajax({
+//        type: "POST",
+//        url: baseurl + "index.php/sucursal/eliminar/" + idSucursal,
+//        dataType: 'json',
+//        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+//        success: function (res) {
+//            window.location.reload(true);
+//
+//        }
+//    });
 }
 
 $('#btnAgregarSuc').click(function () {
@@ -423,5 +478,6 @@ $('#btnAgregarSuc').click(function () {
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 
 
