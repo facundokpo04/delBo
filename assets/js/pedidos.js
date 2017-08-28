@@ -558,7 +558,7 @@ getHora = function (fecha) {
     h = n.getHours();
     m = n.getMinutes();
 
-    return(h + ":" + m);
+     return(h + ":" +( m>9 ? m:"0"+m));
 
 }
 selPedido = function (idpedido, idempleado) {
