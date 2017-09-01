@@ -132,11 +132,11 @@
                 <div class="col-xs-12 table-responsive">
                     <table id="tbProductos" class="table table-striped">
                         <thead>
-                            <tr>
+                             <tr>
                                 <th>Cant</th>
                                 <th>Item</th>
                                 <th>Categoria</th>
-                                <th>Nombre</th>
+                                <th>Producto</th>
                                 <th>Aclaracion</th>
                                 <th>Subtotal</th>
                             </tr>

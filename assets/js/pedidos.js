@@ -396,7 +396,7 @@ cargarDetalle = function (idPedido) {
                             ' <td>' +
                             item.producto.prod_codigoProducto +
                             ' </td>' +
-                             ' <td>' +
+                            ' <td>' +
                             item.producto.cat_nombre +
                             ' </td>' +
                             ' <td><strong>' +
@@ -473,6 +473,9 @@ cargarDetallePromo = function (idPedido) {
                                 ' <td>' +
                                 '-' +
                                 ' </td>' +
+                                ' <td>' +
+                                '-' +
+                                ' </td>' +
                                 ' <td><strong>' +
                                 item.promo.ppro_nombre +
                                 '</strong></td>' +
@@ -493,7 +496,10 @@ cargarDetallePromo = function (idPedido) {
                                     '' +
                                     ' </td>' +
                                     ' <td>' +
-                                    prod.prod_nombre + '-' + (prod.var_nombre ? prod.var_nombre : '') +
+                                    '' +
+                                    ' </td>' +
+                                    ' <td>' +
+                                    prod.prod_nombre +  (prod.var_nombre ? ('-' + prod.var_nombre) : '') +
                                     '</td>' +
                                     ' <td>' +
                                     prod.pp_aclaracion +
@@ -561,7 +567,7 @@ getHora = function (fecha) {
     h = n.getHours();
     m = n.getMinutes();
 
-     return(h + ":" +( m>9 ? m:"0"+m));
+    return(h + ":" + (m > 9 ? m : "0" + m));
 
 }
 selPedido = function (idpedido, idempleado) {
