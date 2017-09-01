@@ -396,8 +396,11 @@ cargarDetalle = function (idPedido) {
                             ' <td>' +
                             item.producto.prod_codigoProducto +
                             ' </td>' +
+                             ' <td>' +
+                            item.producto.cat_nombre +
+                            ' </td>' +
                             ' <td><strong>' +
-                            item.producto.prod_nombre + '-' + (item.producto.var_nombre ? item.producto.var_nombre : '') +
+                            item.producto.prod_nombre + (item.producto.var_nombre ? ('-' + item.producto.var_nombre) : '') +
                             '</td><strong>' +
                             ' <td>' +
                             item.producto.pp_aclaracion +
