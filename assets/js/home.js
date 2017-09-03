@@ -110,8 +110,8 @@ getPedidosCant = function (fechamenu) {
             $('#cantPedidos').append(parseInt(res));
             $('#cantPedidostext').append('Tienes ' + (isNaN(parseInt(res)) ? '0' : parseInt(res)) + ' Pedidos Para Enviar');
             cantpedidos = (isNaN(parseInt(res)) ? 0 : parseInt(res))
-            if (cantpedidos > pedidosAct) {
-                pedidosAct = cantpedidos;
+            if (cantpedidos > sessionStorage.pedidosAct) {
+                sessionStorage.pedidosAct = cantpedidos;
                 playSound();
 
                 Push.create("Nuevo Pedido", {
@@ -125,7 +125,7 @@ getPedidosCant = function (fechamenu) {
                 });
 
             } else {
-                pedidosAct = cantpedidos;
+                sessionStorage.pedidosAct = cantpedidos;
             }
         },
         error: function (request, status, error) {
@@ -205,7 +205,9 @@ getPedidosCantEn = function (fechamenu) {
 
 
 var fechamenu = fechaHoyMenu();
-var pedidosAct = 0;
+if (!sessionStorage.pedidosAct) {
+    sessionStorage.pedidosAct = 0;
+}
 getPedidosCant(fechamenu);
 getPedidosCantEn(fechamenu);
 getPedidosCantPre(fechamenu);
