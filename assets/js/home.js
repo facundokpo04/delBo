@@ -205,6 +205,7 @@ getPedidosCantEn = function (fechamenu) {
 
 
 var fechamenu = fechaHoyMenu();
+var pedidosAct = 0;
 getPedidosCant(fechamenu);
 getPedidosCantEn(fechamenu);
 getPedidosCantPre(fechamenu);
