@@ -59,7 +59,10 @@
 <script src="<?php echo base_url(); ?>assets/dist/js/sweetalert.min.js"></script>
 
 <!-- jqueryloading -->
-<script src="<?php echo base_url(); ?>assets/dist/js/jquery.loading.min.js"></script>//iniciliza todo
+<script src="<?php echo base_url(); ?>assets/dist/js/jquery.loading.min.js"></script>
+<!-- push.js -->
+<script src="<?php echo base_url(); ?>assets/dist/js/push.min.js"></script>
+//iniciliza todo
 <script   type="text/javascript" src="<?php echo base_url('assets/js/home.js') ?>"></script>
 
 
