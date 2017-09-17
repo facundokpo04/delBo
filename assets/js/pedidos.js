@@ -329,7 +329,7 @@ getPedido = function (idpedido) {
                         '<b>Fecha Pedido:</b>' + getFecha(res.response.pe_fechaPedido) + '<br>' +
                         '<b>Hora Pedido:</b>' + getHora(res.response.pe_fechaPedido) + '<br>' +
                         '<b>Estado:</b>' + res.response.descripcion + '<br>' +
-                        '<b>Metodo Pago:</b>' + res.response.pe_medioPago);
+                        '<b>Metodo Pago:</b>' + (res.response.pe_medioPago == 'Debito' ? "<span class='label label-danger'> Tarjeta de Debito </span>" : res.response.pe_medioPago));
 
                 $('#fechaP').text("Fecha Pedido: " + getFecha(res.response.pe_fechaPedido));
                 $('#aclaracionP').text(res.response.pe_aclaraciones);
@@ -403,7 +403,7 @@ cargarDetalle = function (idPedido) {
                             item.producto.prod_nombre + (item.producto.var_nombre ? ('-' + item.producto.var_nombre) : '') +
                             '</td><strong>' +
                             ' <td>' +
-                            item.producto.pp_aclaracion +
+                            (item.producto.pp_aclaracion == 'Sin Aclaracion' ? item.producto.pp_aclaracion : "<span class='label label-info'>" + item.producto.pp_aclaracion + "</span>") + +
                             ' </td>' +
                             ' <td>' + '$&nbsp;' +
                             item.producto.dp_PrecioUnitario +
@@ -499,7 +499,7 @@ cargarDetallePromo = function (idPedido) {
                                     '' +
                                     ' </td>' +
                                     ' <td>' +
-                                    prod.prod_nombre +  (prod.var_nombre ? ('-' + prod.var_nombre) : '') +
+                                    prod.prod_nombre + (prod.var_nombre ? ('-' + prod.var_nombre) : '') +
                                     '</td>' +
                                     ' <td>' +
                                     prod.pp_aclaracion +
