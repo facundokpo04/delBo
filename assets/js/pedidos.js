@@ -403,7 +403,7 @@ cargarDetalle = function (idPedido) {
                             item.producto.prod_nombre + (item.producto.var_nombre ? ('-' + item.producto.var_nombre) : '') +
                             '</td><strong>' +
                             ' <td>' +
-                            (item.producto.pp_aclaracion == 'Sin Aclaracion' ? item.producto.pp_aclaracion : "<span class='label label-info'>" + item.producto.pp_aclaracion + "</span>") + +
+                            (item.producto.pp_aclaracion == 'Sin Aclaracion' ? item.producto.pp_aclaracion : "<span class='label label-info'>" + item.producto.pp_aclaracion + "</span>")+
                             ' </td>' +
                             ' <td>' + '$&nbsp;' +
                             item.producto.dp_PrecioUnitario +
