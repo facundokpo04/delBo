@@ -218,17 +218,23 @@ function onGranted() {}
 function onDenied() {}
 ;
 
-var int2 = self.setInterval("refreshmenu()", 60000);
+var int2 = self.setInterval("refreshmenu()", 30000);
 function refreshmenu()
 {
     fechamenu = fechaHoyMenu();
     getPedidosCant(fechamenu);
     getPedidosCantEn(fechamenu);
     getPedidosCantPre(fechamenu);
+    
+    
+        if (sessionStorage.pedidosAct > 0) {
+        this.playSound();
+    }
+
 }
 
 function playSound() {
-    var audio = new Audio('assets/sonidos/coin.mp3');
+    var audio = new Audio('assets/sonidos/phone.mp3');
     audio.play();
 }
 
