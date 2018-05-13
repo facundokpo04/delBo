@@ -139,7 +139,7 @@ class RestApi{
 }
 
 RestApi::initialize(
-    'http://104.197.181.159/delApi/public/',
+    'http://35.192.221.124/delApi/public/',
     'APP-TOKEN'
 );
 
