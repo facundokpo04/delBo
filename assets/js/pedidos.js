@@ -1,4 +1,11 @@
 
+
+onload=function()
+    {
+       fechaHoy();
+    };
+
+
 var dp = $('#txtFechaPedido').datepicker({
     autoclose: true,
     format: 'yyyy-mm-dd',
@@ -155,7 +162,8 @@ cambiarAPreparado = function (idPedido) {
                     type: "success",
                 },
                         function () {
-                            location.reload();
+                           // location.reload();
+                               fechaHoy();
                         });
 
             } else {
@@ -192,7 +200,10 @@ cambiarAEnviado = function (idPedido, idEmpleado, nombreEmpleado) {
                     type: "success",
                 },
                         function () {
-                            location.reload();
+                  ;
+                               //location.reload();
+                            fechaHoy();
+                            $('#modalEnviarPedido').modal('hide');
                         });
 
             } else {
@@ -229,7 +240,9 @@ cancelarPedido = function (idPedido, motivo) {
                     type: "success",
                 },
                         function () {
-                            location.reload();
+                              // location.reload();
+                            fechaHoy();
+                            $('#modalCancelarPedido').modal('hide')
                         });
 
             } else {
@@ -693,4 +706,4 @@ $("#selEst").change(function () {
     }
 })
 
-var int = self.setInterval("fechaHoy()", 60000);
+var int = self.setInterval("fechaHoy()", 30000);
