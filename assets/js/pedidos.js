@@ -3,6 +3,14 @@
 onload=function()
     {
        fechaHoy();
+    var fecha = $('#txtFechaPedido').val();
+
+    if (fecha) {
+        tablaP.clear();
+        tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
+
+    }
+
     };
 
 
