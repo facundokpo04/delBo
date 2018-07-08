@@ -3,13 +3,6 @@
 onload=function()
     {
        fechaHoy();
-    var fecha = $('#txtFechaPedido').val();
-
-    if (fecha) {
-        tablaP.clear();
-        tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
-
-    }
 
     };
 
@@ -67,7 +60,7 @@ $('#tblPedidos').DataTable({
     'filter': true,
     'stateSave': true,
     'ajax': {
-        "url": baseurl + "index.php/pedido/get_pedidos/",
+        "url": baseurl + "index.php/pedido/get_pedidosFecha/"+ $('#txtFechaPedido').val() ,
         "type": "POST",
         "dataType": 'json',
         "data": {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
