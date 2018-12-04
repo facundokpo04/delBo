@@ -1,11 +1,9 @@
+onload = function ()
+{
+    fechaHoy();
 
 
-onload=function()
-    {
-       fechaHoy();
-
-    };
-
+}
 
 var dp = $('#txtFechaPedido').datepicker({
     autoclose: true,
@@ -27,8 +25,6 @@ function VerForm() {
     $("#pedido").show();// Mostramos el formulario
     $("#pedidos").hide();
 }
-
-
 function OcultarForm() {
     $("#pedido").hide();// Mostramos el formulario
     $("#pedidos").show();
@@ -47,7 +43,6 @@ $("#txtFechaPedido").change(function () {
 
     if (fecha) {
         tablaP.clear();
-
         tablaP.ajax.url(baseurl + "index.php/pedido/get_pedidosFecha/" + fecha).load();
 
     }
@@ -60,7 +55,7 @@ $('#tblPedidos').DataTable({
     'filter': true,
     'stateSave': true,
     'ajax': {
-        "url": baseurl + "index.php/pedido/get_pedidosFecha/"+ $('#txtFechaPedido').val() ,
+        "url": baseurl + "index.php/pedido/get_pedidosFecha/" + $('#txtFechaPedido').val(),
         "type": "POST",
         "dataType": 'json',
         "data": {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
@@ -70,7 +65,7 @@ $('#tblPedidos').DataTable({
         {data: 'pe_idEstado'},
         {data: 'per_nombre'},
         {data: 'pe_cli_tel'},
-        {data: 'dir_direccion'},
+        {data: 'dir_tipodireccion'},
         {data: 'dir_telefonoFijo'},
         {data: 'pe_nombreEmp'},
         {data: 'pe_fechaPedido'},
@@ -104,7 +99,6 @@ $('#tblPedidos').DataTable({
             "targets": [1],
             "data": "pe_idEstado",
             "render": function (data, type, row) {
-
                 if (data == 1) {
                     return "<span class='label label-warning'>Pendiente</span>";
                 } else if (data == 2) {
@@ -113,6 +107,18 @@ $('#tblPedidos').DataTable({
                     return "<span class='label label-success'>Enviando</span>";
                 } else if (data == 4) {
                     return "<span class='label label-danger'>Cancelado</span>";
+                }
+
+            }
+        },
+        {
+            "targets": [4],
+            "data": "dir_tipodireccion",
+            "render": function (data, type, row) {
+                if (data != 2) {
+                    return row.dir_direccion;
+                } else if (data == 2) {
+                    return'<b>Hotel: </b>' + row.dir_nombreHotel + ' <b>Habitacion: </b> ' + row.dir_habitacion + '<br>' + row.dir_direccion;
                 }
 
             }
@@ -163,8 +169,8 @@ cambiarAPreparado = function (idPedido) {
                     type: "success",
                 },
                         function () {
-                           // location.reload();
-                               fechaHoy();
+                            //location.reload();
+                            fechaHoy();
                         });
 
             } else {
@@ -201,8 +207,7 @@ cambiarAEnviado = function (idPedido, idEmpleado, nombreEmpleado) {
                     type: "success",
                 },
                         function () {
-                  ;
-                               //location.reload();
+                            //location.reload();
                             fechaHoy();
                             $('#modalEnviarPedido').modal('hide');
                         });
@@ -241,9 +246,9 @@ cancelarPedido = function (idPedido, motivo) {
                     type: "success",
                 },
                         function () {
-                              // location.reload();
+                            // location.reload();
                             fechaHoy();
-                            $('#modalCancelarPedido').modal('hide')
+                            $('#modalCancelarPedido').modal('hide');
                         });
 
             } else {
@@ -271,20 +276,51 @@ getCliente = function (idpedido) {
         success: function (res) {
             if (res.estado) {
                 debugger;
-                $('#cliente').append('<strong>' + res.response.per_nombre + '</strong><br>Direccion: ' +
-                        res.response.dir_direccion +
-                        '<br>Telefono Fijo: ' +
-                        res.response.dir_telefonoFijo +
-                        '<br>Celular: ' +
-                        res.response.per_celular +
-                        '<br>' +
-                        'Email: ' +
-                        res.response.per_email);
+                if (res.response.dir_tipodireccion !=2) {
+                    $('#cliente').append('<strong>' + res.response.per_nombre + '</strong><br>Direccion: ' +
+                            res.response.dir_direccion +
+                            '<br>Telefono Fijo: ' +
+                            res.response.dir_telefonoFijo +
+                            '<br>Celular: ' +
+                            res.response.per_celular +
+                            '<br>' +
+                            'Email: ' +
+                            res.response.per_email);
 
-                $('#cliente2').append(' <strong>&nbspCliente:&nbsp</strong> ' + res.response.per_nombre + '<strong>&nbspDireccion: &nbsp</strong> ' +
-                        res.response.dir_direccion +
-                        '<strong>&nbspTelefono:&nbsp</strong> ' +
-                        res.response.per_celular);
+                    $('#cliente2').append(' <strong>&nbspCliente:&nbsp</strong> ' + res.response.per_nombre + '<strong>&nbspDireccion: &nbsp</strong> ' +
+                            res.response.dir_direccion +
+                            '<strong>&nbspTelefono:&nbsp</strong> ' +
+                            res.response.per_celular);
+                }
+                else{
+                    debugger;
+                       $('#cliente').append('<strong>' + res.response.per_nombre + 
+                              '</strong><br>Hotel: ' +
+                            res.response.dir_nombreHotel +  
+                            '</strong><br>Habitacion/Dpto: ' +
+                            res.response.dir_habitacion +  
+                            '</strong><br>Direccion: ' +
+                            res.response.dir_direccion +
+                            '<br>Telefono Fijo: ' +
+                            res.response.dir_telefonoFijo +
+                            '<br>Celular: ' +
+                            res.response.per_celular +
+                            '<br>' +
+                            'Email: ' +
+                            res.response.per_email);
+
+                    $('#cliente2').append(' <strong>&nbspCliente:&nbsp</strong> ' + res.response.per_nombre 
+                            + '<strong>&nbspHotel: &nbsp</strong> ' +
+                            res.response.dir_nombreHotel +
+                            '<strong>&nbspHabitacion/Dpto: &nbsp</strong> ' +
+                            res.response.dir_habitacion +
+                            '<strong>&nbspDireccion: &nbsp</strong> ' +
+                            res.response.dir_direccion +
+                            '<strong>&nbspTelefono:&nbsp</strong> ' +
+                            res.response.per_celular);
+                    
+                }
+
             } else {
                 sweetAlert("Oops...", "Error al Obtner el Cliente!", "error");
                 console.log(res.response)
@@ -339,12 +375,15 @@ getPedido = function (idpedido) {
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
             if (res.estado) {
+                debugger;
                 $('#pedidoE').append(' <b>Pedido #PED' + res.response.pe_id + '</b><br>' +
                         '<b>Pedido ID:</b>' + res.response.pe_id + '<br>' +
                         '<b>Fecha Pedido:</b>' + getFecha(res.response.pe_fechaPedido) + '<br>' +
                         '<b>Hora Pedido:</b>' + getHora(res.response.pe_fechaPedido) + '<br>' +
                         '<b>Estado:</b>' + res.response.descripcion + '<br>' +
                         '<b>Metodo Pago:</b>' + (res.response.pe_medioPago == 'Debito' ? "<span class='label label-danger'> Tarjeta de Debito </span>" : res.response.pe_medioPago));
+
+
 
                 $('#fechaP').text("Fecha Pedido: " + getFecha(res.response.pe_fechaPedido));
                 $('#aclaracionP').text(res.response.pe_aclaraciones);
@@ -403,7 +442,7 @@ cargarDetalle = function (idPedido) {
 
             if (res.estado) {
                 res.response.forEach(function (item) {
-
+                    debugger;
                     $('#tbProductos tbody').append('<tr>' +
                             ' <td>' +
                             item.producto.dp_Cantidad +
@@ -418,7 +457,7 @@ cargarDetalle = function (idPedido) {
                             item.producto.prod_nombre + (item.producto.var_nombre ? ('-' + item.producto.var_nombre) : '') +
                             '</td><strong>' +
                             ' <td>' +
-                            (item.producto.pp_aclaracion == 'Sin Aclaracion' ? item.producto.pp_aclaracion : "<span class='label label-info'>" + item.producto.pp_aclaracion + "</span>")+
+                            (item.producto.pp_aclaracion == 'Sin Aclaracion' ? item.producto.pp_aclaracion : "<span class='label label-info'>" + item.producto.pp_aclaracion + "</span>") +
                             ' </td>' +
                             ' <td>' + '$&nbsp;' +
                             item.producto.dp_PrecioUnitario +
@@ -476,7 +515,7 @@ cargarDetallePromo = function (idPedido) {
         success: function (res) {
 
             if (res.estado) {
-                debugger;
+
 
                 if (res.response instanceof Array)
                     res.response.forEach(function (item) {
@@ -514,7 +553,7 @@ cargarDetallePromo = function (idPedido) {
                                     '' +
                                     ' </td>' +
                                     ' <td>' +
-                                    prod.prod_nombre + (prod.var_nombre ? ('-' + prod.var_nombre) : '') +
+                                    prod.prod_nombre + '-' + (prod.var_nombre ? ('-' + prod.var_nombre) : '') +
                                     '</td>' +
                                     ' <td>' +
                                     prod.pp_aclaracion +
@@ -582,6 +621,7 @@ getHora = function (fecha) {
     h = n.getHours();
     m = n.getMinutes();
 
+
     return(h + ":" + (m > 9 ? m : "0" + m));
 
 }
@@ -600,13 +640,13 @@ selPedidoEnviar = function (idpedido) {
 
     cargarEmpleados();
     $('#midPedido').val(idpedido);
-    debugger;
+
 
 
 };
 selPedidoResumen = function (idpedido) {
 
-    debugger;
+
     $('#resumenP').empty();
     $.ajax({
         type: "POST",
@@ -615,7 +655,7 @@ selPedidoResumen = function (idpedido) {
         data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
         success: function (res) {
             if (res.estado) {
-                debugger;
+
 
                 var str = res.response.pe_resumen
                 var res = str.replace(/\n/g, "<br />");
@@ -653,7 +693,7 @@ $('#mbtnEnviarPedido').click(function () {
     var idPedido = $('#midPedido').val();
     var idEmpleado = $('#mRepartidor').val();
     var nombreEmpleado = $('#mRepartidor option:selected').text();
-    debugger;
+
     cambiarAEnviado(idPedido, idEmpleado, nombreEmpleado);
 
 
@@ -680,10 +720,11 @@ $('#mbtnCancelarPedido').click(function () {
         closeOnCancel: false
     },
             function (isConfirm) {
-                debugger;
+
                 if (isConfirm) {
 
-                    if (estadoPedido == 2 || estadoPedido == 3) {
+                    // if (estadoPedido == 2 || estadoPedido == 3) {
+                    if (false) {
                         swal("Atencion", "No se puede cancelar un pedido que esta siendo Enviado/Preparado", "error");
 
                     } else {

@@ -35,6 +35,7 @@
                 <ul class="treeview-menu">              
                     <li><a href="persona"><i class="fa fa-circle-o"></i> Persona</a></li>
                     <li><a href="empleado"><i class="fa fa-circle-o"></i> Empleado</a></li>
+                    <li><a href="hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
                 </ul>
             </li>
             <li class="active treeview">
