@@ -34,7 +34,7 @@ class PedidoModel extends CI_Model {
 
     public function obtenerCliente($id) {
         return RestApi::call(
-                        RestApiMethod::GET, "pedidoencabezado/obtenercli/$id"
+                        RestApiMethod::GET, "pedidoencabezado/obtenercli2/$id"
         );
     }
 
