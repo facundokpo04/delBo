@@ -152,6 +152,81 @@ var tablaP = $('#tblPedidos').DataTable();
 fechaHoy();
 tablaP.search('').columns().search('').draw();
 
+
+getClienteData = function (idpedido, callback) {
+
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/pedido/getCliente/" + idpedido,
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
+            debugger;
+            // como parámetro, con "resultado" como argumento
+            callback(res);
+
+
+        },
+        error: function (request, status, error) {
+            var res = {}
+            res.estado = false;
+            callback(res);
+
+
+        }
+    });
+
+}
+
+getPedidoData = function (idpedido) {
+    $.ajax({
+        type: "POST",
+        url: baseurl + "index.php/pedido/getPedido/" + idpedido,
+        dataType: 'json',
+        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        success: function (res) {
+            return res
+        },
+        error: function (request, status, error) {
+            return error
+
+        }
+    });
+
+}
+
+enviarEmail = function (idpedido, estado) {
+
+    getClienteData(idpedido, function (res) {
+        // "resultado" contiene la cadena que necesitas retornar
+        debugger;
+        $.ajax({
+            type: "POST",
+            url: baseurl + "index.php/email/sendMailGmail",
+            dataType: 'json',
+            data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+                idPedido: idpedido,
+                estado: estado,
+                email: res.response.per_email
+
+            },
+            success: function (res) {
+                debugger;
+            },
+            error: function (request, status, error) {
+                sweetAlert("Oops...", "Ocurrio un error al enviar el Email!", "error");
+                console.log(error.message);
+
+            }
+
+        });
+    });
+
+
+
+}
+
+
 cambiarAPreparado = function (idPedido) {
     $.ajax({
         type: "POST",
@@ -171,6 +246,7 @@ cambiarAPreparado = function (idPedido) {
                         function () {
                             //location.reload();
                             fechaHoy();
+                            enviarEmail(idPedido, "Preparado");
                         });
 
             } else {
@@ -187,6 +263,12 @@ cambiarAPreparado = function (idPedido) {
 
 
 };
+
+
+
+
+
+
 cambiarAEnviado = function (idPedido, idEmpleado, nombreEmpleado) {
     $.ajax({
         type: "POST",
@@ -209,7 +291,9 @@ cambiarAEnviado = function (idPedido, idEmpleado, nombreEmpleado) {
                         function () {
                             //location.reload();
                             fechaHoy();
+
                             $('#modalEnviarPedido').modal('hide');
+                            enviarEmail(idPedido, "Enviado");
                         });
 
             } else {
@@ -276,7 +360,7 @@ getCliente = function (idpedido) {
         success: function (res) {
             if (res.estado) {
                 debugger;
-                if (res.response.dir_tipodireccion !=2) {
+                if (res.response.dir_tipodireccion != 2) {
                     $('#cliente').append('<strong>' + res.response.per_nombre + '</strong><br>Direccion: ' +
                             res.response.dir_direccion +
                             '<br>Telefono Fijo: ' +
@@ -291,14 +375,13 @@ getCliente = function (idpedido) {
                             res.response.dir_direccion +
                             '<strong>&nbspTelefono:&nbsp</strong> ' +
                             res.response.per_celular);
-                }
-                else{
+                } else {
                     debugger;
-                       $('#cliente').append('<strong>' + res.response.per_nombre + 
-                              '</strong><br>Hotel: ' +
-                            res.response.dir_nombreHotel +  
+                    $('#cliente').append('<strong>' + res.response.per_nombre +
+                            '</strong><br>Hotel: ' +
+                            res.response.dir_nombreHotel +
                             '</strong><br>Habitacion/Dpto: ' +
-                            res.response.dir_habitacion +  
+                            res.response.dir_habitacion +
                             '</strong><br>Direccion: ' +
                             res.response.dir_direccion +
                             '<br>Telefono Fijo: ' +
@@ -309,7 +392,7 @@ getCliente = function (idpedido) {
                             'Email: ' +
                             res.response.per_email);
 
-                    $('#cliente2').append(' <strong>&nbspCliente:&nbsp</strong> ' + res.response.per_nombre 
+                    $('#cliente2').append(' <strong>&nbspCliente:&nbsp</strong> ' + res.response.per_nombre
                             + '<strong>&nbspHotel: &nbsp</strong> ' +
                             res.response.dir_nombreHotel +
                             '<strong>&nbspHabitacion/Dpto: &nbsp</strong> ' +
@@ -318,7 +401,7 @@ getCliente = function (idpedido) {
                             res.response.dir_direccion +
                             '<strong>&nbspTelefono:&nbsp</strong> ' +
                             res.response.per_celular);
-                    
+
                 }
 
             } else {
