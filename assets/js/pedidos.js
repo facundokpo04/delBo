@@ -265,10 +265,6 @@ cambiarAPreparado = function (idPedido) {
 };
 
 
-
-
-
-
 cambiarAEnviado = function (idPedido, idEmpleado, nombreEmpleado) {
     $.ajax({
         type: "POST",
@@ -291,7 +287,6 @@ cambiarAEnviado = function (idPedido, idEmpleado, nombreEmpleado) {
                         function () {
                             //location.reload();
                             fechaHoy();
-
                             $('#modalEnviarPedido').modal('hide');
                             enviarEmail(idPedido, "Enviado");
                         });
