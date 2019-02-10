@@ -21,7 +21,7 @@ class Email extends CI_Controller {
             'smtp_host' => 'ssl://smtp.googlemail.com',
             'smtp_port' => '465',
             'smtp_user' => 'deliveryiguazu@gmail.com',
-            'smtp_pass' => '34060319fa',
+            'smtp_pass' => '34060319Fa',
             'mailtype' => 'html',
             'charset' => 'utf-8',
             'newline' => "\r\n"
