@@ -15,8 +15,6 @@ class AderezoModel extends CI_Model{
     }
     
     public function registrar($data){
-        
-      
         return RestApi::call(
             RestApiMethod::POST,
             'aderezo/insertar',

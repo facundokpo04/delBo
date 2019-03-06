@@ -479,7 +479,7 @@ var table2 = $('#tblProductos2').DataTable();
 $(document).on("click", ".eliminarProd", function () {
 
     var parent = $(this).parents().get(0);
-    var pprod = $(parent).find('td').eq(0).html();
+    var pprod =parseInt($(parent).find('td').eq(0).html());
     swal({
         title: "Esta seguro?",
         text: "Se eliminara el producto de la Promo",

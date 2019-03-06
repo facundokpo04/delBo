@@ -38,7 +38,8 @@ class Aderezo extends CI_Controller {
         try {
             $result = $this->am->getAll();
             $total = $result->total;
-            $data->data = $result->data;
+            $data->data = $result->data;            
+            
         } catch (Exception $e) {
             var_dump($e);
         }
