@@ -75,6 +75,7 @@
                 <ul class="treeview-menu">
                     <li class="active"><a href="empresa"><i class="fa fa-cogs"></i>Configuracion Empresa</a></li>
                     <li><a href="sucursal"><a href="sucursal"><i class="fa fa-home"></i> Sucursales</a></li>
+                    <li class="active"><a href="publicidad"><i class="fa fa-cogs"></i> Publicidad</a></li>
                 </ul>
             </li>
             <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentacion</span></a></li> 
