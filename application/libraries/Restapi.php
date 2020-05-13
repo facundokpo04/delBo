@@ -139,7 +139,7 @@ class RestApi{
 }
 
 RestApi::initialize(
-    'http://deliveryiguazu.com/delApi/public/',
+    'http://localhost/delApi/public/',
     'APP-TOKEN'
 );
 

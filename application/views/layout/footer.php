@@ -62,7 +62,10 @@
 <script src="<?php echo base_url(); ?>assets/dist/js/jquery.loading.min.js"></script>
 <!-- push.js -->
 <script src="<?php echo base_url(); ?>assets/dist/js/push.min.js"></script>
-//iniciliza todo
+
+<!-- chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
+<!-- inicializa todo -->
 <script   type="text/javascript" src="<?php echo base_url('assets/js/home.js') ?>"></script>
 
 
@@ -108,6 +111,9 @@
 <?php }?>
 <?php if($this->uri->segment(1)=='publicidad'){?>
 <script   type="text/javascript" src="<?php echo base_url('assets/js/publicidad.js') ?>"></script>
+<?php }?>
+<?php if($this->uri->segment(1)=='dashboard'){?>
+<script   type="text/javascript" src="<?php echo base_url('assets/js/dashboard.js') ?>"></script>
 <?php }?>
 
 </body>
