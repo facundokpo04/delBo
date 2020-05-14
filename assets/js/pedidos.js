@@ -18,7 +18,7 @@ var dp = $('#txtFechaPedido').datepicker({
     dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']
 }).datepicker("setDate", new Date());
 
-var apiUrl = 'http://localhost/delApi/public/';
+var apiUrl = 'http://34.71.11.61/delApi/public/';
 
 function VerForm() {
     $("#pedido").show(); // Mostramos el formulario
