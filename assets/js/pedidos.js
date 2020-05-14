@@ -18,7 +18,7 @@ var dp = $('#txtFechaPedido').datepicker({
     dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']
 }).datepicker("setDate", new Date());
 
-
+var apiUrl = 'http://localhost/delApi/public/';
 
 function VerForm() {
     $("#pedido").show(); // Mostramos el formulario
@@ -238,7 +238,7 @@ enviarPush = function(idpedido) {
     var cantpedidos = 0;
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/pedidoencabezado/enviarNoti/" + idpedido,
+        url: apiUrl + "pedidoencabezado/enviarNoti/" + idpedido,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",

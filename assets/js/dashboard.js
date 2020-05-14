@@ -68,6 +68,8 @@ var areaChartDataTopClientes = {
     }, ],
 };
 
+var apiUrl = "http://34.71.11.61/delApi/public/";
+
 function fechaHoyMenu() {
     var f = new Date();
     var fecha = f.getFullYear() + "-" + (f.getMonth() + 1) + "-" + f.getDate();
@@ -293,8 +295,7 @@ getPedidosCant = function(fechamenu) {
     var cantpedidos = 0;
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/pedidosTotalFechaPen/" +
-            fechamenu,
+        url: apiUrl + "estadisticas/pedidosTotalFechaPen/" + fechamenu,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
@@ -317,8 +318,7 @@ getPedidosCantMes = function(anio) {
     var total = [];
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/pedidosTotalMontoMes/" +
-            anio,
+        url: apiUrl + "estadisticas/pedidosTotalMontoMes/" + anio,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
@@ -351,7 +351,7 @@ getUsuariosTot = function() {
     var cantpedidos = 0;
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/usuariosTotal",
+        url: apiUrl + "estadisticas/usuariosTotal",
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
@@ -372,10 +372,7 @@ getPedidosTotalMontoDia = function(mes, anio) {
     var cantpedidos = 0;
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/pedidosTotalMontoDia/" +
-            mes +
-            "/" +
-            anio,
+        url: apiUrl + "estadisticas/pedidosTotalMontoDia/" + mes + "/" + anio,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
@@ -395,10 +392,7 @@ getPedidosTotalDias = function(mes, anio) {
     var total = [];
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/pedidosTotalDias/" +
-            mes +
-            "/" +
-            anio,
+        url: apiUrl + "estadisticas/pedidosTotalDias/" + mes + "/" + anio,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
@@ -430,10 +424,7 @@ getPedidosTotaMontoMedioPlMes = function(mes, anio) {
     var cantpedidos = 0;
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/pedidosTotalMontoMedioPMes/" +
-            mes +
-            "/" +
-            anio,
+        url: apiUrl + "estadisticas/pedidosTotalMontoMedioPMes/" + mes + "/" + anio,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
@@ -450,8 +441,7 @@ getPedidosTotaMontoMedioPlMes = function(mes, anio) {
 getPedidosTotalMontoFecha = function(fecha) {
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/pedidosTotalMontoFecha/" +
-            fecha,
+        url: apiUrl + "estadisticas/pedidosTotalMontoFecha/" + fecha,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
@@ -471,8 +461,7 @@ getPedidosTotaMontoMedioPDia = function(fecha) {
     var cantpedidos = 0;
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/pedidosTotalMontoMedioPFecha/" +
-            fecha,
+        url: apiUrl + "estadisticas/pedidosTotalMontoMedioPFecha/" + fecha,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
@@ -499,7 +488,7 @@ getTopClienteMes = function(mes, anio) {
     var total = [];
     $.ajax({
         type: "GET",
-        url: "http://localhost/delApi/public/estadisticas/clientesTopMes/" +
+        url: apiUrl + "estadisticas/clientesTopMes/" +
             mes +
             "/" +
             anio,
@@ -527,11 +516,9 @@ getTopClienteMes = function(mes, anio) {
     });
 };
 
-
 var f = new Date();
 var anio = f.getFullYear();
 var mes = f.getMonth() + 1;
-
 
 getPedidosCant(fechamenu);
 getUsuariosTot();
