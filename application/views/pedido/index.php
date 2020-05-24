@@ -60,6 +60,7 @@
                                 <tr>
                                     <th>Pedido ID</th>
                                     <th>Estado</th>
+                                    <th>Estado Pago</th>
                                     <th>Cliente</th>                 
                                     <th>Celular</th>
                                     <th>Direccion</th>

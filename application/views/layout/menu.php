@@ -37,6 +37,7 @@
                     <li><a href="empleado"><i class="fa fa-circle-o"></i> Empleado</a></li>
                     <li><a href="hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
                     <li><a href="dashboard"><i class="fa fa-dashboard"></i> Estadisticas</a></li>
+                    <li><a href="pago"><i class="fa fa-credit-card"></i> Pagos</a></li>
                 </ul>
             </li>
             <li class="active treeview">

@@ -116,6 +116,11 @@
 <script   type="text/javascript" src="<?php echo base_url('assets/js/dashboard.js') ?>"></script>
 <?php }?>
 
+<?php if($this->uri->segment(1)=='pago'){?>
+<script   type="text/javascript" src="<?php echo base_url('assets/js/pagos.js') ?>"></script>
+<?php }?>
+
+
 </body>
 </html>
 

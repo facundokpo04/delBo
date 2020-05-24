@@ -289,7 +289,11 @@ function inicializarCharTopClientes() {
 
 inicializarCharTotalPed();
 inicializarCharMontoPed();
+// var fechamenu = fechaHoyMenu();
+
 var fechamenu = fechaHoyMenu();
+
+
 
 getPedidosCant = function(fechamenu) {
     var cantpedidos = 0;
@@ -468,13 +472,25 @@ getPedidosTotaMontoMedioPDia = function(fecha) {
         },
         success: function(res) {
             console.log(res);
+            res.forEach((element) => {
+                if (element.MedioPago == "MercadoPago") {
+                    $("#pedidosMontoMp").empty();
+                    $("#pedidosMontoMp").append(parseInt(element.Total));
+                } else if (element.MedioPago == "Efectivo") {
+                    $("#pedidosMontoEfec").empty();
+                    $("#pedidosMontoEfec").append(parseInt(element.Total));
+                } else if (element.MedioPago == "Debito") {
+                    $("#pedidosMontoTarje").empty();
+                    $("#pedidosMontoTarje").append(parseInt(element.Total));
+                }
+            });
 
-            $("#pedidosMontoEfec").empty();
-            $("#pedidosMontoEfec").append(parseInt(res[1].Total));
-            $("#pedidosMontoTarje").empty();
-            $("#pedidosMontoTarje").append(parseInt(res[0].Total));
-            $("#pedidosMontoMp").empty();
-            $("#pedidosMontoMp").append(parseInt(res[0].Total));
+            // $("#pedidosMontoEfec").empty();
+            // $("#pedidosMontoEfec").append(parseInt(res[1].Total));
+            // $("#pedidosMontoTarje").empty();
+            // $("#pedidosMontoTarje").append(parseInt(res[0].Total));
+            // $("#pedidosMontoMp").empty();
+            // $("#pedidosMontoMp").append(parseInt(res[0].Total));
         },
         error: function(request, status, error) {
             console.log(error.message);
@@ -488,17 +504,13 @@ getTopClienteMes = function(mes, anio) {
     var total = [];
     $.ajax({
         type: "GET",
-        url: apiUrl + "estadisticas/clientesTopMes/" +
-            mes +
-            "/" +
-            anio,
+        url: apiUrl + "estadisticas/clientesTopMes/" + mes + "/" + anio,
         dataType: "json",
         data: {
             "<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
         },
         success: function(res) {
             res.forEach((element) => {
-                debugger;
                 labels.push(element.Nombre);
                 total.push(parseFloat(element.total));
             });

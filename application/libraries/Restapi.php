@@ -139,7 +139,7 @@ class RestApi{
 }
 
 RestApi::initialize(
-    'http://localhost/delApi/public/',
+    'https://www.pizzacolordelivery.com/delApi/public/',
     'APP-TOKEN'
 );
 

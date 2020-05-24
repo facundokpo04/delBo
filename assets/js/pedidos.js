@@ -67,6 +67,7 @@ $('#tblPedidos').DataTable({
     'columns': [
         { data: 'pe_id', 'sClass': 'dt-body-center' },
         { data: 'pe_idEstado' },
+        { data: 'pe_idEstadoPago' },
         { data: 'per_nombre' },
         { data: 'pe_cli_tel' },
         { data: 'dir_tipodireccion' },
@@ -116,7 +117,22 @@ $('#tblPedidos').DataTable({
             }
         },
         {
-            "targets": [4],
+            "targets": [2],
+            "data": "pe_idEstadoPago",
+            "render": function(data, type, row) {
+                if (data == 8) {
+                    return "<span class='label label-info'>Pago en Destino</span>";
+                } else if (data == 5) {
+                    return "<span class='label label-success'>Pago Aceptado</span>";
+                } else if (data == 7) {
+                    return "<span class='label label-danger'>Pago Rechazado</span>";
+                }
+
+            }
+        },
+
+        {
+            "targets": [5],
             "data": "dir_tipodireccion",
             "render": function(data, type, row) {
                 if (data != 2) {
@@ -138,7 +154,7 @@ $('#tblPedidos').DataTable({
             }
         },
         {
-            "targets": [7],
+            "targets": [8],
             "data": "pe_fechaPedido",
             "orderData": [1, 0],
             "render": function(data, type, row) {
