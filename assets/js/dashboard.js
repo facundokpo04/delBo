@@ -473,7 +473,7 @@ getPedidosTotaMontoMedioPDia = function(fecha) {
         success: function(res) {
             console.log(res);
             res.forEach((element) => {
-                if (element.MedioPago == "MercadoPago") {
+                if (element.MedioPago == "PagoOnline") {
                     $("#pedidosMontoMp").empty();
                     $("#pedidosMontoMp").append(parseInt(element.Total));
                 } else if (element.MedioPago == "Efectivo") {
@@ -485,12 +485,7 @@ getPedidosTotaMontoMedioPDia = function(fecha) {
                 }
             });
 
-            // $("#pedidosMontoEfec").empty();
-            // $("#pedidosMontoEfec").append(parseInt(res[1].Total));
-            // $("#pedidosMontoTarje").empty();
-            // $("#pedidosMontoTarje").append(parseInt(res[0].Total));
-            // $("#pedidosMontoMp").empty();
-            // $("#pedidosMontoMp").append(parseInt(res[0].Total));
+
         },
         error: function(request, status, error) {
             console.log(error.message);
