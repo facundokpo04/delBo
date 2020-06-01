@@ -1,4 +1,3 @@
-
 $('#txtFechaInicio').datepicker({
     autoclose: true,
     format: 'dd/mm/yyyy'
@@ -13,8 +12,8 @@ var cantpromodal = 0;
 
 
 function VerForm() {
-    $("#promo").show();// Mostramos el formulario
-    $("#herramientas").hide();// ocultamos el boton nuevo
+    $("#promo").show(); // Mostramos el formulario
+    $("#herramientas").hide(); // ocultamos el boton nuevo
     $("#promos").hide();
     $("#estadodiv").show();
 
@@ -22,16 +21,16 @@ function VerForm() {
 }
 
 function OcultarForm() {
-    $("#promo").hide();// Mostramos el formulario
-    $("#herramientas").show();// ocultamos el boton nuevo
+    $("#promo").hide(); // Mostramos el formulario
+    $("#herramientas").show(); // ocultamos el boton nuevo
     $("#promos").show();
 }
 
-function VerFormAgregar( ) {
-    $("#promo").show();// Mostramos el formulario
+function VerFormAgregar() {
+    $("#promo").show(); // Mostramos el formulario
     $("#paneles").hide();
     $("#panelCont").hide();
-    $("#herramientas").hide();// ocultamos el boton nuevo
+    $("#herramientas").hide(); // ocultamos el boton nuevo
     $("#promos").hide();
     $("#estadodiv").hide();
 
@@ -45,9 +44,11 @@ function limpiarModal() {
 
 
 }
+
 function AbrirModalProductos() {
     $("#modalAgregarProductos").modal("show");
 }
+
 function cerrarModalProductos() {
     $("#modalAgregarProductos").modal("hide");
     cargarProductos($('#idPromo').val());
@@ -60,11 +61,12 @@ function agregarProd(idProd) {
         type: "POST",
         url: baseurl + "index.php/promo/updProducto",
         dataType: 'json',
-        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+        data: {
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
             ppro_idPromo: idPromo,
             ppro_idProducto: idProd
         },
-        success: function (res) {
+        success: function(res) {
             if (res.estado) {
                 swal("El Producto fue Agregado!", "haga click!", "success")
                 cantpromodal++;
@@ -74,7 +76,7 @@ function agregarProd(idProd) {
                 sweetAlert("Oops...", "Ocurrio Algun Error!", "error");
             }
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             console.log(error.message);
             sweetAlert("Oops...", "Ocurrio Algun Error!", "error");
 
@@ -88,36 +90,38 @@ function agregarProd(idProd) {
 
 
 }
+
 function agregarFilaProducto(id, nombre, descripcion, precio) {
 
     $('#tblProductos tbody').append('<tr>' +
-            ' <td>' +
-            id +
-            ' </td>' +
-            ' <td>' +
-            nombre +
-            ' </td>' +
-            ' <td>' +
-            descripcion +
-            ' </td>' +
-            ' <td>' + '$&nbsp;' +
-            precio +
-            ' </td>' +
-            ' <td class="eliminarProd"><a href="#"  onClick=""><i style="color:red;" class="glyphicon glyphicon-remove"></i></a></td>' +
-            '</tr>'
-            );
+        ' <td>' +
+        id +
+        ' </td>' +
+        ' <td>' +
+        nombre +
+        ' </td>' +
+        ' <td>' +
+        descripcion +
+        ' </td>' +
+        ' <td>' + '$&nbsp;' +
+        precio +
+        ' </td>' +
+        ' <td class="eliminarProd"><a href="#"  onClick=""><i style="color:red;" class="glyphicon glyphicon-remove"></i></a></td>' +
+        '</tr>'
+    );
 
 }
+
 function cargarFCategorias() {
     $("#selCat option").remove();
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/producto/get_categorias",
         dataType: 'json',
-        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
-        success: function (res) {
+        data: { '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>' },
+        success: function(res) {
             if (res.estado) {
-                $.each(res.response, function (key, data) {
+                $.each(res.response, function(key, data) {
 
                     $("#selCat").append("<option value=" + data.cat_id + ">" + data.cat_nombre + "</option>");
                 });
@@ -128,13 +132,14 @@ function cargarFCategorias() {
 
 
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             console.log(error.message);
 
         }
 
     });
 }
+
 function actualizarTablaCat(idCat) {
     debugger;
     if (idCat == 0) {
@@ -146,18 +151,19 @@ function actualizarTablaCat(idCat) {
 
 
 }
+
 function cargarProductos(idPromo) {
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/promo/get_ProductosById/" + idPromo,
         dataType: 'json',
-        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
-        success: function (res) {
+        data: { '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>' },
+        success: function(res) {
             if (res.estado) {
                 debugger;
 
                 $('#tblProductos tbody tr').remove();
-                $.each(res.response, function (key, data) {
+                $.each(res.response, function(key, data) {
 
                     agregarFilaProducto(data.ppro_id, data.prod_nombre, data.prod_descripcionProducto, data.prod_precioBase);
 
@@ -167,30 +173,31 @@ function cargarProductos(idPromo) {
                 console.log(res.response)
             }
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             console.log(error.message);
 
         }
     });
 }
+
 function actualizarTablaProd(idpromo) {
     table.ajax.url(baseurl + "index.php/promo/get_Promos/" + idpromo).load()
 }
 
 // promo
-function cargarDataPromo(idPromo) {// funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
+function cargarDataPromo(idPromo) { // funcion que llamamos del archivo ajax/CategoriaAjax.php linea 52
     VerForm();
 
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/promo/get_promoById/" + idPromo,
         dataType: 'json',
-        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
-        success: function (res) {
+        data: { '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>' },
+        success: function(res) {
             if (res.estado) {
                 debugger;
                 $('#txtNombre').val(res.response.pro_nombre);
-                $('#txtDescripcion').val(res.response.pro_descripcion);              //ajax para traer todos los estados
+                $('#txtDescripcion').val(res.response.pro_descripcion); //ajax para traer todos los estados
                 $('#txtPrecio').val(res.response.pro_precio);
                 $('#txtDescuento').val(res.response.pro_descuento);
                 $('#txtFechaInicio').val(res.response.pro_FechaInicio);
@@ -205,7 +212,7 @@ function cargarDataPromo(idPromo) {// funcion que llamamos del archivo ajax/Cate
 
             }
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             console.log(error.message);
 
         }
@@ -215,19 +222,21 @@ function cargarDataPromo(idPromo) {// funcion que llamamos del archivo ajax/Cate
 
 
 
-//    CargarComponetesAgregar(idPromo);
+    //    CargarComponetesAgregar(idPromo);
 
 
 
 
 }
+
 function actualizarPromo() {
     debugger;
     $.ajax({
         type: "POST",
         url: baseurl + "index.php/promo/updPromo",
         dataType: 'json',
-        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+        data: {
+            '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
             pro_nombre: $('#txtNombre').val(),
             pro_descripcion: $('#txtDescripcion').val(),
             pro_descuento: $('#txtDescuento').val(),
@@ -238,23 +247,23 @@ function actualizarPromo() {
             pro_imagen: $('#imgPromo').val(),
             pro_id: $('#idPromo').val()
         },
-        success: function (res) {
+        success: function(res) {
             debugger;
             if (res.estado) {
                 debugger;
                 swal({
-                    title: "La Promo Fue Modificada!",
-                    text: "haga click!",
-                    type: "success",
-                },
-                        function () {
-                            location.reload();
-                        });
+                        title: "La Promo Fue Modificada!",
+                        text: "haga click!",
+                        type: "success",
+                    },
+                    function() {
+                        location.reload();
+                    });
             } else {
                 sweetAlert("Oops...", res.response, "error");
             }
         },
-        error: function (request, status, error) {
+        error: function(request, status, error) {
             console.log(error.message);
             sweetAlert("Oops...", error, "error");
 
@@ -282,7 +291,7 @@ function guardarImagen() {
             data: formData,
             processData: false,
             contentType: false,
-            success: function (res) {
+            success: function(res) {
 
                 if (res.estado) {
                     swal({
@@ -290,7 +299,7 @@ function guardarImagen() {
                         text: "Luego haga click en actualizar para guardar!",
                         type: "success",
                         showLoaderOnConfirm: true,
-                    }, function () {
+                    }, function() {
                         debugger;
 
                         $('#imagen').attr('src', './assets/imagenes/promos/' + res.response);
@@ -303,7 +312,7 @@ function guardarImagen() {
 
                 }
             },
-            error: function (request, status, error) {
+            error: function(request, status, error) {
                 console.log(error.message);
 
             }
@@ -312,7 +321,7 @@ function guardarImagen() {
 }
 
 
-$('#agregarProd').click(function () {
+$('#agregarProd').click(function() {
 
     limpiarModal();
 
@@ -328,7 +337,10 @@ $('#agregarProd').click(function () {
 OcultarForm();
 cargarFCategorias();
 var table = $('#tbPromos').DataTable({
-    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todo"]],
+    "lengthMenu": [
+        [5, 10, 15, -1],
+        [5, 10, 15, "Todo"]
+    ],
     'paging': true,
     'info': true,
     'filter': true,
@@ -337,33 +349,34 @@ var table = $('#tbPromos').DataTable({
         "url": baseurl + "index.php/promo/get_Promos/4",
         "type": "POST",
         "dataType": 'json',
-        "data": {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        "data": { '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>' },
     },
     'columns': [
-        {data: 'pro_id', 'sClass': 'dt-body-center'},
-        {data: 'pro_nombre'},
-        {data: 'pro_descripcion'},
-        {data: 'pro_precio'},
-        {data: 'pro_FechaInicio'},
-        {data: 'pro_FechaFin'},
-        {data: 'pro_idEstado'},
+        { data: 'pro_id', 'sClass': 'dt-body-center' },
+        { data: 'pro_nombre' },
+        { data: 'pro_descripcion' },
+        { data: 'pro_precio' },
+        { data: 'pro_FechaInicio' },
+        { data: 'pro_FechaFin' },
+        { data: 'pro_idEstado' },
 
-        {"orderable": true,
-            render: function (data, type, row) {
+        {
+            "orderable": true,
+            render: function(data, type, row) {
 
                 return '<span class="pull-right" >' +
-                        '<div class="dropdown">' +
-                        '  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
-                        '    Acciones' +
-                        '  <span class="caret"></span>' +
-                        '  </button>' +
-                        '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
-                        '    <li><a href="#" title="Editar informacion"   onClick="cargarDataPromo(\'' + row.pro_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i> Editar</a></li>' +
-                        '    <li><a href="#"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver</a></li>' +
-                        '    <li><a href="#" title="Eliminar Promo" onClick="eliminarPromo(\'' + row.pro_id + '\');"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
-                        '    </ul>' +
-                        '</div>' +
-                        '</span>';
+                    '<div class="dropdown">' +
+                    '  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">' +
+                    '    Acciones' +
+                    '  <span class="caret"></span>' +
+                    '  </button>' +
+                    '    <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">' +
+                    '    <li><a href="#" title="Editar informacion"   onClick="cargarDataPromo(\'' + row.pro_id + '\');"><i style="color:#555;" class="glyphicon glyphicon-edit"></i> Editar</a></li>' +
+                    '    <li><a href="#"><i class="glyphicon glyphicon-eye-open" style="color:#006699"></i> Ver</a></li>' +
+                    '    <li><a href="#" title="Eliminar Promo" onClick="eliminarPromo(\'' + row.pro_id + '\');"><i style="color:red;" class="glyphicon glyphicon-remove"></i> Eliminar</a></li>' +
+                    '    </ul>' +
+                    '</div>' +
+                    '</span>';
                 // '<a href="#" class="btn btn-block btn-primary btn-sm" style="width: 80%;" data-toggle="modal" data-target="#modalEditCategoria" onClick="selCategoria(\'' + row.cat_id + '\');"><i class="fa fa-fw fa-edit"></i></a></td>';
                 ocultarForm();
             }
@@ -371,12 +384,11 @@ var table = $('#tbPromos').DataTable({
         }
 
     ],
-    "columnDefs": [
-        {
+    "columnDefs": [{
             "targets": [1],
             "data": "pro_nombre",
             "orderData": [1, 0],
-            "render": function (data, type, row) {
+            "render": function(data, type, row) {
                 return "<span style='color:#006699;'></i>&nbsp;&nbsp;" + data + "</span>"
 
             }
@@ -384,7 +396,7 @@ var table = $('#tbPromos').DataTable({
         {
             "targets": [6],
             "data": "pro_idEstado",
-            "render": function (data, type, row) {
+            "render": function(data, type, row) {
 
                 if (data == 1) {
                     return "<span class='label label-success'>Habilitada</span>";
@@ -398,17 +410,22 @@ var table = $('#tbPromos').DataTable({
             "targets": [3],
             "data": "pro_precio",
             "orderData": [1, 0],
-            "render": function (data, type, row) {
+            "render": function(data, type, row) {
                 return "<span ></i>$&nbsp;&nbsp; " + data + "</span>"
 
             }
         }
 
     ],
-    "order": [[0, "asc"]],
+    "order": [
+        [0, "asc"]
+    ],
 });
 $('#tblProductos2').DataTable({
-    "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todo"]],
+    "lengthMenu": [
+        [5, 10, 15, -1],
+        [5, 10, 15, "Todo"]
+    ],
     'paging': true,
     'info': false,
     'filter': true,
@@ -417,18 +434,19 @@ $('#tblProductos2').DataTable({
         "url": baseurl + "index.php/producto/get_Productos/4",
         "type": "POST",
         "dataType": 'json',
-        "data": {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+        "data": { '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>' },
     },
     'columns': [
-        {data: 'prod_id', 'sClass': 'dt-body-center'},
-        {data: 'prod_nombre'},
-        {data: 'prod_descripcionProducto'},
-        {data: 'prod_precioBase'},
-        {data: 'prod_idCategoria'},
-        {"orderable": true,
-            render: function (data, type, row) {
+        { data: 'prod_id', 'sClass': 'dt-body-center' },
+        { data: 'prod_nombre' },
+        { data: 'prod_descripcionProducto' },
+        { data: 'prod_precioBase' },
+        { data: 'prod_idCategoria' },
+        {
+            "orderable": true,
+            render: function(data, type, row) {
 
-                return  '<a class="btn btn-block btn-primary btn-sm" style="width: 80%" onClick="agregarProd(' + row.prod_id + ')"><i class="fa fa-fw  fa-check-square"></i></a></td>';
+                return '<a class="btn btn-block btn-primary btn-sm" style="width: 80%" onClick="agregarProd(' + row.prod_id + ')"><i class="fa fa-fw  fa-check-square"></i></a></td>';
 
             }
 
@@ -463,87 +481,90 @@ $('#tblProductos2').DataTable({
             "targets": [3],
             "data": "prod_precio",
             "orderData": [1, 0],
-            "render": function (data, type, row) {
+            "render": function(data, type, row) {
                 return "<span ></i>$&nbsp;&nbsp; " + data + "</span>"
 
             }
         }
 
     ],
-    "order": [[0, "asc"]],
+    "order": [
+        [0, "asc"]
+    ],
 
 });
 
 var table2 = $('#tblProductos2').DataTable();
 
-$(document).on("click", ".eliminarProd", function () {
+$(document).on("click", ".eliminarProd", function() {
 
     var parent = $(this).parents().get(0);
-    var pprod =parseInt($(parent).find('td').eq(0).html());
+    var pprod = parseInt($(parent).find('td').eq(0).html());
     swal({
-        title: "Esta seguro?",
-        text: "Se eliminara el producto de la Promo",
-        type: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Si, Eliminar !",
-        cancelButtonText: "No, Cancelar!",
-        closeOnConfirm: false,
-        closeOnCancel: false
-    },
-            function (isConfirm) {
-                debugger;
-                if (isConfirm) {
+            title: "Esta seguro?",
+            text: "Se eliminara el producto de la Promo",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Si, Eliminar !",
+            cancelButtonText: "No, Cancelar!",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        },
+        function(isConfirm) {
+            debugger;
+            if (isConfirm) {
 
-                    $.ajax({
-                        type: "POST",
-                        url: baseurl + "index.php/promo/eliminarProductoPromo",
-                        dataType: 'json',
-                        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
-                            ppro_id: pprod
-                        },
-                        success: function (res) {
+                $.ajax({
+                    type: "POST",
+                    url: baseurl + "index.php/promo/eliminarProductoPromo",
+                    dataType: 'json',
+                    data: {
+                        '<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>',
+                        ppro_id: pprod
+                    },
+                    success: function(res) {
 
-                            if (res.estado) {
-                                $(parent).remove();
-                                swal("Eliminado!", "El producto a si eliminado de la promo", "success");
+                        if (res.estado) {
+                            $(parent).remove();
+                            swal("Eliminado!", "El producto a si eliminado de la promo", "success");
 
-                            } else {
-                                debugger;
-                                sweetAlert("Oops...", res.response, "error");
-
-                            }
-
-                        },
-                        error: function (request, status, error) {
+                        } else {
                             debugger;
-                            console.log(error.message);
-                            sweetAlert("Oops...", error, "error");
+                            sweetAlert("Oops...", res.response, "error");
 
                         }
-                    });
+
+                    },
+                    error: function(request, status, error) {
+                        debugger;
+                        console.log(error.message);
+                        sweetAlert("Oops...", error, "error");
+
+                    }
+                });
 
 
-                } else {
-                    swal("Cancelado", "El producto no fue eliminado de la promo", "error");
-                }
-            });
+            } else {
+                swal("Cancelado", "El producto no fue eliminado de la promo", "error");
+            }
+        });
 
 
 
 
 });
-$("#selCat").change(function () {
-    table2.columns(4).search($('#selCat').val().trim());//hit search on server
+$("#selCat").change(function() {
+    table2.columns(4).search($('#selCat').val().trim()); //hit search on server
     table2.draw();
 })
-$('#mbtnUpdPromo').click(function () {
+$('#mbtnUpdPromo').click(function() {
 
     actualizarPromo();
 
 
 });
-$('#btnAgregarPromo').click(function () {
+$('#btnAgregarPromo').click(function() {
 
 
     VerFormAgregar();
@@ -554,14 +575,13 @@ $('#btnAgregarPromo').click(function () {
 
 })
 
-$('#btnGuardarImg').click(function () {
+$('#btnGuardarImg').click(function() {
 
-    guardarImagen();
+        guardarImagen();
 
-})/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
+    })
+    /* 
+     * To change this license header, choose License Headers in Project Properties.
+     * To change this template file, choose Tools | Templates
+     * and open the template in the editor.
+     */

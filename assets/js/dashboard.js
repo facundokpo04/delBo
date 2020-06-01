@@ -68,7 +68,7 @@ var areaChartDataTopClientes = {
     }, ],
 };
 
-var apiUrl = "http://34.71.11.61/delApi/public/";
+var apiUrl = "https://delapi.pizzacolordelivery.com/public/";
 
 function fechaHoyMenu() {
     var f = new Date();
