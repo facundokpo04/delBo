@@ -92,63 +92,7 @@ selHotel = function(idHotel) {
     });
 
 };
-//
-//
-//function eliminarCategoria(idAderezo) {
-//    swal({
-//        title: "Esta seguro?",
-//        text: "Se eliminar el Aderezo",
-//        type: "warning",
-//        showCancelButton: true,
-//        confirmButtonColor: "#DD6B55",
-//        confirmButtonText: "Si, Eliminar!",
-//        cancelButtonText: "No, Cancelar!",
-//        closeOnConfirm: false,
-//        closeOnCancel: false
-//    },
-//            function (isConfirm) {
-//                if (isConfirm) {
-//                    $.ajax({
-//                        type: "POST",
-//                        url: baseurl + "index.php/aderezo/eliminar/" + idAderezo,
-//                        dataType: 'json',
-//                        data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
-//
-//                        success: function (res) {
-//
-//
-//                            if (res.estado) {
-//
-//                                swal({
-//                                    title: "Eliminado",
-//                                    text: "El Aderezo se a eliminado!",
-//                                    type: "success",
-//                                },
-//                                        function () {
-//                                            location.reload();
-//                                        });
-//
-//                            } else {
-//                                sweetAlert("Ocurrio un Error", res.response, "error");
-//
-//                            }
-//
-//                        },
-//                        error: function (request, status, error) {
-//
-//                            console.log(error);
-//                            sweetAlert("Ocurrio un Error Inesperado", error, "error");
-//
-//                        }
-//                    });
-//                } else {
-//                    swal("Cancelado", "El Aderezo no fue Eliminado", "error");
-//                }
-//            });
-//
-//}
-//
-//
+
 $('#mbtnCerrarModal').click(function() {
         $('#mNombre').val('');
         $('#mEstado').val('1');
@@ -161,8 +105,6 @@ $('#mbtnCerrarModal').click(function() {
     //
     //
 $('#mbtnUpdHotel').click(function() {
-
-    debugger;
 
     if (!($('#mNombre').val() === '' || $('#mDireccion').val() === '' || $('#mTelefono').val() === '')) {
         $.ajax({
@@ -178,7 +120,6 @@ $('#mbtnUpdHotel').click(function() {
                 hotel_id: $('#mIdHotel').val()
             },
             success: function(res) {
-                debugger;
                 if (res.estado) {
                     swal({
                             title: "Los Datos Fueron Guardados!",
