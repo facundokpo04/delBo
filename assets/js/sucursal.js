@@ -434,12 +434,12 @@ function cargarDataSucursal(idSucursal) { // funcion que llamamos del archivo aj
         success: function(res) {
 
             if (res.estado) {
-                $('#txtNombre').val(res.response.suc_nombre);
-                $('#txtRazonSocial').val(res.response.suc_razonSocial);
-                $('#txtCuit').val(res.response.suc_cuit); //select
+                $('#txtNombre').val(res.response.data.suc_nombre);
+                $('#txtRazonSocial').val(res.response.data.suc_razonSocial);
+                $('#txtCuit').val(res.response.data.suc_cuit); //select
                 //ajax para traer todos los estados
-                $('#txtDomicilio').val(res.response.suc_direccion);
-                $('#idSucursal').val(res.response.suc_id); //select
+                $('#txtDomicilio').val(res.response.data.suc_direccion);
+                $('#idSucursal').val(res.response.data.suc_id); //select
             } else {
                 sweetAlert("Oops...", res.response, "error");
                 console.log(res.response);
