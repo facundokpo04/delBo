@@ -264,10 +264,10 @@ iniciar = function(idEmpresa) {
         },
         'columns': [
 
-            { data: 'tcon_id', 'sClass': 'dt-body-center' },
-            { data: 'tcon_numero' },
-            { data: 'tcon_descripcion' },
-            { data: 'tcon_tipo' },
+            { data: 'data.tcon_id', 'sClass': 'dt-body-center' },
+            { data: 'data.tcon_numero' },
+            { data: 'data.tcon_descripcion' },
+            { data: 'data.tcon_tipo' },
             {
                 "orderable": true,
                 render: function(data, type, row) {
