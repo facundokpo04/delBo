@@ -387,7 +387,7 @@ class Sucursal extends CI_Controller {
             $result = $this->sm->getAllTel($idSucursal);
             $respuesta = [
                 'estado' => true,
-                'data' => $result
+                'data' => $result->data
             ];
         } catch (Exception $e) {
             $respuesta = [
