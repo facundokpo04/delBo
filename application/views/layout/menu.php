@@ -38,6 +38,7 @@
                     <li><a href="hotel"><i class="fa fa-circle-o"></i> Hotel</a></li>
                     <li><a href="dashboard"><i class="fa fa-dashboard"></i> Estadisticas</a></li>
                     <li><a href="pago"><i class="fa fa-credit-card"></i> Pagos</a></li>
+					<li><a href="pagorevisar"><i class="fa fa-credit-card"></i> Pagos a revisar</a></li>
                 </ul>
             </li>
             <li class="active treeview">

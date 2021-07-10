@@ -64,7 +64,7 @@
 <script src="<?php echo base_url(); ?>assets/dist/js/push.min.js"></script>
 
 <!-- chart.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.1.1/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 <!-- inicializa todo -->
 <script   type="text/javascript" src="<?php echo base_url('assets/js/home.js') ?>"></script>
 
@@ -119,6 +119,9 @@
 <?php if($this->uri->segment(1)=='pago'){?>
 <script   type="text/javascript" src="<?php echo base_url('assets/js/pagos.js') ?>"></script>
 <?php }?>
+ <?php if($this->uri->segment(1)=='pagorevisar'){?>
+	 <script   type="text/javascript" src="<?php echo base_url('assets/js/pagosrevisar.js') ?>"></script>
+ <?php }?>
 
 
 </body>

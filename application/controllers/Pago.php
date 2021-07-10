@@ -52,7 +52,6 @@ class Pago extends CI_Controller {
         $data = [];
         $data = new stdClass();
         try {
-
             $data = RestApi::call(
                 RestApiMethod::GET,
                 "pedidopago/listarFecha/$fecha"

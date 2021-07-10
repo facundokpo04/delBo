@@ -71,7 +71,19 @@
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
                             <!-- Messages: style can be found in dropdown.less-->
+							<li class="dropdown notifications-menu">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+									<i class="fa fa-warning"></i>
+									<span class="label label-danger" id="cantPedidosInco"></span>
+								</a>
+								<ul class="dropdown-menu">
+									<li class="header" id="cantPedidosIncotext"></li>
+									<li>
 
+									</li>
+									<li class="footer"><a href="pago">Revisar Pagos</a></li>
+								</ul>
+							</li>
                             <!-- Notifications: style can be found in dropdown.less -->
                             <li class="dropdown notifications-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
