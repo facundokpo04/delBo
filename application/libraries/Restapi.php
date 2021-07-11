@@ -139,7 +139,8 @@ class RestApi{
 }
 
 RestApi::initialize(
-    'http://localhost/delApi/public/',
+    //'http://localhost/delApi/public/',
+	'http://localhost:8888/delApi/public/',
     'APP-TOKEN'
 );
 

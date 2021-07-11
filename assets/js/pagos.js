@@ -17,8 +17,8 @@ var dp = $('#txtFechaPago').datepicker({
     dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Juv', 'Vie', 'Sáb'],
     dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']
 }).datepicker("setDate", new Date());
-//var apiUrl = "https://delapi.pizzacolordelivery.com/public/";
-var apiUrl = "http://localhost/delApi/public/";
+
+var apiUrl = apiurl;
 
 
 getPagosTotal = function (fechamenu) {

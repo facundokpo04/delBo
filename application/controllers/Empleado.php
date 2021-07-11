@@ -67,7 +67,7 @@ class Empleado extends CI_Controller {
         echo json_encode($respuesta);
     }
     
-       public function get_empleadoByIdPer($idPersona) {
+    public function get_empleadoByIdPer($idPersona) {
 
         $data = new stdClass();
 
@@ -85,7 +85,6 @@ class Empleado extends CI_Controller {
         }
         echo json_encode($respuesta);
     }
-
 
     public function updEmpleado() {
 

@@ -1,7 +1,6 @@
 
 
-//var apiUrl = "https://delapi.pizzacolordelivery.com/public/";
-var apiUrl = "http://localhost/delApi/public/";
+var apiUrl = apiurl;
 function fechaHoyMenu() {
 
 
