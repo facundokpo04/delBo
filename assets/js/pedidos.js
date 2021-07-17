@@ -18,7 +18,7 @@ var dp = $('#txtFechaPedido').datepicker({
     dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']
 }).datepicker("setDate", new Date());
 
-var apiUrl = 'https://delapi.pizzacolordelivery.com/public/';
+var apiUrl = apiurl;
 
 function VerForm() {
     $("#pedido").show(); // Mostramos el formulario

@@ -18,12 +18,67 @@ var dp = $('#txtFechaPago').datepicker({
     dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sá']
 }).datepicker("setDate", new Date());
 
+var apiUrl = apiurl;
+
+
+getPagosTotal = function (fechamenu) {
+	var cantpedidos = 0;
+	$.ajax({
+		type: "GET",
+		url: apiUrl + "estadisticas/pagosTotalMontoFecha/" + fechamenu,
+		dataType: "json",
+		data: {
+			"<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
+		},
+		success: function (res) {
+			$("#pedidosMontoMp").empty();
+			$("#pedidosMontoMp").append("$"+parseInt(res.monto));
+			$("#pagosTotalMp").empty();
+			$("#pagosTotalMp").append(parseInt(res.total));
+		},
+		error: function (request, status, error) {
+			console.log(error.message);
+			//direccionar al login?
+		},
+	});
+};
+getPedidosTotaMontoMedioPDia = function (fecha) {
+	var cantpedidos = 0;
+	$.ajax({
+		type: "GET",
+		url: apiUrl + "estadisticas/pedidosTotalMontoMedioPFecha/" + fecha,
+		dataType: "json",
+		data: {
+			"<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
+		},
+		success: function (res) {
+			console.log(res);
+			res.forEach((element) => {
+				if (element.MedioPago == "8") {
+
+				} else if (element.MedioPago == "5") {
+					$("#pedidosPagoOnline").empty();
+					$("#pedidosPagoOnline").append(parseInt(element.Total));
+				}
+
+			});
+
+
+		},
+		error: function (request, status, error) {
+			console.log(error.message);
+			//direccionar al login?
+		},
+	});
+};
 
 $("#txtFechaPago").change(function() {
 
     var fecha = $('#txtFechaPago').val();
 
     if (fecha) {
+		getPagosTotal(fecha);
+		getPedidosTotaMontoMedioPDia(fecha);
         tablaP.clear();
         tablaP.ajax.url(baseurl + "index.php/pago/get_PagosFecha/" + fecha).load();
 
@@ -75,7 +130,9 @@ $('#tblPagos').DataTable({
         { data: 'pago_payment_method_id' },
         { data: 'pago_payment_type_id' },
         { data: 'pago_card_dni' },
-        { data: 'pago_card_nombre' }
+        { data: 'pago_card_nombre' },
+		{ data: 'pago_idPayament' }
+
         // {
         //     "orderable": true,
         //     render: function(data, type, row) {

@@ -1,6 +1,6 @@
 
 
-
+var apiUrl = apiurl;
 function fechaHoyMenu() {
 
 
@@ -202,7 +202,32 @@ getPedidosCantEn = function (fechamenu) {
 
 }
 
+getPagosInconsistentes = function (fechamenu) {
 
+
+
+	$.ajax({
+		type: "GET",
+		url: apiUrl + "estadisticas/pagosInconsitente/" + fechamenu,
+		dataType: 'json',
+		data: {'<?php echo $this->security->get_csrf_token_name(); ?>': '<?php echo $this->security->get_csrf_hash(); ?>'},
+		success: function (res) {
+
+			$('#cantPedidosInco').empty();
+			$('#cantPedidosIncotext').empty();
+			$('#cantPedidosInco').append(parseInt(res.total==0? "": res.total));
+			$('#cantPedidosIncotext').append('Pedidos inconsistentes: ' + (isNaN(parseInt(res.total)) ? '0' : parseInt(res.total)) + ' Pedido');
+
+		},
+		error: function (request, status, error) {
+
+			console.log(error.message);
+			//direccionar al login
+		}
+	});
+
+
+}
 
 var fechamenu = fechaHoyMenu();
 if (!sessionStorage.pedidosAct) {
@@ -211,6 +236,7 @@ if (!sessionStorage.pedidosAct) {
 getPedidosCant(fechamenu);
 getPedidosCantEn(fechamenu);
 getPedidosCantPre(fechamenu);
+getPagosInconsistentes(fechamenu);
 getUsuario();
 Push.Permission.request(onGranted, onDenied);
 function onGranted() {}
@@ -225,6 +251,7 @@ function refreshmenu()
     getPedidosCant(fechamenu);
     getPedidosCantEn(fechamenu);
     getPedidosCantPre(fechamenu);
+	getPagosInconsistentes(fechamenu);
     
     
         if (sessionStorage.pedidosAct > 0) {
