@@ -23,11 +23,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$config['base_url'] = 'https://delbo.pizzacolordelivery.com/';
-//$config['api_url'] = 'https://delapi.pizzacolordelivery.com/public/';
+  $config['base_url'] = 'https://delbo.pizzacolordelivery.com/';
+  $config['api_url'] = 'https://delapi.pizzacolordelivery.com/public/';
 
-  $config['base_url'] = 'http://localhost:8888/delBo/';
-  $config['api_url'] = 'http://localhost:8888/delApi/public/';
+  //$config['base_url'] = 'http://localhost:8888/delBo/';
+  //$config['api_url'] = 'http://localhost:8888/delApi/public/';
 
 /*
 |--------------------------------------------------------------------------

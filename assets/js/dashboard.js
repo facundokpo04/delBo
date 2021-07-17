@@ -398,8 +398,6 @@ getPedidosCantMes = function (anio) {
 			"<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
 		},
 		success: function (res) {
-			console.log("Arreglo de mes");
-
 			res.data.forEach((element) => {
 				labels.push(element.Mes);
 				montos.push(parseInt(element.Monto));
@@ -426,7 +424,6 @@ getUsuariosTot = function () {
 			"<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
 		},
 		success: function (res) {
-			console.log(res);
 			$("#usuariosTotal").empty();
 			$("#usuariosTotal").append(parseInt(res));
 		},
@@ -467,7 +464,6 @@ getPedidosTotalDias = function (mes, anio) {
 			"<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
 		},
 		success: function (res) {
-			console.log("Arreglo de dias");
 			res.data.forEach((element) => {
 				labels.unshift(element.Dia);
 				montos.unshift(parseInt(element.Monto));
@@ -517,7 +513,6 @@ getPedidosTotalMontoFecha = function (fecha) {
 		success: function (res) {
 			$("#pedidosTotalMontoDia").empty();
 			$("#pedidosTotalMontoDia").append(parseInt(res));
-			console.log(res);
 		},
 		error: function (request, status, error) {
 			console.log(error.message);
@@ -535,7 +530,6 @@ getPedidosTotaMontoMedioPDia = function (fecha) {
 			"<?php echo $this->security->get_csrf_token_name(); ?>": "<?php echo $this->security->get_csrf_hash(); ?>",
 		},
 		success: function (res) {
-			console.log(res);
 			res.forEach((element) => {
 				if (element.MedioPago == "8") {
 					$("#pedidosPagoDestino").empty();

@@ -336,7 +336,6 @@
 
 <script type="text/javascript">
 var baseurl = "<?php echo base_url(); ?>";
-var apiurl =  "<?php echo $this->config->item('api_url');; ?>";
 
 //Timepicker
 </script>

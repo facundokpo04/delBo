@@ -66,10 +66,12 @@
 <!-- chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
 <!-- inicializa todo -->
+ <script type="text/javascript">
+	 var apiurl =  "<?php echo $this->config->item('api_url');; ?>";
+	 //Timepicker
+ </script>
 <script   type="text/javascript" src="<?php echo base_url('assets/js/home.js') ?>"></script>
 
-
- 
 
 
 <?php if($this->uri->segment(1)=='categoria'){?>
