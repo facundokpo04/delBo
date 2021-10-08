@@ -96,6 +96,7 @@ class Empleado extends CI_Controller {
                     'emp_cargo' => $this->input->post('emp_cargo'),
                     'emp_idSucursal' => $this->input->post('emp_idSucursal'),
                     'emp_idPersona' => $this->input->post('emp_idPersona'),
+			        'emp_imagen' => "",
                 ];
 
         try {

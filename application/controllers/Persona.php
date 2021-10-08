@@ -84,7 +84,7 @@ class Persona extends CI_Controller {
 
             if (empty($id)) {
 
-
+				unset($data['per_id']);
                 $response = $this->pm->registrar($data);
                 $respuesta = [
                     'estado' => true,
